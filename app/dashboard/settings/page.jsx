@@ -43,7 +43,7 @@ const Settings = () => {
     setFieldsAdded(0);
     setMatrixOptionsSelected(true);
   };
-  // console.log("Radion select:", selectedValue);
+
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -64,7 +64,7 @@ const Settings = () => {
         },
       });
 
-      // console.log("Data:", response.data);
+
 
       localStorage.setItem("modelId", response.data.modelId);
 
@@ -109,8 +109,6 @@ const Settings = () => {
   }, [apiData]);
 
 
-
-  console.log("Parent Component - setApiData:", apiData);
   const [tabPosition, setTabPosition] = useState("left");
   const items = [
     {

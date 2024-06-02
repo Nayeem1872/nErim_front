@@ -27,7 +27,7 @@ const Currency = () => {
     },
     staleTime: 1000 * 60 * 60 * 1,
   });
-  // console.log("Status data:", dataSourceQuery);
+
 
   function decodeHTMLEntities(text) {
     const tempElement = document.createElement("div");
@@ -105,7 +105,7 @@ const Currency = () => {
       const data = {
         currency: selectedValue,
       };
-      console.log("formdata:", data);
+
 
       const apiUrl = `/api/update-risk-currency`;
 
@@ -133,7 +133,7 @@ const Currency = () => {
 
   const handleChange = (value) => {
     setSelectedValue(value);
-    console.log(`Selected: ${value}`);
+    
   };
 
   return (

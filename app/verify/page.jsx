@@ -96,7 +96,7 @@ const Verify = () => {
     fetchData();
   }, []);
 
-  // console.log("apiData",apiData);
+
 
   useEffect(() => {
     const secret = localStorage.getItem("twofactorSecrete");
@@ -124,7 +124,7 @@ const Verify = () => {
 
   // #endregion
 
-  console.log("otp", otpValue);
+
 
   const handleSubmit = async () => {
     try {
@@ -132,7 +132,7 @@ const Verify = () => {
         one_time_password: otpValue,
       };
 
-      console.log("Data", data);
+
       const apiUrl = "/api/twofactor-verify";
 
       const response = await axios.post(apiUrl, data, {
@@ -150,7 +150,7 @@ const Verify = () => {
       } else {
         message.error("Otp doesn't match!!");
       }
-      console.log(response.data);
+
     } catch (error) {
       console.error("Error sending data:", error);
     }
@@ -163,7 +163,7 @@ const Verify = () => {
         secretKey: secret,
       };
 
-      console.log("Data", data);
+
       const apiUrl = "/api/2f-complete";
 
       const response = await axios.post(apiUrl, data, {
@@ -176,7 +176,7 @@ const Verify = () => {
       //   localStorage.setItem("twofactorSecrete", "yes");
       //   router.push("/dashboard");
       // }
-      console.log(response.data);
+
     } catch (error) {
       console.error("Error sending data:", error);
     }

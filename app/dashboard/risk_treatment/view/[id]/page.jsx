@@ -48,7 +48,7 @@ const View = ({ params }) => {
   const [ownerEmail1, setOwnerEmail1] = useState("");
   const [userID, setUserID] = useState("");
 
-  console.log("data1", data1);
+
   const fetchData = async () => {
     // setIsLoading(true);
     try {
@@ -97,12 +97,9 @@ const View = ({ params }) => {
     fetchData();
   }, [params.id]);
 
-  // console.log("d", data1);
 
-  // console.log("data", data1);
   const showModal = (record) => {
-    // console.log("record", record);
-    // setUserID(record.user_id);
+
     setEditId(record.id);
 
     // Format date fields using dayjs
@@ -159,7 +156,7 @@ const View = ({ params }) => {
         formData1.append("attachment", selectedFile.originFileObj);
       }
   
-      console.log("formData1", formData1); // Log FormData to check its contents
+ // Log FormData to check its contents
   
       const apiUrl = "/api/treatments/update";
       const response = await axios.post(apiUrl, formData1, {
@@ -201,10 +198,10 @@ const View = ({ params }) => {
   const handleCancel = () => {
     setIsModalOpen(false);
   };
-  // console.log("Data", data1);
+
 
   const onChange = (date, dateString) => {
-    // console.log(date, dateString);
+
   };
 
   const alert = async (record) => {
@@ -230,7 +227,7 @@ const View = ({ params }) => {
   };
   const file = async (record) => {
     try {
-      // console.log("acctach", record.attachments);
+
       const id = record.attachments[0].attachment_id;
       // Make the GET request using Axios
       const response = await axios.get(`/api/get/attachment/${id}`, {
@@ -435,7 +432,7 @@ const View = ({ params }) => {
   const props = {
     onChange(info) {
       if (info.file.status !== "uploading") {
-        // console.log(info.file, info.fileList);
+  
         setSelectedFile(info.file);
       }
     },
@@ -454,7 +451,7 @@ const View = ({ params }) => {
       });
     }
   };
-  // console.log("userID",userID);
+
 
   return (
     <>

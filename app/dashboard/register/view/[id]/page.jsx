@@ -100,9 +100,9 @@ const View = ({ params }) => {
     return () => {};
   }, [params.id]);
 
-  // console.log("data",data1.treatment);
+
   const showModal = (record) => {
-    console.log("record", record);
+  
     setEditId(record.id);
 
     // Format date fields using dayjs
@@ -159,7 +159,7 @@ const View = ({ params }) => {
         formData1.append("attachment", selectedFile.originFileObj);
       }
   
-      console.log("formData1", formData1); // Log FormData to check its contents
+// Log FormData to check its contents
   
       const apiUrl = "/api/treatments/update";
       const response = await axios.post(apiUrl, formData1, {
@@ -200,7 +200,7 @@ const View = ({ params }) => {
   const handleCancel = () => {
     setIsModalOpen(false);
   };
-  console.log("Data", data1);
+
 
   const onChange = (date, dateString) => {
     console.log(date, dateString);
@@ -213,13 +213,13 @@ const View = ({ params }) => {
       const response = await axios.get(`/api/treatments/alert/${id}`);
 
       // Handle the response, for example:
-      console.log("Response data:", response.data);
+
       if (response.status === 200) {
         // Display a success message
         message.success(t("treatment_view.Notification Send successfully!"));
       } else {
         // Handle other status codes if needed
-        console.log("Response data:", response.data);
+    
         message.error(t("treatment_view.Something went wrong!"));
       }
     } catch (error) {
@@ -240,7 +240,7 @@ const View = ({ params }) => {
         },
       });
 
-      console.log(response.data);
+
       const blobUrl = window.URL.createObjectURL(response.data);
 
       // Create a link element to trigger the download
@@ -395,7 +395,7 @@ const View = ({ params }) => {
           },
         }
       );
-      console.log(response);
+
 
       // Check if the deletion was successful
       if (response.status === 200) {
@@ -427,7 +427,7 @@ const View = ({ params }) => {
   const props = {
     onChange(info) {
       if (info.file.status !== "uploading") {
-        console.log(info.file, info.fileList);
+
         setSelectedFile(info.file);
       }
     },

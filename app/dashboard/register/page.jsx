@@ -180,7 +180,7 @@ const Register = () => {
     setTimeout(() => {
       setOpen(false);
       setConfirmLoading(false);
-      // console.log(e);
+
       // message.success("Click on Yes");
     }, 1000);
   };

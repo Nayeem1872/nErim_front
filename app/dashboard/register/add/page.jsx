@@ -248,7 +248,7 @@ const Add = () => {
     }
   };
 
-  // console.log(calculateResidualRiskScore());
+
 
   const calculateRiskScore = () => {
     if (selectedLikelihood && selectedImpact) {
@@ -275,16 +275,10 @@ const Add = () => {
 
     return rangeInfo;
   };
-  // console.log("riskMatrix", riskMatrix);
+
 
   const riskInfo = getRiskInfo(calculateRiskScore());
 
-  // if (riskInfo) {
-  //   console.log("Critical Step:", riskInfo.critical_step);
-  //   console.log("Color:", riskInfo.color);
-  // } else {
-  //   console.log("No matching range found for the risk score.");
-  // }
 
   // Compare risk score with risk appetite
   const compareRiskWithAppetite = () => {
@@ -318,13 +312,11 @@ const Add = () => {
 
     try {
       const response = await axios.post("/api/register/import", formData);
-      // Handle success
-      // console.log("File uploaded successfully:", response);
-      // message.success("File uploaded successfully");
+
 
       if (response.status === 200) {
         // Handle success
-        // console.log("File uploaded successfully:", response);
+
         message.success("File uploaded successfully");
 
         // Redirect to register page
@@ -336,7 +328,7 @@ const Add = () => {
       }
     } catch (error) {
       // Handle error
-      console.error("Error uploading file:", error);
+ 
       message.error("Error uploading file");
     }
   };

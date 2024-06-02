@@ -23,7 +23,7 @@ export const MyProvider = ({ children }) => {
   const [isDarkMode, setIsDarkMode] = useState(false);
   useEffect(() => {
     const storedDarkMode = JSON.parse(localStorage.getItem("isDarkMode"));
-    // console.log(storedDarkMode);
+
     if (storedDarkMode !== null) {
       setIsDarkMode(storedDarkMode);
     }

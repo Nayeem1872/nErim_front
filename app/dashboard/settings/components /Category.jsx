@@ -84,7 +84,7 @@ const Category = () => {
     }
   };
   const cancel = (e) => {
-    // console.log(e);
+
     message.error(t("settingsCategory.Cancel"));
     setOpen(false);
   };
@@ -191,7 +191,7 @@ const Category = () => {
     if (!editId) {
       try {
         const data = { userId: userId, verifyEmail: email, ...formData };
-        // console.log("formdata:",formData);
+      
 
         const apiUrl = "/api/risk-category";
 
@@ -235,7 +235,7 @@ const Category = () => {
           ...formData,
           id: editId,
         };
-        console.log("formdata:", data);
+     
 
         const apiUrl = `/api/update-risk-category`;
 

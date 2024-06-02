@@ -40,7 +40,7 @@ const Risk_Apatite = () => {
     }
   }, [dataSourceQuery]);
 
-  // console.log("appatite",apetiteValue);
+
 
   const handleInputChange = async (value) => {
     setApetiteValue(value); // Update the apetiteValue state variable when input value changes
@@ -50,7 +50,7 @@ const Risk_Apatite = () => {
         verifyEmail: email,
         value: apetiteValue,
       };
-      console.log("formdata:", data);
+   
 
       const apiUrl = `/api/update-risk-apetite`;
 
@@ -124,7 +124,7 @@ const handleDecrement = () => {
         onChange={handleInputChange}
         value={apetiteValue}
         // size="large"
-        className={styles.customInputNumber}
+        // className={styles.customInputNumber}
         style={{ width: "200px", marginRight: "5px" }}
     />
     <Button onClick={() => handleIncrement()} icon={<PlusOutlined />} style={{marginRight:"5px"}} />

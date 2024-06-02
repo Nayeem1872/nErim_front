@@ -9,6 +9,8 @@ const Stats = () => {
   const [topFiveRisk, setTopFiveRisk] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [riskWithInLimit, setRiskWithInLimit] = useState([]);
+  const [riskWithOutLimit, setRiskWithOutLimit] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -16,6 +18,8 @@ const Stats = () => {
         const response = await axios.get("/api/statistics");
         setRiskSummaryData(response.data);
         setTopFiveRisk(response.data.topFiveRisks);
+        setRiskWithInLimit(response?.data?.riskWithInLimit);
+        setRiskWithOutLimit(response.data.riskWithOutLimit);
       } catch (error) {
         setError(error);
       } finally {
@@ -26,7 +30,7 @@ const Stats = () => {
     fetchData();
   }, []);
 
-  console.log("topFiveRisks", topFiveRisk);
+
   if (loading) {
     return <Spin size="large" />;
   }
@@ -83,7 +87,7 @@ const Stats = () => {
       title: "Risk Domain",
       dataIndex: "category",
       key: "category_name",
-      render: (text, record) => record.category.category_name,
+      render: (text, record) => record?.category?.category_name,
     },
     {
       title: "Risk Name",
@@ -139,6 +143,83 @@ const Stats = () => {
     "0px 4px 20px rgba(0, 0, 0, 0.1)",
     "0px 4px 20px rgba(0, 0, 0, 0.1)",
     "0px 4px 20px rgba(0, 0, 0, 0.1)",
+  ];
+
+  const riskWithInLimitColumns = [
+    {
+      title: "Risk Id",
+      dataIndex: "refId",
+      key: "refId",
+    },
+    // {
+    //   title: "Risk Domain",
+    //   dataIndex: "category",
+    //   key: "category_name",
+    //   render: (text, record) => record.category.category_name,
+    // },
+    {
+      title: "Risk Name",
+      dataIndex: "risk_name",
+      key: "risk_name",
+    },
+    {
+      title: "risk Owner",
+      dataIndex: "risk_owner",
+      key: "risk_owner",
+    },
+    // {
+    //   title: "Risk Value",
+    //   dataIndex: "risk_matrix",
+    //   key: "risk_value",
+    //   render: (text, record) => {
+    //     const color = record.risk_matrix.color.startsWith("#")
+    //       ? record.risk_matrix.color
+    //       : `#${record.risk_matrix.color}`;
+    //     const isCriticalStepDefined =
+    //       record.risk_matrix.critical_step !== undefined &&
+    //       record.risk_matrix.critical_step !== "";
+    //     return (
+    //       <div
+    //         style={{
+    //           backgroundColor: color,
+    //           borderRadius: "8px",
+    //           padding: "5px 10px",
+    //           color: isCriticalStepDefined ? "#000" : "#fff",
+    //           textAlign: "center",
+    //         }}
+    //       >
+    //         {record.risk_matrix.critical_step}
+    //       </div>
+    //     );
+    //   },
+    // },
+    {
+      title: "Details",
+      dataIndex: "risk_identified",
+      key: "risk_identified",
+    },
+  ];
+  const riskWithOutLimitColumns = [
+    {
+      title: "Risk Id",
+      dataIndex: "refId",
+      key: "refId",
+    },
+    {
+      title: "Risk Name",
+      dataIndex: "risk_name",
+      key: "risk_name",
+    },
+    {
+      title: "risk Owner",
+      dataIndex: "risk_owner",
+      key: "risk_owner",
+    },
+    {
+      title: "Details",
+      dataIndex: "risk_identified",
+      key: "risk_identified",
+    },
   ];
 
   return (
@@ -260,6 +341,7 @@ const Stats = () => {
             dataSource={topFiveRisk}
             columns={columns}
             pagination={false}
+            style={{ boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)" }}
           />
         </div>
         <div>
@@ -268,8 +350,35 @@ const Stats = () => {
             dataSource={topFiveRisk}
             columns={riskSummaryColumn}
             pagination={false}
+            style={{ boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)" }}
           />
         </div>
+      </Row>
+
+      <div style={{ marginTop: "30px" }}>
+        <Divider>
+          <h2>Risk Threshold</h2>
+        </Divider>
+      </div>
+      <Row gutter={16}>
+        <Col span={12}>
+          <h3>With-in limit</h3>
+          <Table
+            bordered
+            dataSource={riskWithInLimit}
+            columns={riskWithInLimitColumns}
+            style={{ boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)" }}
+          />
+        </Col>
+        <Col span={12}>
+          <h3>Exceeded limit</h3>
+          <Table
+            bordered
+            dataSource={riskWithOutLimit}
+            columns={riskWithOutLimitColumns}
+            style={{ boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)" }}
+          />
+        </Col>
       </Row>
     </>
   );

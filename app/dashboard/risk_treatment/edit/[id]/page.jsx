@@ -15,7 +15,7 @@ const Edit = ({ params }) => {
       try {
         const response = await axios.get(`/risk_treatment.json`); // Assuming register.json is in the public folder
         const riskData = response.data;
-        console.log(riskData);
+   
         const selectedItem = riskData.find(
           (item) => item.id === Number(params.id)
         );
@@ -29,7 +29,7 @@ const Edit = ({ params }) => {
     fetchData();
   }, []);
 
-  console.log(data);
+  
 
   const dataSource = [
     {

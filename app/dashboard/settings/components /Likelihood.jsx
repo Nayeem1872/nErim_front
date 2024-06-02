@@ -46,14 +46,14 @@ const Likelihood = ({ setApiData }) => {
           },
         }
       );
-      // console.log("data", response);
+   
       if (response.data.likelihoodData.length > 0) {
         // Extracting colors from all items in impactData
         const colors = response.data.likelihoodData.map((item) => item.color);
         // Assuming setColor is a state setter function
         setColor(colors); // Set color to the array of colors
       }
-      // console.log("likelihood Data:", response.data.likelihoodData);
+
       return response.data.likelihoodData;
     },
     staleTime: 1000 * 60 * 60 * 1,
@@ -64,7 +64,7 @@ const Likelihood = ({ setApiData }) => {
     setOpen(record?.id);
     setId(record?.id);
   };
-  // console.log("id", id);
+
 
   const confirm = async (e) => {
     setConfirmLoading(true);
@@ -85,7 +85,7 @@ const Likelihood = ({ setApiData }) => {
 
         // Update the state with the fetched data
         setApiData(response.data);
-        // console.log("Child Component - setApiData:", setApiData);
+       
 
         setOpen(false);
         setConfirmLoading(false);
@@ -94,7 +94,7 @@ const Likelihood = ({ setApiData }) => {
         // Handle error if deletion fails
         setOpen(false);
         setConfirmLoading(false);
-        // console.error("Deletion failed:", response.statusText);
+
         message.error("Failed to delete record.");
       }
     } catch (error) {
@@ -106,7 +106,7 @@ const Likelihood = ({ setApiData }) => {
     }
   };
   const cancel = (e) => {
-    console.log(e);
+
     // message.error("Click on No");
     setOpen(false);
   };
@@ -249,9 +249,7 @@ const Likelihood = ({ setApiData }) => {
     setIsModalOpen(true);
   };
   const storedMatrixId = localStorage.getItem("modelId");
-  // console.log("storedMatrixId", storedMatrixId);
 
-  // console.log("dataSourceQuery", dataSourceQuery);
 
   const handleOk = async () => {
     const formData = form.getFieldsValue();
@@ -263,7 +261,7 @@ const Likelihood = ({ setApiData }) => {
       if (dataSourceQuery.length < storedMatrixId) {
         try {
           const data = { userId: userId, verifyEmail: email, ...formData };
-          // console.log("formdata:",formData);
+
 
           const apiUrl = "/api/risk-likelihood";
 
@@ -370,7 +368,7 @@ const Likelihood = ({ setApiData }) => {
   };
 
   const handleChange = (value) => {
-    console.log(`selected ${value}`);
+
   };
 
   return (

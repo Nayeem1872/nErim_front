@@ -24,6 +24,7 @@ const Valuation = ({ setApiData }) => {
   const [open, setOpen] = useState(false);
   const [id, setId] = useState();
   const [confirmLoading, setConfirmLoading] = useState(false);
+  const [apiData, setApiData1] = useState(null);
   const [form] = Form.useForm();
   const token = localStorage.getItem("authorization");
   const { data: dataSourceQuery,isLoading, refetch } = useQuery({
@@ -44,7 +45,7 @@ const Valuation = ({ setApiData }) => {
     setId(record?.id);
     setOpen(record?.id);
   };
-  // console.log("id", id);
+ 
 
   const confirm = async (e) => {
     setConfirmLoading(true);
@@ -56,7 +57,7 @@ const Valuation = ({ setApiData }) => {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log(response);
+     
 
       // Check if the deletion was successful
       if (response.status === 200) {
@@ -67,7 +68,7 @@ const Valuation = ({ setApiData }) => {
         setApiData(response.data);
         setOpen(false);
         setConfirmLoading(false);
-        // console.log(response.data); // Log response data if needed
+    
         message.success("Risk valuation has deleted successfully.");
       } else {
         // Handle error if deletion fails
@@ -85,7 +86,7 @@ const Valuation = ({ setApiData }) => {
     }
   };
   const cancel = (e) => {
-    console.log(e);
+
     message.error("Cancel");
     setOpen(false);
   };
@@ -96,7 +97,7 @@ const Valuation = ({ setApiData }) => {
       setMatrixId(parseInt(storedMatrixId));
     }
   }, []);
-  const [apiData, setApiData1] = useState(null);
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -202,18 +203,6 @@ const Valuation = ({ setApiData }) => {
     }
   }, [dataSourceQuery]);
 
-  // const addRow = (formData) => {
-  //   if (dataSource.length < matrixId) {
-  //     const newData = {
-  //       key: dataSource.length + 1,
-  //       ...formData,
-  //     };
-  //     setDataSource([...dataSource, newData]);
-  //     // message.success(`New Valuation added!`);
-  //   } else {
-  //     message.warning(`You can't add more than ${matrixId} rows.`, 5);
-  //   }
-  // };
 
   const addRow = async (formData) => {
     if (dataSourceQuery.length < matrixId) {
@@ -312,15 +301,12 @@ const Valuation = ({ setApiData }) => {
       }
     } else {
       try {
-        console.log("object:", {
-          id: editId,
-          ...formData,
-        });
+      
         const data = {
           ...formData,
           id: editId,
         };
-        console.log("formdata:", data);
+   
 
         const apiUrl = `/api/update-risk-valuation`;
 
@@ -380,7 +366,7 @@ const Valuation = ({ setApiData }) => {
   };
 
   const handleChange = (value) => {
-    console.log(`selected ${value}`);
+
   };
 
   return (

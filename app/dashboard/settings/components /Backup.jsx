@@ -53,7 +53,7 @@ const Backup = () => {
           },
         }
       );
-      // console.log(response.data);
+
       return response.data.data;
     },
     staleTime: 1000 * 60 * 60 * 1,
@@ -66,7 +66,7 @@ const Backup = () => {
     setIsModalOpen(false);
     try {
       const data = { userId: userId, verifyEmail: email, ...checkboxValues }; // Spread the object into the data object
-      // console.log("formdata:", data);
+
       const apiUrl = "/api/create-backup";
 
       const response = await axios.post(apiUrl, data, {
@@ -90,7 +90,7 @@ const Backup = () => {
     const updatedValues = { ...checkboxValues, [name]: e.target.checked };
     setCheckboxValues(updatedValues);
   };
-  // console.log("checked", checkboxValues);
+
   // download popconfirm
   const [open, setOpen] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
@@ -138,7 +138,7 @@ const Backup = () => {
   };
 
   const handleDownloadCancel = () => {
-    console.log("Clicked cancel button");
+
     setOpen(false);
   };
 
@@ -160,7 +160,7 @@ const Backup = () => {
           },
         }
       );
-      // console.log(response);
+
 
       // Check if the deletion was successful
       if (response.status === 200) {
@@ -182,7 +182,7 @@ const Backup = () => {
     }
   };
   const handleDeleteCancel = () => {
-    console.log(t("BackUp.Delete_Canceled"));
+   
     setOpenDelete(false);
   };
 
@@ -199,7 +199,7 @@ const Backup = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-      // console.log("Restored",response.data);
+
 
       // Check if the deletion was successful
       if (response.status === 200) {
@@ -347,7 +347,7 @@ const Backup = () => {
     }, 1000);
   };
   const onSelectChange = (newSelectedRowKeys) => {
-    console.log("selectedRowKeys changed: ", newSelectedRowKeys);
+
     setSelectedRowKeys(newSelectedRowKeys);
   };
   const rowSelection = {

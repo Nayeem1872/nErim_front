@@ -103,7 +103,7 @@ const Edit = ({ params }) => {
     rs_score: selectedRiskImpact,
   });
 
-  // console.log("selectedRiskImpact",selectedRiskLikelihood);
+
   form.setFieldsValue({
     rl_score: selectedRiskLikelihood,
   });
@@ -111,8 +111,6 @@ const Edit = ({ params }) => {
   //   risk_criticality: selectedRiskCriticality
   // });
 
-  // console.log("Matrix", data1);
-  // console.log("impact", selectedImpact);
 
   // date
   const formItemLayout = {
@@ -214,13 +212,13 @@ const [criticalityScore,setCriticalityScore] = useState('')
       return riskScore >= min && riskScore <= max;
     });
     if (rangeInfo) {
-      // console.log("Log", rangeInfo.critical_step);
+
       // form.setFieldsValue({
       //   risk_criticality: rangeInfo.critical_step,
       // });
     }
     setRiskCriticality(rangeInfo);
-    // console.log("range", rangeInfo);
+
     return rangeInfo;
   };
 
@@ -276,11 +274,10 @@ const [criticalityScore,setCriticalityScore] = useState('')
           setSelectedRiskLikelihood(selectedItem.risk_likelihood_id);
           setSelectedRiskCriticality(selectedItem.risk_criticality);
           setSelectedItemColor(selectedItem.color);
-          // console.log("risk_criticality", selectedItem.risk_criticality);
-          // console.log("color", selectedItem.color);
+
           setRiskStatusID(selectedItem.risk_matrix_id);
           setData(selectedItem);
-          console.log("selectedItem", selectedItem);
+  
         } catch (error) {
           console.error("Error fetching data:", error);
         }
@@ -293,7 +290,7 @@ const [criticalityScore,setCriticalityScore] = useState('')
     },
     [params.id]
   );
-  // console.log("risk",riskStatusID);
+
   const onFinish = async (values) => {
     const formData = form.getFieldsValue();
 
@@ -310,7 +307,7 @@ const [criticalityScore,setCriticalityScore] = useState('')
         // residualScore: calculateResidualRiskScore(),
       };
 
-      console.log("data:", data);
+
 
       const apiUrl = "/api/update-risk-register";
 
@@ -326,7 +323,7 @@ const [criticalityScore,setCriticalityScore] = useState('')
       } else {
         message.error("Failed to update register.");
       }
-      // console.log("data", response.data);
+
     } catch (error) {
       console.error("Error sending data:", error);
       message.error("Failed to update register.");

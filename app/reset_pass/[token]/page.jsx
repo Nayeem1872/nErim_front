@@ -16,10 +16,10 @@ const ResetPassword = () => {
 
   useEffect(() => {
     const url = `${pathname}?${searchParams}`;
-    // console.log("url", url);
+
     const queryParams = new URLSearchParams(searchParams);
     const email = queryParams.get("email");
-    console.log("email",email);
+
 
     setEmail(email);
     const pathnameParts = pathname.split("/");
@@ -48,8 +48,7 @@ const ResetPassword = () => {
 
     verifyToken();
   }, [pathname, searchParams]);
-  // console.log("Email:", email);
-  // console.log("Token:", token);
+
 
   // handleSubmit
   const handleSubmit = async () => {
@@ -76,7 +75,7 @@ const ResetPassword = () => {
       }
     } catch (error) {
       console.error("Error resetting password:", error);
-      console.log(error.response);
+   
 
       message.error("An error occurred while resetting the password");
     }

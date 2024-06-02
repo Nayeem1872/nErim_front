@@ -45,32 +45,32 @@ const Status = () => {
           },
         }
       );
-      console.log(response);
+  
 
       // Check if the deletion was successful
       if (response.status === 200) {
         refetch();
         setOpen(false);
         setConfirmLoading(false);
-        console.log(response.data); // Log response data if needed
+
         message.success("Risk Status has deleted successfully.");
       } else {
         // Handle error if deletion fails
         setOpen(false);
         setConfirmLoading(false);
-        console.error("Deletion failed:", response.statusText);
+
         message.error("Failed to delete record.");
       }
     } catch (error) {
       // Handle any errors that occur during the deletion process
       setOpen(false);
       setConfirmLoading(false);
-      console.error("Error deleting record:", error);
+
       message.error("An error occurred while deleting the record.");
     }
   };
   const cancel = (e) => {
-    console.log(e);
+
     message.error("Cancel");
     setOpen(false);
   };
@@ -95,7 +95,7 @@ const Status = () => {
     },
     staleTime: 1000 * 60 * 60 * 1,
   });
-  // console.log("Status data:", dataSourceQuery);
+
 
   const [apiData, setApiData] = useState(null);
 
@@ -213,13 +213,9 @@ const Status = () => {
 
     if (!editId) {
       try {
-        console.log("object:", {
-          userId: userId,
-          verifyEmail: email,
-          ...formData,
-        });
+      
         const data = { userId: userId, verifyEmail: email, ...formData };
-        // console.log("formdata:",formData);
+       
 
         const apiUrl = "/api/risk-status";
 
@@ -231,7 +227,7 @@ const Status = () => {
         });
         if (response.status === 200) {
           // Handle success
-          // console.log("File uploaded successfully:", response);
+    
           message.success("New status added successfully");
   
           refetch();
@@ -269,8 +265,7 @@ const Status = () => {
           ...formData,
           id: editId,
         };
-        console.log("formdata:", data);
-
+  
         const apiUrl = `/api/update-risk-status`;
 
         const response = await axios.post(apiUrl, data, {

@@ -14,7 +14,7 @@ const page = () => {
   const [loading, setLoading] = useState(true);
   const router = useRouter();
   const pathname = usePathname();
-  console.log("Current pathname:", pathname);
+
   const parts = pathname.split("/");
 
   // Get the last two parts of the URL
@@ -37,7 +37,7 @@ const page = () => {
     fetchData();
   }, [matrix_id, status_id]);
 
-  // console.log("data", data);
+
   if (loading) {
     return (
       <div

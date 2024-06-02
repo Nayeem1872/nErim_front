@@ -37,9 +37,11 @@ const Impact = ({ setApiData }) => {
       setMatrixId(parseInt(storedMatrixId));
     }
   }, []);
-
-  // console.log("Props",props);
-  const { data: dataSourceQuery,  isLoading, refetch } = useQuery({
+  const {
+    data: dataSourceQuery,
+    isLoading,
+    refetch,
+  } = useQuery({
     queryKey: ["RiskImpactTable"],
     queryFn: async () => {
       const response = await axios.get(`/api/get-risk-impact`, {
@@ -48,7 +50,7 @@ const Impact = ({ setApiData }) => {
           Authorization: `Bearer ${token}`,
         },
       });
-      // console.log("data", response);
+  
       if (response.data.impactData.length > 0) {
         // Extracting colors from all items in impactData
         const colors = response.data.impactData.map((item) => item.color);
@@ -60,25 +62,23 @@ const Impact = ({ setApiData }) => {
     staleTime: 1000 * 60 * 60 * 1,
   });
 
-  useEffect(()=>{
+  useEffect(() => {
     const fetchData = async () => {
       try {
         // Make an HTTP GET request to your API endpoint
-        const response = await axios.get('/api/basic-status');
+        const response = await axios.get("/api/basic-status");
 
         // Update the state with the fetched data
         setApiData1(response.data.is_admin);
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error("Error fetching data:", error);
         // You might want to handle errors here
       }
     };
 
     // Call the fetch function when the component mounts
     fetchData();
-
-  },[])
-
+  }, []);
 
   const columns = [
     {
@@ -106,7 +106,7 @@ const Impact = ({ setApiData }) => {
       title: t("settingsImpact.Action"),
       width: 150,
       key: "action",
-      render: (text, record) => (
+      render: (text, record) =>
         apiData === "user" ? null : (
           <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
             <Button type="primary" onClick={() => showModal(record)}>
@@ -117,10 +117,13 @@ const Impact = ({ setApiData }) => {
               title={`Dependency ${record?.dependency}`}
               description={
                 <>
-                  Deleting this item will result in the removal of its {record?.dependency} associated <br /> dependent risk indices. After deletion, you will <br /> need to manually assign the appropriate   risk matrix to each <br /> corresponding risk index.
-              
+                  Deleting this item will result in the removal of its{" "}
+                  {record?.dependency} associated <br /> dependent risk indices.
+                  After deletion, you will <br /> need to manually assign the
+                  appropriate risk matrix to each <br /> corresponding risk
+                  index.
                   <br />
-                <strong>Are you sure you want to delete?</strong>  
+                  <strong>Are you sure you want to delete?</strong>
                 </>
               }
               visible={open === record?.id} // Changed open to visible
@@ -141,14 +144,10 @@ const Impact = ({ setApiData }) => {
               </Button>
             </Popconfirm>
           </div>
-        )
-      ),
-
-
-    })
-
+        ),
+    });
   }
- 
+
   // Post and Edit(Post) Request
 
   // useEffect(() => {
@@ -157,25 +156,24 @@ const Impact = ({ setApiData }) => {
   //   }
   // }, [dataSourceQuery]);
 
-  
-const addRow = async (formData) => {
-  if (dataSourceQuery.length < matrixId) {
-    try {
-      const newData = {
-        key: dataSourceQuery.length + 1,
-        ...formData,
-      };
-      // Update the data on the server by refetching
-      await refetch();
-      message.success(t("settingsImpact.New_Likelihood_added"));
-    } catch (error) {
-      console.error("Error adding row:", error);
-      message.error("Failed to add new row.");
+  const addRow = async (formData) => {
+    if (dataSourceQuery.length < matrixId) {
+      try {
+        const newData = {
+          key: dataSourceQuery.length + 1,
+          ...formData,
+        };
+        // Update the data on the server by refetching
+        await refetch();
+        message.success(t("settingsImpact.New_Likelihood_added"));
+      } catch (error) {
+        console.error("Error adding row:", error);
+        message.error("Failed to add new row.");
+      }
+    } else {
+      message.warning(`You can't add more than ${matrixId} rows.`, 5);
     }
-  } else {
-    message.warning(`You can't add more than ${matrixId} rows.`, 5);
-  }
-};
+  };
 
   // modal
 
@@ -188,7 +186,6 @@ const addRow = async (formData) => {
   };
   const storedMatrixId = localStorage.getItem("modelId");
   const cancel = (e) => {
-    // console.log(e);
     setOpen(false);
     message.error(t("settingsImpact.Canceled"));
   };
@@ -204,7 +201,7 @@ const addRow = async (formData) => {
       if (dataSourceQuery.length < storedMatrixId) {
         try {
           const data = { userId: userId, verifyEmail: email, ...formData };
-          console.log("formdata:", data);
+       
 
           const apiUrl = "/api/risk-impact";
 
@@ -214,17 +211,17 @@ const addRow = async (formData) => {
               Authorization: `Bearer ${token}`,
             },
           });
-        
+
           if (response.status === 200) {
             refetch();
             addRow(formData);
             const response = await axios.get("/api/basic-status");
 
             // Update the state with the fetched data
-              setApiData(response.data);
+            setApiData(response.data);
           }
 
-          // console.log("response",response.data);
+      
         } catch (error) {
           if (
             error.response &&
@@ -252,8 +249,7 @@ const addRow = async (formData) => {
             message.error(t("settingsImpact.Error_updating_record"));
           }
         }
-      } 
-      else {
+      } else {
         message.warning(`You can't add more than ${matrixId} rows.`, 5);
       }
     }
@@ -267,7 +263,6 @@ const addRow = async (formData) => {
           ...formData,
           id: editId,
         };
-        // console.log("formdata:", data);
 
         const apiUrl = `/api/update-risk-impact`;
 
@@ -316,7 +311,7 @@ const addRow = async (formData) => {
   };
 
   const handleChange = (value) => {
-    console.log(`selected ${value}`);
+
   };
   // Delete Request
   const showPopconfirm = (record) => {
@@ -333,15 +328,14 @@ const addRow = async (formData) => {
           Authorization: `Bearer ${token}`,
         },
       });
-      // console.log(response);
+
       if (response.status === 200) {
         refetch();
-   
+
         const response = await axios.get("/api/basic-status");
 
         // Update the state with the fetched data
-          setApiData(response.data);
-        console.log("Child Component - setApiData:", setApiData);
+        setApiData(response.data);
 
         setOpen(false);
         setConfirmLoading(false);
@@ -373,10 +367,16 @@ const addRow = async (formData) => {
           onCancel={handleCancel}
         >
           <Form form={form}>
-            <Form.Item name="relative" label={t("settingsImpact.Relative_label")}>
+            <Form.Item
+              name="relative"
+              label={t("settingsImpact.Relative_label")}
+            >
               <Input placeholder={t("settingsImpact.Relative_placeholder")} />
             </Form.Item>
-            <Form.Item name="criteria" label={t("settingsImpact.Criteria_label")}>
+            <Form.Item
+              name="criteria"
+              label={t("settingsImpact.Criteria_label")}
+            >
               <Input placeholder={t("settingsImpact.Criteria_placeholder")} />
             </Form.Item>
             <Form.Item name="weight" label={t("settingsImpact.Weight_label")}>
@@ -422,11 +422,23 @@ const addRow = async (formData) => {
         </Modal>
       </div>
       {isLoading ? (
-      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop:"100px" }}>
-        <Dots />
-    </div>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            marginTop: "100px",
+          }}
+        >
+          <Dots />
+        </div>
       ) : (
-        <Table bordered columns={columns} dataSource={dataSourceQuery} pagination={false} />
+        <Table
+          bordered
+          columns={columns}
+          dataSource={dataSourceQuery}
+          pagination={false}
+        />
       )}
     </>
   );
