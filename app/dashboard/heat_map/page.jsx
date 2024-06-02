@@ -159,7 +159,7 @@ export default function Heatmap() {
     });
 
     series.columns.template.events.on("hit", function (ev) {
-      // console.log("clicked on ", ev.target);
+   
     });
 
     async function fetchData() {
@@ -168,8 +168,7 @@ export default function Heatmap() {
 
         const data = response.data.data;
         // setImpactId(data.impact_id)
-        // setLikelihoodId(data.likelihood_id)
-        console.log("Data",data);
+  
 
         // Extract categories for yAxis (likelihood_critical) and xAxis (impact_critical)
         const yAxisCategories = [];
@@ -219,19 +218,19 @@ export default function Heatmap() {
             );
             setData(response.data.scoreData);
           } catch (error) {
-            console.error("Error fetching data:", error);
+        
           }
         });
 
         series.data.setAll(finalData);
         yAxis.data.setAll(yAxisCategories);
-        // console.log("yAxis", yAxisCategories);
+       
         xAxis.data.setAll(xAxisCategories);
-        // console.log("xAxis", xAxisCategories);
+    
 
         chart.appear(1000, 100);
       } catch (error) {
-        console.error("Error fetching data:", error);
+  
       }
     }
 
@@ -242,8 +241,7 @@ export default function Heatmap() {
     };
   }, []);
 
-  // console.log("impactId", impactId);
-  // console.log("LikelihoodId", LikelihoodId);
+
 
   const columns = [
     {

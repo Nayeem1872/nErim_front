@@ -33,12 +33,12 @@ const Dashboard_Settings = ({ isDarkMode, handleClick, showButton = true }) => {
   };
 
   const onChange = (value) => {
-    console.log(`selected ${value}`);
+   
     i18next.changeLanguage(value);
     localStorage.setItem("lang", value);
   };
   const onSearch = (value) => {
-    console.log("search:", value);
+  
   };
 
   const filterOption = (input, option) => {

@@ -22,15 +22,12 @@ function Account() {
         });
         setDataSourceQuery(response.data.data);
       } catch (error) {
-        console.log("Error", error);
+     
       }
     };
 
     fetchData();
   }, []);
- 
-
-  console.log("Acc data", dataSourceQuery);
 
   return (
     <>

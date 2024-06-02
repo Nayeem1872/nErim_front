@@ -32,8 +32,6 @@ const PieChart = () => {
     staleTime: 1000 * 60 * 60 * 1,
   });
 
-  // console.log(tableData);
-
   useEffect(() => {
     if (!tableData) return; // If tableData is undefined, return early
 

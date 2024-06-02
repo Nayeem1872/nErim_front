@@ -30,9 +30,7 @@ export default function Home() {
           // window.location.reload();
         }
       } catch (error) {
-        console.log(error.response.data.message);
       
-        console.error("Error fetching data:", error);
         // You might want to handle errors here
       }
     };

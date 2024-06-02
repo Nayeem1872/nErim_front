@@ -13,7 +13,7 @@ const ForgotPassword = () => {
     setDomLoaded(true);
   }, []);
   const onFinish = async (values) => {
-    console.log("Success:", values);
+  
 
     try {
       const apiUrl = "/api/password/email";
@@ -29,13 +29,13 @@ const ForgotPassword = () => {
       }
      
     } catch (error) {
-      console.error("Error logging in:", error);
+     
       message.error("Something went wrong!");
     }
   };
 
   const onFinishFailed = (errorInfo) => {
-    console.log("Failed:", errorInfo);
+  
   };
   return (
     <>

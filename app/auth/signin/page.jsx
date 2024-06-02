@@ -20,7 +20,7 @@ const SignIn = () => {
   const [api, contextHolder] = notification.useNotification();
   const onFinish = async (values) => {
     const { email, password } = values;
-    console.log(values);
+   
     try {
       const apiUrl = "/api/login";
       const requestBody = {
@@ -62,7 +62,7 @@ const SignIn = () => {
   };
 
   const onFinishFailed = (errorInfo) => {
-    console.log("Failed:", errorInfo);
+  
   };
   useEffect(() => {
     const authorizationToken = Cookies.get("nerim_session");

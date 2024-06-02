@@ -130,7 +130,7 @@ const Register = () => {
     setIdDelete(record?.id);
   };
 
-  // console.log("id", id);
+
 
   const confirm = async (e) => {
     setConfirmLoading(true);
@@ -146,7 +146,7 @@ const Register = () => {
           },
         }
       );
-      console.log(response);
+    
 
       // Check if the deletion was successful
       if (response.status === 200) {
@@ -154,12 +154,12 @@ const Register = () => {
         const indexToDelete = dataSource.findIndex(
           (record) => record.key === id
         );
-        console.log("Index to delete:", indexToDelete);
+   
 
         if (indexToDelete !== -1) {
           const updatedDataSource = [...dataSource];
           updatedDataSource.splice(indexToDelete, 1);
-          console.log("Updated data source:", updatedDataSource);
+  
           setDataSource(updatedDataSource);
         }
 
@@ -185,7 +185,7 @@ const Register = () => {
     }, 1000);
   };
   const cancel = (e) => {
-    console.log(e);
+
     message.error("Click on No");
     setOpen(false);
   };
@@ -193,7 +193,7 @@ const Register = () => {
   const uploadProps = {
     onChange(info) {
       if (info.file.status !== "uploading") {
-        console.log(info.file, info.fileList);
+     
         setSelectedFile(info.file);
       }
     },
@@ -202,7 +202,7 @@ const Register = () => {
 
   const showModal = (record) => {
     setSelectedRow(record);
-    // console.log(record);
+    
     setIsModalVisible(true);
   };
 
@@ -229,9 +229,9 @@ const Register = () => {
       }
 
       // Log formData content
-      for (let pair of formData.entries()) {
-        console.log(pair[0], pair[1]);
-      }
+      // for (let pair of formData.entries()) {
+ 
+      // }
 
       const apiUrl = "/api/treatments/save";
       const response = await axios.post(apiUrl, formData, {
@@ -430,7 +430,7 @@ const Register = () => {
   ];
 
   const onChange = (pagination, filters, sorter, extra) => {
-    console.log("params", pagination, filters, sorter, extra);
+    // console.log("params", pagination, filters, sorter, extra);
   };
 
   // Search Function
@@ -474,7 +474,7 @@ const Register = () => {
       });
 
       // Handle the response
-      console.log("Export API response:", response.data);
+
       const blobUrl = window.URL.createObjectURL(response.data);
 
       // Create a link element to trigger the download
