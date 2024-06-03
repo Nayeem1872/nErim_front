@@ -9,6 +9,8 @@ const { RangePicker } = DatePicker;
 const StatusRange = () => {
   const [rangeType, setRangeType] = useState("year");
   const [dateRange, setDateRange] = useState([null, null]);
+  const [chart, setChart] = useState(null);
+  const [root, setRoot] = useState(null);
 
   const handleRangeTypeChange = (e) => {
     setRangeType(e.target.value);
@@ -20,151 +22,149 @@ const StatusRange = () => {
 
   const handleSearch = () => {
     const [start, end] = dateRange;
-    console.log('Start Date:', start);
-    console.log('End Date:', end);
-    // Add your search logic here
+    if (start && end) {
+      const startYear = start.year();
+      const endYear = end.year();
+      const filteredData = data.filter((item) => {
+        const year = parseInt(item.year, 10);
+        return year >= startYear && year <= endYear;
+      });
+      updateChart(filteredData);
+    }
   };
 
+  const data = [
+    { "year": "2016", "europe": 2.1, "namerica": 2.3, "asia": 2.0, "lamerica": 1.2, "meast": 0.7, "africa": 0.5 },
+    { "year": "2017", "europe": 2.3, "namerica": 2.4, "asia": 2.1, "lamerica": 1.3, "meast": 0.8, "africa": 0.6 },
+    { "year": "2018", "europe": 2.4, "namerica": 2.5, "asia": 2.2, "lamerica": 1.1, "meast": 0.6, "africa": 0.4 },
+    { "year": "2019", "europe": 2.5, "namerica": 2.6, "asia": 2.3, "lamerica": 1.0, "meast": 0.5, "africa": 0.3 },
+    { "year": "2020", "europe": 2.6, "namerica": 2.7, "asia": 2.2, "lamerica": 0.5, "meast": 0.4, "africa": 0.3 },
+    { "year": "2021", "europe": 2.5, "namerica": 2.5, "asia": 2.1, "lamerica": 1, "meast": 0.8, "africa": 0.4 },
+    { "year": "2022", "europe": 2.6, "namerica": 2.7, "asia": 2.2, "lamerica": 0.5, "meast": 0.4, "africa": 0.3 },
+    { "year": "2023", "europe": 2.8, "namerica": 2.9, "asia": 2.4, "lamerica": 0.3, "meast": 0.9, "africa": 0.5 },
+    { "year": "2025", "europe": 2.8, "namerica": 2.9, "asia": 2.4, "lamerica": 0.3, "meast": 0.9, "africa": 0.5 },
+    { "year": "2027", "europe": 2.8, "namerica": 2.9, "asia": 2.4, "lamerica": 0.3, "meast": 0.9, "africa": 0.5 }
+  ];
+
+  const updateChart = (filteredData) => {
+    if (chart && root) {
+      chart.series.each((series) => {
+        series.data.setAll(filteredData);
+      });
+      chart.xAxes.getIndex(0).data.setAll(filteredData);
+    }
+  };
 
   useEffect(() => {
-    let root = am5.Root.new("chartdiv");
+    // Create root element
+    const rootInstance = am5.Root.new("chartdiv");
 
-    root.setThemes([am5themes_Animated.new(root)]);
+    // Set themes
+    rootInstance.setThemes([am5themes_Animated.new(rootInstance)]);
 
-    let chart = root.container.children.push(
-      am5xy.XYChart.new(root, {
+    // Create chart
+    const chartInstance = rootInstance.container.children.push(
+      am5xy.XYChart.new(rootInstance, {
         panX: false,
         panY: false,
         wheelX: "panX",
         wheelY: "zoomX",
         paddingLeft: 0,
-        layout: root.verticalLayout,
+        layout: rootInstance.verticalLayout
       })
     );
 
-    chart.set(
-      "scrollbarX",
-      am5.Scrollbar.new(root, {
-        orientation: "horizontal",
+    // Add legend
+    const legend = chartInstance.children.push(
+      am5.Legend.new(rootInstance, {
+        centerX: am5.p50,
+        x: am5.p50
       })
     );
 
-    let data = [
-      { year: "2016", income: 23.5, expenses: 21.1 },
-      { year: "2017", income: 26.2, expenses: 30.5 },
-      { year: "2018", income: 30.1, expenses: 34.9 },
-      { year: "2019", income: 29.5, expenses: 31.1 },
-      {
-        year: "2020",
-        income: 30.6,
-        expenses: 28.2,
-        strokeSettings: {
-          stroke: chart.get("colors").getIndex(1),
-          strokeWidth: 3,
-          strokeDasharray: [5, 5],
-        },
-      },
-      {
-        year: "2021",
-        income: 34.1,
-        expenses: 32.9,
-        columnSettings: {
-          strokeWidth: 1,
-          strokeDasharray: [5],
-          fillOpacity: 0.2,
-        },
-        info: "(projection)",
-      },
-    ];
-
-    let xRenderer = am5xy.AxisRendererX.new(root, {
-      minorGridEnabled: true,
-      minGridDistance: 60,
+    // Create axes
+    const xRenderer = am5xy.AxisRendererX.new(rootInstance, {
+      cellStartLocation: 0.1,
+      cellEndLocation: 0.9,
+      minorGridEnabled: true
     });
-    let xAxis = chart.xAxes.push(
-      am5xy.CategoryAxis.new(root, {
+
+    const xAxis = chartInstance.xAxes.push(
+      am5xy.CategoryAxis.new(rootInstance, {
         categoryField: "year",
         renderer: xRenderer,
-        tooltip: am5.Tooltip.new(root, {}),
+        tooltip: am5.Tooltip.new(rootInstance, {})
       })
     );
-    xRenderer.grid.template.setAll({ location: 1 });
+
+    xRenderer.grid.template.setAll({
+      location: 1
+    });
+
     xAxis.data.setAll(data);
 
-    let yAxis = chart.yAxes.push(
-      am5xy.ValueAxis.new(root, {
+    const yAxis = chartInstance.yAxes.push(
+      am5xy.ValueAxis.new(rootInstance, {
         min: 0,
-        extraMax: 0.1,
-        renderer: am5xy.AxisRendererY.new(root, {
-          strokeOpacity: 0.1,
-        }),
+        renderer: am5xy.AxisRendererY.new(rootInstance, {
+          strokeOpacity: 0.1
+        })
       })
     );
 
-    let series1 = chart.series.push(
-      am5xy.ColumnSeries.new(root, {
-        name: "Income",
-        xAxis: xAxis,
-        yAxis: yAxis,
-        valueYField: "income",
-        categoryXField: "year",
-        tooltip: am5.Tooltip.new(root, {
-          pointerOrientation: "horizontal",
-          labelText: "{name} in {categoryX}: {valueY} {info}",
-        }),
-      })
-    );
-    series1.columns.template.setAll({
-      tooltipY: am5.percent(10),
-      templateField: "columnSettings",
-    });
-    series1.data.setAll(data);
+    // Add series
+    function makeSeries(name, fieldName, stacked) {
+      const series = chartInstance.series.push(
+        am5xy.ColumnSeries.new(rootInstance, {
+          stacked: stacked,
+          name: name,
+          xAxis: xAxis,
+          yAxis: yAxis,
+          valueYField: fieldName,
+          categoryXField: "year"
+        })
+      );
 
-    let series2 = chart.series.push(
-      am5xy.LineSeries.new(root, {
-        name: "Expenses",
-        xAxis: xAxis,
-        yAxis: yAxis,
-        valueYField: "expenses",
-        categoryXField: "year",
-        tooltip: am5.Tooltip.new(root, {
-          pointerOrientation: "horizontal",
-          labelText: "{name} in {categoryX}: {valueY} {info}",
-        }),
-      })
-    );
-    series2.strokes.template.setAll({
-      strokeWidth: 3,
-      templateField: "strokeSettings",
-    });
-    series2.data.setAll(data);
-
-    series2.bullets.push(() => {
-      return am5.Bullet.new(root, {
-        sprite: am5.Circle.new(root, {
-          strokeWidth: 3,
-          stroke: series2.get("stroke"),
-          radius: 5,
-          fill: root.interfaceColors.get("background"),
-        }),
+      series.columns.template.setAll({
+        tooltipText: "{name}, {categoryX}:{valueY}",
+        width: am5.percent(90),
+        tooltipY: am5.percent(10)
       });
-    });
 
-    chart.set("cursor", am5xy.XYCursor.new(root, {}));
+      series.data.setAll(data);
 
-    let legend = chart.children.push(
-      am5.Legend.new(root, {
-        centerX: am5.p50,
-        x: am5.p50,
-      })
-    );
-    legend.data.setAll(chart.series.values);
+      series.appear();
 
-    chart.appear(1000, 100);
-    series1.appear();
+      series.bullets.push(function () {
+        return am5.Bullet.new(rootInstance, {
+          locationY: 0.5,
+          sprite: am5.Label.new(rootInstance, {
+            text: "{valueY}",
+            fill: rootInstance.interfaceColors.get("alternativeText"),
+            centerY: am5.percent(50),
+            centerX: am5.percent(50),
+            populateText: true
+          })
+        });
+      });
+
+      legend.data.push(series);
+    }
+
+    makeSeries("Europe", "europe", false);
+    makeSeries("North America", "namerica", true);
+    makeSeries("Asia", "asia", false);
+    makeSeries("Latin America", "lamerica", true);
+    makeSeries("Middle East", "meast", true);
+    makeSeries("Africa", "africa", true);
+
+    chartInstance.appear(1000, 100);
+
+    setChart(chartInstance);
+    setRoot(rootInstance);
 
     return () => {
-      root.dispose();
+      rootInstance.dispose();
     };
   }, []);
 
