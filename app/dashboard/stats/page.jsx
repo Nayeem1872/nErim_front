@@ -11,6 +11,7 @@ const Stats = () => {
   const [error, setError] = useState(null);
   const [riskWithInLimit, setRiskWithInLimit] = useState([]);
   const [riskWithOutLimit, setRiskWithOutLimit] = useState([]);
+  const [slaViolations, setSlaViolations] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -20,6 +21,23 @@ const Stats = () => {
         setTopFiveRisk(response.data.topFiveRisks);
         setRiskWithInLimit(response?.data?.riskWithInLimit);
         setRiskWithOutLimit(response.data.riskWithOutLimit);
+        // setSlaViolations(response.data.slaViolations);
+
+        const formattedData = [];
+
+        Object.keys(response.data.slaViolations).forEach((riskOwner) => {
+          const ownerData = response.data.slaViolations[riskOwner];
+          const percentageViolated = response.data.slaViolations.total_count ? (response.data.slaViolations.violation / response.data.slaViolations.total_count) * 100 : 0;
+          formattedData.push({
+            risk_owner: riskOwner,
+            total_count: ownerData.total_count,
+            violation: ownerData.violation,
+            assigned_risks: ownerData.data.map((d) => d.treat_name).join(", "),
+            percentage_violated: percentageViolated.toFixed(2) // assuming assigned risks are the treat_names
+          });
+        });
+
+        setSlaViolations(formattedData);
       } catch (error) {
         setError(error);
       } finally {
@@ -29,7 +47,6 @@ const Stats = () => {
 
     fetchData();
   }, []);
-
 
   if (loading) {
     return <Spin size="large" />;
@@ -222,6 +239,32 @@ const Stats = () => {
     },
   ];
 
+  const slaViolationsColumns = [
+    {
+      title: "Risk owner",
+      dataIndex: "risk_owner",
+      key: "risk_owner",
+    },
+    {
+      title: "Assigned Risks",
+      dataIndex: "total_count",
+      key: "total_count",
+    },
+    {
+      title: "SlA Violated Number",
+      dataIndex: "violation", // Assuming this should be dataIndex: "total_count"
+      key: "violation",
+    },
+    {
+      title: "SLA Violated (%)",
+      dataIndex: "percentage_violated",
+      key: "percentage_violated",
+      render: (text) => `${text}%`
+    }
+  ];
+
+  console.log("slaViolations", slaViolations);
+
   return (
     <>
       {/* top */}
@@ -380,6 +423,18 @@ const Stats = () => {
           />
         </Col>
       </Row>
+
+      <div>
+        <Divider>
+          <h2>SLI Violation</h2>
+        </Divider>
+        <Table
+            dataSource={slaViolations}
+            columns={slaViolationsColumns}
+            pagination={false}
+            style={{ boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)" }}
+          />
+      </div>
     </>
   );
 };
