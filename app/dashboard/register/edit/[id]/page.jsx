@@ -274,8 +274,8 @@ const [criticalityScore,setCriticalityScore] = useState('')
 
           setSelectedRiskImpact(selectedItem.risk_impact_id);
           setSelectedRiskLikelihood(selectedItem.risk_likelihood_id);
-          setSelectedRiskCriticality(selectedItem.risk_criticality);
-          setSelectedItemColor(selectedItem.color);
+          setSelectedRiskCriticality(selectedItem.risk_matrix.critical_step);
+          setSelectedItemColor(selectedItem.risk_matrix.color);
 
           setRiskStatusID(selectedItem.risk_matrix_id);
           setData(selectedItem);
