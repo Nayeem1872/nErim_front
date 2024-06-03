@@ -270,6 +270,8 @@ const [criticalityScore,setCriticalityScore] = useState('')
 
           form.setFieldsValue(selectedItem);
 
+          console.log("selectedItem",selectedItem);
+
           setSelectedRiskImpact(selectedItem.risk_impact_id);
           setSelectedRiskLikelihood(selectedItem.risk_likelihood_id);
           setSelectedRiskCriticality(selectedItem.risk_criticality);

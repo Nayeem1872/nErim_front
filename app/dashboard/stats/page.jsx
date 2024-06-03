@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import styles from "./Card.module.css";
 import { Row, Col, Card, Table, Spin, Alert, Divider } from "antd";
 import axios from "axios";
+import StatusRange from "./StatusRange";
 
 const Stats = () => {
   const [riskSummaryData, setRiskSummaryData] = useState([]);
@@ -435,6 +436,7 @@ const Stats = () => {
             style={{ boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)" }}
           />
       </div>
+    <StatusRange/>
     </>
   );
 };
