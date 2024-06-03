@@ -13,6 +13,7 @@ import {
   Select,
   Upload,
   Tag,
+  Flex,
 } from "antd";
 import { useRouter } from "next/navigation";
 import { Button, message, Popconfirm } from "antd";
@@ -46,6 +47,7 @@ const Register = () => {
   const [ownerEmail, setOwnerEmail] = useState("");
   const [expectedBenefit, setExpectedBenefit] = useState("");
   const [closingDate, setClosingDate] = useState(null);
+  const [finishingDate, setFinishingDate] = useState(null);
   const [selectedRow, setSelectedRow] = useState(null);
   const [status, setStatus] = useState("");
   const [selectedFile, setSelectedFile] = useState(null);
@@ -90,15 +92,12 @@ const Register = () => {
     fetchData();
   }, []);
 
-
   // Check if apiData exists and if any of the status values is false
   const isError =
     apiData &&
     (!apiData.matrixStatus ||
       !apiData.likelihoodStatus ||
       !apiData.impactStatus);
-
-
 
   const {
     data: data,
@@ -130,8 +129,6 @@ const Register = () => {
     setIdDelete(record?.id);
   };
 
-
-
   const confirm = async (e) => {
     setConfirmLoading(true);
 
@@ -146,7 +143,6 @@ const Register = () => {
           },
         }
       );
-    
 
       // Check if the deletion was successful
       if (response.status === 200) {
@@ -154,12 +150,11 @@ const Register = () => {
         const indexToDelete = dataSource.findIndex(
           (record) => record.key === id
         );
-   
 
         if (indexToDelete !== -1) {
           const updatedDataSource = [...dataSource];
           updatedDataSource.splice(indexToDelete, 1);
-  
+
           setDataSource(updatedDataSource);
         }
 
@@ -185,7 +180,6 @@ const Register = () => {
     }, 1000);
   };
   const cancel = (e) => {
-
     message.error("Click on No");
     setOpen(false);
   };
@@ -193,16 +187,14 @@ const Register = () => {
   const uploadProps = {
     onChange(info) {
       if (info.file.status !== "uploading") {
-     
         setSelectedFile(info.file);
       }
     },
   };
 
-
   const showModal = (record) => {
     setSelectedRow(record);
-    
+
     setIsModalVisible(true);
   };
 
@@ -221,6 +213,7 @@ const Register = () => {
       formData.append("action_owner_email", ownerEmail1);
       formData.append("expected_benefit", expectedBenefit);
       formData.append("closing_date", closingDate);
+      formData.append("finishing_date", finishingDate);
       formData.append("treat_status", status);
       formData.append("user_id", singleId);
 
@@ -230,7 +223,7 @@ const Register = () => {
 
       // Log formData content
       // for (let pair of formData.entries()) {
- 
+
       // }
 
       const apiUrl = "/api/treatments/save";
@@ -273,13 +266,16 @@ const Register = () => {
         if (errors.treat_status) {
           message.error(errors.treat_status[0]);
         }
+        if (errors.attachment) {
+          message.error(errors.attachment[0]);
+        }
         // Add more conditions for other fields if needed
         setTimeout(() => {
           message.destroy(); // Clear all messages after 3 seconds
         }, 4000);
       } else {
         console.error("Error details:", error.response?.data);
-        message.error("Something went wrong!");
+        message.error(error.response.data.message);
       }
     }
   };
@@ -646,7 +642,7 @@ const Register = () => {
         centered
         onOk={handleOk}
         onCancel={handleCancel}
-        width={800}
+        width={900}
       >
         <Divider />
 
@@ -707,7 +703,7 @@ const Register = () => {
             <Input
               placeholder={t("risk_treatment.owner_email")}
               value={ownerEmail1}
-              readOnly
+              disabled
             />
 
             <Typography.Title level={5}>
@@ -728,12 +724,28 @@ const Register = () => {
                   onChange={(date, dateString) => setClosingDate(dateString)}
                   style={{ marginTop: "20px" }}
                 />
+                {status === "Finished" && (
+                  <>
+                    <div style={{marginLeft:"10px", display:'flex'}}>
+                      <Typography.Title level={5}>
+                        Finishing Date:
+                      </Typography.Title>
+                      <DatePicker
+                     
+                        onChange={(date, dateString) =>
+                          setFinishingDate(dateString)
+                        }
+                        style={{ marginLeft:"5px" , marginTop:"20px" }}
+                      />
+                    </div>
+                  </>
+                )}
                 <Typography.Title level={5} style={{ marginLeft: "10px" }}>
                   {t("risk_treatment.status_title")}
                 </Typography.Title>
                 <Select
                   style={{ width: "150px", marginTop: "15px" }}
-                  defaultValue={t("risk_treatment.Select_Status")}
+                  placeholder={t("risk_treatment.Select_Status")}
                   allowClear
                   value={status}
                   onChange={(value) => setStatus(value)}
@@ -745,15 +757,17 @@ const Register = () => {
                     { value: "Started", label: t("risk_treatment.Started") },
                     {
                       value: "In Progress - In Control",
-                      label: t("risk_treatment.In_Progress_In_Control"),
+                      label: t("risk_treatment.In_Progrese_In Control"),
                     },
                     {
                       value: "Halted - In Control",
-                      label: t("risk_treatment.Halted_In_Control"),
+                      label: t("risk_treatment.Halted_In Control"),
                     },
                     {
                       value: "Halted - Need Management Support",
-                      label: t("risk_treatment.Halted_Need_Management_Support"),
+                      label: t(
+                        "risk_treatment.Halted_Need Managedment Support"
+                      ),
                     },
                     { value: "Finished", label: t("risk_treatment.Finished") },
                   ]}
