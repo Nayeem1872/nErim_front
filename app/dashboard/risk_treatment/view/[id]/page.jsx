@@ -47,7 +47,7 @@ const View = ({ params }) => {
   const [selectedActionOwner, setSelectedActionOwner] = useState(null);
   const [ownerEmail1, setOwnerEmail1] = useState("");
   const [userID, setUserID] = useState("");
-
+  const [user_Id, setUser_id] = useState("");
 
   const fetchData = async () => {
     // setIsLoading(true);
@@ -99,7 +99,7 @@ const View = ({ params }) => {
 
 
   const showModal = (record) => {
-
+    setUser_id(record.user_id);
     setEditId(record.id);
 
     // Format date fields using dayjs
@@ -149,7 +149,7 @@ const View = ({ params }) => {
       formData1.append("treat_detial", formData.treat_detial);
       formData1.append("treat_name", formData.treat_name);
       formData1.append("treat_status", formData.treat_status);
-      formData1.append("user_id", userID);
+      formData1.append("user_id", userID || user_Id);
   
       // Append the selected file if it exists
       if (selectedFile) {

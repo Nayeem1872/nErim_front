@@ -54,6 +54,7 @@ const Register = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [filterInput, setFilterInput] = useState("");
   const [loading, setLoading] = useState(false);
+  const [startingDate,setStartingDate] = useState(null)
 
   const handleSettingsClick = () => {
     router.push("/dashboard/settings"); // Navigate to settings page
@@ -216,6 +217,7 @@ const Register = () => {
       formData.append("finishing_date", finishingDate);
       formData.append("treat_status", status);
       formData.append("user_id", singleId);
+      formData.append("started_date",startingDate)
 
       if (selectedFile) {
         formData.append("attachment", selectedFile.originFileObj);
@@ -244,7 +246,17 @@ const Register = () => {
         setExpectedBenefit("");
         setClosingDate(null);
         setStatus("");
-        message.success("Risk Treatment has been added!");
+        message.success({
+          content: (
+            <span>
+              Risk Treatment has been added!{' '}
+              <a onClick={() => router.push(`/dashboard/register/view/${selectedRow?.id}`)} style={{ color: '#1890ff' }}>
+                Go there
+              </a>
+            </span>
+          ),
+          duration: 2,
+        });
       } else {
         message.error("Something went wrong!");
       }
@@ -740,6 +752,26 @@ const Register = () => {
                     </div>
                   </>
                 )}
+{status === "Started" && (
+                <>
+                    <div style={{marginLeft:"10px", display:'flex'}}>
+                      <Typography.Title level={5}>
+                        Starting Date:
+                      </Typography.Title>
+                      <DatePicker
+                     
+                        onChange={(date, dateString) =>
+                          setStartingDate(dateString)
+                        }
+                        style={{ marginLeft:"5px" , marginTop:"20px" }}
+                      />
+                    </div>
+                  
+                </>
+              )}
+
+
+
                 <Typography.Title level={5} style={{ marginLeft: "10px" }}>
                   {t("risk_treatment.status_title")}
                 </Typography.Title>

@@ -44,13 +44,10 @@ const View = ({ params }) => {
   const [closingDate, setClosingDate] = useState(null);
   const [apiData, setApiData] = useState(null);
 
-
   const [selectedActionOwner, setSelectedActionOwner] = useState(null);
   const [ownerEmail1, setOwnerEmail1] = useState("");
   const [userID, setUserID] = useState("");
-
-
-
+  const [user_Id, setUser_id] = useState("");
 
   const { data: Userdata } = useQuery({
     queryKey: ["usersbbbs"],
@@ -65,7 +62,6 @@ const View = ({ params }) => {
     },
     staleTime: 1000 * 60 * 60 * 1,
   });
-
 
   useEffect(() => {
     const fetchData = async () => {
@@ -100,9 +96,9 @@ const View = ({ params }) => {
     return () => {};
   }, [params.id]);
 
-
   const showModal = (record) => {
-  
+    // console.log("record",record);
+    setUser_id(record.user_id);
     setEditId(record.id);
 
     // Format date fields using dayjs
@@ -120,6 +116,7 @@ const View = ({ params }) => {
       ...record,
       started_date: formattedStartedDate,
       closing_date: formattedClosingDate,
+      user_id: record.user_id,
     });
 
     setIsModalOpen(true);
@@ -127,24 +124,24 @@ const View = ({ params }) => {
   const handleOk = async () => {
     setIsModalOpen(false);
     const formData = form.getFieldsValue();
-  
+
     try {
       const formData1 = new FormData();
       formData1.append("userId", userId);
       formData1.append("id", editId);
       formData1.append("verifyEmail", email);
-  
+
       // Format and append dates
       const formattedClosingDate = formData.closing_date
         ? dayjs(formData.closing_date).format("YYYY-MM-DD")
         : null;
       formData1.append("closing_date", formattedClosingDate);
-  
+
       const formattedStartDate = formData.started_date
         ? dayjs(formData.started_date).format("YYYY-MM-DD")
         : null;
       formData1.append("started_date", formattedStartDate);
-  
+
       // Append other form data
       formData1.append("expected_benefit", formData.expected_benefit);
       formData1.append("treat_owner", selectedActionOwner);
@@ -152,15 +149,15 @@ const View = ({ params }) => {
       formData1.append("treat_detial", formData.treat_detial);
       formData1.append("treat_name", formData.treat_name);
       formData1.append("treat_status", formData.treat_status);
-      formData1.append("user_id", userID);
-  
+      formData1.append("user_id", userID || user_Id);
+
       // Append the selected file if it exists
       if (selectedFile) {
         formData1.append("attachment", selectedFile.originFileObj);
       }
-  
-// Log FormData to check its contents
-  
+
+      // Log FormData to check its contents
+
       const apiUrl = "/api/treatments/update";
       const response = await axios.post(apiUrl, formData1, {
         withCredentials: true,
@@ -169,18 +166,18 @@ const View = ({ params }) => {
           "Content-Type": "multipart/form-data",
         },
       });
-  
+
       if (response.status === 200) {
         // Update the treatment data in data1.treatment array
         const updatedTreatmentIndex = data1.treatment.findIndex(
           (item) => item.id === editId
         );
-  
+
         if (updatedTreatmentIndex !== -1) {
           const newData2 = { ...data1 };
           newData2.treatment[updatedTreatmentIndex] = formData1; // Update treatment item with formData1
           setData1(newData2);
-  
+
           message.success(t("treatment_view.Updated successfully."));
           setTimeout(() => {
             window.location.reload(true);
@@ -201,7 +198,6 @@ const View = ({ params }) => {
     setIsModalOpen(false);
   };
 
-
   const onChange = (date, dateString) => {
     console.log(date, dateString);
   };
@@ -219,7 +215,7 @@ const View = ({ params }) => {
         message.success(t("treatment_view.Notification Send successfully!"));
       } else {
         // Handle other status codes if needed
-    
+
         message.error(t("treatment_view.Something went wrong!"));
       }
     } catch (error) {
@@ -239,7 +235,6 @@ const View = ({ params }) => {
           Authorization: `Bearer ${token}`,
         },
       });
-
 
       const blobUrl = window.URL.createObjectURL(response.data);
 
@@ -396,7 +391,6 @@ const View = ({ params }) => {
         }
       );
 
-
       // Check if the deletion was successful
       if (response.status === 200) {
         const updatedTreatment = data1.treatment.filter(
@@ -427,12 +421,10 @@ const View = ({ params }) => {
   const props = {
     onChange(info) {
       if (info.file.status !== "uploading") {
-
         setSelectedFile(info.file);
       }
     },
   };
-
 
   const handleActionOwnerChange = (value) => {
     setSelectedActionOwner(value);
@@ -443,6 +435,7 @@ const View = ({ params }) => {
       setUserID(selectedUser.id);
       form.setFieldsValue({
         action_owner_email: selectedUser.email,
+        user_id: selectedUser.id,
       });
     }
   };
