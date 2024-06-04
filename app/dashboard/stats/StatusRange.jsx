@@ -34,7 +34,7 @@ const StatusRange = () => {
   };
 
   const data = [
-    { "year": "2016", "europe": 2.1, "namerica": 2.3, "asia": 2.0, "lamerica": 1.2, "meast": 0.7, "africa": 0.5 },
+    { "year": "1 jan 2016", "europe": 2.1, "namerica": 2.3, "asia": 2.0, "lamerica": 1.2, "meast": 0.7, "africa": 0.5 },
     { "year": "2017", "europe": 2.3, "namerica": 2.4, "asia": 2.1, "lamerica": 1.3, "meast": 0.8, "africa": 0.6 },
     { "year": "2018", "europe": 2.4, "namerica": 2.5, "asia": 2.2, "lamerica": 1.1, "meast": 0.6, "africa": 0.4 },
     { "year": "2019", "europe": 2.5, "namerica": 2.6, "asia": 2.3, "lamerica": 1.0, "meast": 0.5, "africa": 0.3 },
@@ -171,7 +171,7 @@ const StatusRange = () => {
   return (
     <>
       <Divider>
-        <h2>Status Range</h2>
+        <h2>Risk Status Report</h2>
       </Divider>
 
       <Flex

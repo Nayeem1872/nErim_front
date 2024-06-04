@@ -427,7 +427,7 @@ const Stats = () => {
 
       <div>
         <Divider>
-          <h2>SLI Violation</h2>
+          <h2>SLA Violation</h2>
         </Divider>
         <Table
             dataSource={slaViolations}
