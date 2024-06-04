@@ -141,7 +141,7 @@ const View = ({ params }) => {
         ? dayjs(formData.started_date).format("YYYY-MM-DD")
         : null;
       formData1.append("started_date", formattedStartDate);
-
+      formData1.append("resolve", formData.resolve);
       // Append other form data
       formData1.append("expected_benefit", formData.expected_benefit);
       formData1.append("treat_owner", selectedActionOwner);

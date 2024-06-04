@@ -169,7 +169,7 @@ const Users = () => {
         // message.success(t("users.Success_Messages.New_User_Added"));
         message.success(response.data)
       } catch (error) {
-        message.error(t("users.Error_Messages.Add_Error"));
+        message.error(error.response.data);
       }
     }
 

@@ -29,7 +29,7 @@ const page = () => {
         setData(response.data.registerData);
         setLoading(false);
       } catch (error) {
-        setError(error);
+        // setError(error);
         setLoading(false);
       }
     };
@@ -52,14 +52,14 @@ const page = () => {
     );
   }
 
-  if (error) {
-    return (
-      <div>
-        Error: {error.message}
-        <Spin />
-      </div>
-    );
-  }
+  // if (error) {
+  //   return (
+  //     <div>
+  //       Error: {error.message}
+  //       <Spin />
+  //     </div>
+  //   );
+  // }
 
   const columns = [
     {

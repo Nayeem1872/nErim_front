@@ -357,6 +357,28 @@ const Register = () => {
       title: t("register.risk_criticality"),
       dataIndex: "risk_criticality",
       align: "center",
+      render: (text, record) => {
+        const color = record.risk_matrix.color.startsWith("#")
+        ? record.risk_matrix.color
+        : `#${record.risk_matrix.color}`;
+      const isCriticalStepDefined =
+        record.risk_matrix.critical_step !== undefined &&
+        record.risk_matrix.critical_step !== "";
+
+        return (
+          <div
+            style={{
+              backgroundColor: color,
+              borderRadius: "8px",
+              padding: "5px 10px",
+              color: isCriticalStepDefined ? "#000" : "#fff",
+              textAlign: "center",
+            }}
+          >
+            {record.risk_matrix.critical_step}
+          </div>
+        )
+      }
     },
     {
       title: t("register.action"),
