@@ -62,8 +62,8 @@ const Stats = () => {
   const riskSummaryColumn = [
     {
       title: "Name",
-      dataIndex: "refId",
-      key: "refId",
+      dataIndex: "name",
+      key: "name",
     },
     {
       title: "Current Risk",
@@ -264,7 +264,38 @@ const Stats = () => {
     }
   ];
 
-  console.log("slaViolations", slaViolations);
+  const dataSource = [
+    {
+      key: '1',
+      name: 'Mike',
+      age: 32,
+      address: '10 Downing Street',
+    },
+    {
+      key: '2',
+      name: 'John',
+      age: 42,
+      address: '10 Downing Street',
+    },
+    {
+      key: '3',
+      name: 'John',
+      age: 42,
+      address: '10 Downing Street',
+    },
+    {
+      key: '4',
+      name: 'John',
+      age: 42,
+      address: '10 Downing Street',
+    },
+    {
+      key: '5',
+      name: 'John',
+      age: 42,
+      address: '10 Downing Street',
+    },
+  ];
 
   return (
     <>
@@ -391,7 +422,7 @@ const Stats = () => {
         <div>
           <h1>Risk Summary</h1>
           <Table
-            dataSource={topFiveRisk}
+            dataSource={dataSource}
             columns={riskSummaryColumn}
             pagination={false}
             style={{ boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)" }}

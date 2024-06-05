@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import * as am5 from "@amcharts/amcharts5";
 import * as am5xy from "@amcharts/amcharts5/xy";
 import am5themes_Animated from "@amcharts/amcharts5/themes/Animated";
@@ -9,7 +9,6 @@ import { useTranslation } from "react-i18next";
 
 const BarChart = () => {
   const { t } = useTranslation();
-  const { value, updateValue } = useContext(MyContext);
   const [tableData, setTableData] = useState(null);
   const [criticals, setCriticals] = useState([]);
 
@@ -201,7 +200,7 @@ const BarChart = () => {
     return () => {
       root.dispose();
     };
-  }, [value, tableData]);
+  }, [ tableData]);
 
   return (
     <div>

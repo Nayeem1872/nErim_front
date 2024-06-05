@@ -1,5 +1,5 @@
 "use client";
-import React, { useContext, useState } from "react";
+import React, {  useState } from "react";
 import { Button, Divider, Select, Drawer, Typography, Avatar } from "antd";
 const { Title } = Typography;
 import { DownOutlined, SettingOutlined } from "@ant-design/icons";
@@ -9,7 +9,7 @@ import i18next from "../../../i18n";
 
 const Dashboard_Settings = ({ isDarkMode, handleClick, showButton = true }) => {
   const [open, setOpen] = useState(false);
-  const { value, updateValue } = useContext(MyContext);
+
 
   const showDrawer = () => {
     setOpen(true);
@@ -161,7 +161,7 @@ const Dashboard_Settings = ({ isDarkMode, handleClick, showButton = true }) => {
         Auto Mode
       </Button> */}
           {/* <p>Context Value: {value}</p> */}
-          <Button
+          {/* <Button
             style={isDarkMode ? darkButtonStyle : lightButtonStyle}
             onClick={handleClick}
             disabled={!isDarkMode}
@@ -174,7 +174,7 @@ const Dashboard_Settings = ({ isDarkMode, handleClick, showButton = true }) => {
             disabled={isDarkMode}
           >
             Dark Mode
-          </Button>
+          </Button> */}
         </div>
         <Divider />
 

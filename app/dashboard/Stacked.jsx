@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import * as am5 from "@amcharts/amcharts5";
 import * as am5xy from "@amcharts/amcharts5/xy";
 import am5themes_Animated from "@amcharts/amcharts5/themes/Animated";
@@ -17,7 +17,7 @@ const gridStyle = {
 
 const Stacked = () => {
   const { t } = useTranslation();
-  const { value } = useContext(MyContext);
+
   const [criticals, setCriticals] = useState([]);
 
   const { data: tableData } = useQuery({
@@ -168,7 +168,7 @@ const Stacked = () => {
     return () => {
       root.dispose();
     };
-  }, [value, tableData]);
+  }, [ tableData]);
 
   return (
     <div style={{ margin: "10px" }}>

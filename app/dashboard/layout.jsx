@@ -33,6 +33,7 @@ export default function DashboardLayout({ children }) {
   const [apiData, setApiData] = useState(null);
   const [optVerify, setOtpVerify] = useState("");
   const [domLoaded, setDomLoaded] = useState(false);
+  const [collapsed, setCollapsed] = useState(false);
   const router = useRouter();
   useEffect(() => {
     const fetchData = async () => {
@@ -57,7 +58,7 @@ export default function DashboardLayout({ children }) {
     setDomLoaded(true);
   }, []);
 
-  const [collapsed, setCollapsed] = useState(false);
+  
   const {
     token: { colorBgContainer },
   } = theme.useToken();
@@ -178,13 +179,21 @@ export default function DashboardLayout({ children }) {
           >
             {domLoaded ? (
               <>
-                <Layout
+               <Layout
                   style={{ minHeight: "100vh", backgroundColor: "#4096FF" }}
                 >
                   <Sider
                     trigger={null}
                     collapsible
                     collapsed={collapsed}
+                    breakpoint="lg"
+                    collapsedWidth="0"
+                    onBreakpoint={(broken) => {
+                      setCollapsed(broken);
+                    }}
+                    onCollapse={(collapsed, type) => {
+                      setCollapsed(collapsed);
+                    }}
                     style={{
                       position: "fixed",
                       height: "100%",
@@ -230,6 +239,7 @@ export default function DashboardLayout({ children }) {
                       </p>
                     </div>
 
+
                     {/* Menu Items */}
                     <Menu
                       // theme="light"
@@ -237,7 +247,7 @@ export default function DashboardLayout({ children }) {
                       // defaultSelectedKeys={["1"]}
                       style={{
                         minHeight: "100vh",
-                        // background: "linear-gradient(to bottom, white, lightblue)"
+                        backgroundColor: isDarkMode ? "#001529" : "#ffffff",
                       }}
                       items={[
                         {
@@ -538,81 +548,38 @@ export default function DashboardLayout({ children }) {
                       ]}
                     />
                   </Sider>
-                  <Layout style={{ marginLeft: collapsed ? 80 : 200 }}>
-                    <Header
+                  <Layout className="site-layout" style={{ marginLeft: collapsed ? 0 : 200 }}>
+                  <Header
                       style={{
                         padding: 0,
-                        background: isDarkMode ? "#141414" : colorBgContainer,
-                        position: "fixed",
-                        width: "100%",
-                        zIndex: 2,
-                        height: "8vh",
-                        justifyContent: "center" /* horizontally center */,
-                        alignItems: "center",
-                        boxShadow: "0px 1px 0px 0px rgba(0, 0, 0, 0.1)",
+                        background: colorBgContainer,
+                        display: "flex",
+                        justifyContent: "space-between",
+                        paddingLeft: 10,
                       }}
                     >
-                      <Button
-                        breakpoint="lg"
-                        collapsedWidth="0"
-                        onBreakpoint={(broken) => {
-                    
-                        }}
-                        onCollapse={(collapsed, type) => {
-                       
-                        }}
-                        type="text"
-                        icon={
-                          collapsed ? (
-                            <MenuUnfoldOutlined />
-                          ) : (
-                            <MenuFoldOutlined />
-                          )
-                        }
-                        onClick={() => setCollapsed(!collapsed)}
-                        style={{
-                          fontSize: "20px",
-                          width: 44,
-                          height: 64,
-                          marginTop: "8px",
-                        }}
-                      />
-
-                      <div
-                        style={{
-                          display: "flex",
-                          justifyContent: "space-between",
-                          alignItems: "center",
-                          padding: "10px",
-                          marginRight: "200px",
-                          marginTop: "-80px",
-                        }}
-                      >
-                        <Space
+                      <Space>
+                        <Button
+                          type="text"
+                          icon={
+                            collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />
+                          }
+                          onClick={() => setCollapsed(!collapsed)}
                           style={{
-                            marginLeft: "50px",
-                            // marginBottom: "10px",
+                            fontSize: "20px",
+                            width: 64,
+                            height: 64,
                           }}
-                        >
-                          <Search />
-                        </Space>
+                        />
+                        <Search />
+                      </Space>
 
-                        <Space
-                          wrap
-                          style={{
-                            marginRight: "50px",
-                            // marginTop: "-12px",
-                            gap: "20px",
-                          }}
-                        >
-                          <Notification />
-                          <Dashboard_Settings
-                            isDarkMode={isDarkMode}
-                            handleClick={handleClick}
-                          />
-                        </Space>
-                      </div>
+                      <Space style={{ marginRight:"50px"}}>
+                        <Notification />
+                        <Dashboard_Settings onToggle={handleClick} />
+                      </Space>
                     </Header>
+
                     <Content
                       style={{
                         margin: "84px 16px 24px",
