@@ -225,7 +225,7 @@ export default function DashboardLayout({ children }) {
                           margin: "0",
                           fontSize: "12px",
                           // color: isDarkMode ? "#F2F2F2" : "#000000",
-                          color: "#F2F2F2",
+                          color: "#000000",
                           marginBottom: "30px",
                         }}
                       >
@@ -273,6 +273,26 @@ export default function DashboardLayout({ children }) {
                             background:
                               pathname === "/dashboard" ? "#3382CC" : "inherit", // Light blue on hover
                           },
+                        },
+                        {
+                          key: "5",
+                          icon: <User />,
+                          label: t("side_navbar.users"),
+                          style: {
+                            background:
+                              pathname === "/dashboard/users"
+                                ? "#4096FF"
+                                : "inherit",
+                            color:
+                              pathname === "/dashboard/users"
+                                ? "white"
+                                : "inherit",
+                            boxShadow:
+                              pathname === "/dashboard/users"
+                                ? "0 0 15px rgba(0, 0, 0, 0.5)"
+                                : "none",
+                          },
+                          onClick: () => router.push("/dashboard/users"),
                         },
 
                         {
@@ -377,49 +397,32 @@ export default function DashboardLayout({ children }) {
                               onClick: () =>
                                 router.push("/dashboard/risk_treatment"),
                             },
+                            {
+                              key: "4",
+                              icon: <ActivitySquare />,
+                              label: t("side_navbar.heat_map"),
+                              style: {
+                                paddingLeft: "40px",
+                                background:
+                                  pathname === "/dashboard/heat_map"
+                                    ? "#4096FF"
+                                    : isDarkMode ? "#141414" : "#FFFFFF",
+                                color:
+                                  pathname === "/dashboard/heat_map"
+                                    ? "white"
+                                    : "inherit",
+                                boxShadow:
+                                  pathname === "/dashboard/heat_map"
+                                    ? "0 0 15px rgba(0, 0, 0, 0.5)"
+                                    : "none",
+                              },
+                              onClick: () => router.push("/dashboard/heat_map"),
+                            },
                           ],
                         },
 
-                        {
-                          key: "4",
-                          icon: <ActivitySquare />,
-                          label: t("side_navbar.heat_map"),
-                          style: {
-                            background:
-                              pathname === "/dashboard/heat_map"
-                                ? "#4096FF"
-                                : "inherit",
-                            color:
-                              pathname === "/dashboard/heat_map"
-                                ? "white"
-                                : "inherit",
-                            boxShadow:
-                              pathname === "/dashboard/heat_map"
-                                ? "0 0 15px rgba(0, 0, 0, 0.5)"
-                                : "none",
-                          },
-                          onClick: () => router.push("/dashboard/heat_map"),
-                        },
-                        {
-                          key: "5",
-                          icon: <User />,
-                          label: t("side_navbar.users"),
-                          style: {
-                            background:
-                              pathname === "/dashboard/users"
-                                ? "#4096FF"
-                                : "inherit",
-                            color:
-                              pathname === "/dashboard/users"
-                                ? "white"
-                                : "inherit",
-                            boxShadow:
-                              pathname === "/dashboard/users"
-                                ? "0 0 15px rgba(0, 0, 0, 0.5)"
-                                : "none",
-                          },
-                          onClick: () => router.push("/dashboard/users"),
-                        },
+                       
+                        
                         {
                           key: "6",
                           icon: <Eye />,

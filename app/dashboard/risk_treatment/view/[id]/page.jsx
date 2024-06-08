@@ -48,6 +48,10 @@ const View = ({ params }) => {
   const [ownerEmail1, setOwnerEmail1] = useState("");
   const [userID, setUserID] = useState("");
   const [user_Id, setUser_id] = useState("");
+  const [isOtherSelected, setIsOtherSelected] = useState(false);
+  const [customEmail, setCustomEmail] = useState("");
+  const [customActionOwner, setCustomActionOwner] = useState("");
+  const [recordEmail, setRecordEmail] = useState("")
 
   const fetchData = async () => {
     // setIsLoading(true);
@@ -91,17 +95,14 @@ const View = ({ params }) => {
     staleTime: 1000 * 60 * 60 * 1,
   });
 
-
-
   useEffect(() => {
     fetchData();
   }, [params.id]);
 
-
   const showModal = (record) => {
     setUser_id(record.user_id);
     setEditId(record.id);
-
+    setRecordEmail(record.action_owner_email)
     // Format date fields using dayjs
     const formattedStartedDate = record.started_date
       ? dayjs(record.started_date)
@@ -124,40 +125,46 @@ const View = ({ params }) => {
   const handleOk = async () => {
     setIsModalOpen(false);
     const formData = form.getFieldsValue();
-  
+
     try {
       const formData1 = new FormData();
-      formData1.append("userId", userId);
+
       formData1.append("id", editId);
-      formData1.append("verifyEmail", email);
-  
+
       // Format and append dates
       const formattedClosingDate = formData.closing_date
         ? dayjs(formData.closing_date).format("YYYY-MM-DD")
         : null;
       formData1.append("closing_date", formattedClosingDate);
-  
+      formData1.append("resolve", formData.resolve);
       const formattedStartDate = formData.started_date
         ? dayjs(formData.started_date).format("YYYY-MM-DD")
         : null;
       formData1.append("started_date", formattedStartDate);
-  
+
       // Append other form data
       formData1.append("expected_benefit", formData.expected_benefit);
-      formData1.append("treat_owner", selectedActionOwner);
-      formData1.append("action_owner_email", ownerEmail1);
+
+      if (isOtherSelected) {
+        formData1.append("treat_owner", customActionOwner);
+        formData1.append("action_owner_email", customEmail || recordEmail);
+      } else {
+        formData1.append("treat_owner", selectedActionOwner);
+        formData1.append("action_owner_email", ownerEmail1);
+      }
+
       formData1.append("treat_detial", formData.treat_detial);
       formData1.append("treat_name", formData.treat_name);
       formData1.append("treat_status", formData.treat_status);
       formData1.append("user_id", userID || user_Id);
-  
+
       // Append the selected file if it exists
       if (selectedFile) {
         formData1.append("attachment", selectedFile.originFileObj);
       }
-  
- // Log FormData to check its contents
-  
+
+      // Log FormData to check its contents
+
       const apiUrl = "/api/treatments/update";
       const response = await axios.post(apiUrl, formData1, {
         withCredentials: true,
@@ -166,18 +173,18 @@ const View = ({ params }) => {
           "Content-Type": "multipart/form-data",
         },
       });
-  
+
       if (response.status === 200) {
         // Update the treatment data in data1.treatment array
         const updatedTreatmentIndex = data1.treatment.findIndex(
           (item) => item.id === editId
         );
-  
+
         if (updatedTreatmentIndex !== -1) {
           const newData2 = { ...data1 };
           newData2.treatment[updatedTreatmentIndex] = formData1; // Update treatment item with formData1
           setData1(newData2);
-  
+
           message.success(t("treatment_view.Updated successfully."));
           setTimeout(() => {
             window.location.reload(true);
@@ -193,16 +200,12 @@ const View = ({ params }) => {
       message.error(t("treatment_view.Failed to update record.")); // Show error message to the user
     }
   };
-  
 
   const handleCancel = () => {
     setIsModalOpen(false);
   };
 
-
-  const onChange = (date, dateString) => {
-
-  };
+  const onChange = (date, dateString) => {};
 
   const alert = async (record) => {
     try {
@@ -227,7 +230,6 @@ const View = ({ params }) => {
   };
   const file = async (record) => {
     try {
-
       const id = record.attachments[0].attachment_id;
       // Make the GET request using Axios
       const response = await axios.get(`/api/get/attachment/${id}`, {
@@ -432,7 +434,6 @@ const View = ({ params }) => {
   const props = {
     onChange(info) {
       if (info.file.status !== "uploading") {
-  
         setSelectedFile(info.file);
       }
     },
@@ -441,17 +442,38 @@ const View = ({ params }) => {
   // Handle action owner change
   const handleActionOwnerChange = (value) => {
     setSelectedActionOwner(value);
-    const selectedUser = Userdata.find((user) => user.name === value);
 
-    if (selectedUser) {
-      setOwnerEmail1(selectedUser.email);
-      setUserID(selectedUser.id);
-      form.setFieldsValue({
-        action_owner_email: selectedUser.email,
-      });
+    if (value === "other") {
+      setIsOtherSelected(true);
+      setOwnerEmail1(""); // Clear the email field for custom input
+    } else {
+      setIsOtherSelected(false);
+
+      // Find the selected user by name and update the ownerEmail1 state
+      const selectedUser = Userdata.find((user) => user.name === value);
+
+      if (selectedUser) {
+        setOwnerEmail1(selectedUser.email);
+        setUserID(selectedUser.id);
+        form.setFieldsValue({
+          action_owner_email: selectedUser.email,
+        });
+      } else {
+        setOwnerEmail1(""); // Reset the ownerEmail1 if no user is selected
+        // setSingleId(null);
+      }
     }
   };
 
+  const handleCustomEmailChange = (e) => {
+    setCustomEmail(e.target.value);
+    setOwnerEmail1(e.target.value); // Sync custom email input with ownerEmail1 state
+  };
+
+  const handleCustomActionOwnerChange = (e) => {
+    setCustomActionOwner(e.target.value);
+    // Sync custom action owner input with selectedActionOwner state
+  };
 
   return (
     <>
@@ -502,6 +524,9 @@ const View = ({ params }) => {
             <Title level={5}>
               {t("treatment_view.Risk_Details")}:{" "}
               {data1.register.risk_identified}
+            </Title>
+            <Title level={5}>
+              {t("Treatment")}: {data1.register.treatment_decision}
             </Title>
             <Title level={5}>
               {t("treatment_view.Created_by")}: {data1.register.owner_email}
@@ -557,21 +582,46 @@ const View = ({ params }) => {
               name="treat_owner"
             >
               <Select
+                placeholder={t("risk_treatment.action_owner")}
                 value={selectedActionOwner}
                 onChange={handleActionOwnerChange}
+                style={{ width: "100%" }}
               >
                 {Userdata?.map((user) => (
-                  <Select.Option key={user.id} value={user.name}>
+                  <Option key={user.id} value={user.name}>
                     {user.name}
-                  </Select.Option>
+                  </Option>
                 ))}
+                <Option value="other">{t("Other")}</Option>
               </Select>
+              {isOtherSelected && (
+                <Input
+                  placeholder={t("risk_treatment.custom_action_owner")}
+                  value={customActionOwner}
+                  onChange={handleCustomActionOwnerChange}
+                  style={{ width: "100%", marginTop: "1rem" }}
+                />
+              )}
             </Form.Item>
             <Form.Item
               label={t("treatment_view.Owner_Email")}
               name="action_owner_email"
             >
-              <Input value={ownerEmail1} disabled />
+              {isOtherSelected ? (
+                <Input
+                  placeholder={t("risk_treatment.custom_email")}
+                  value={customEmail}
+                  onChange={handleCustomEmailChange}
+                  style={{ width: "100%", marginTop: "1rem" }}
+                />
+              ) : (
+                <Input
+                  placeholder={t("risk_treatment.owner_email")}
+                  value={ownerEmail1}
+                  readOnly={!isOtherSelected}
+                  style={{ width: "100%" }}
+                />
+              )}
             </Form.Item>
             <Form.Item
               name="expected_benefit"

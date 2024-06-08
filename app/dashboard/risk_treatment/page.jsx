@@ -40,11 +40,15 @@ const Treatment = () => {
   const [status, setStatus] = useState("");
   const [editId, setEditId] = useState(null);
   const [selectedFile, setSelectedFile] = useState(null);
-  const [singleId,setSingleId] = useState('')
+  const [singleId, setSingleId] = useState("");
 
   const [selectedActionOwner, setSelectedActionOwner] = useState(null);
   const [ownerEmail1, setOwnerEmail1] = useState("");
   const [apiData, setApiData] = useState(null);
+
+  const [isOtherSelected, setIsOtherSelected] = useState(false);
+  const [customEmail, setCustomEmail] = useState("");
+  const [customActionOwner, setCustomActionOwner] = useState("");
 
   const handleSettingsClick = () => {
     router.push("/dashboard/settings"); // Navigate to settings page
@@ -256,20 +260,22 @@ const Treatment = () => {
     setIsModalOpen(false);
     try {
       const formData = new FormData();
-
-      formData.append("userId", userId);
-      formData.append("verifyEmail", email);
       formData.append("register_id", editId);
       formData.append("refId", refId);
       formData.append("resolve", transferInputValue);
       formData.append("treat_name", actionName);
       formData.append("treat_detial", actionDetails);
-      formData.append("treat_owner", selectedActionOwner);
-      formData.append("action_owner_email", ownerEmail1);
+      if (isOtherSelected) {
+        formData.append("treat_owner", customActionOwner);
+        formData.append("action_owner_email", customEmail);
+      } else {
+        formData.append("treat_owner", selectedActionOwner);
+        formData.append("action_owner_email", ownerEmail1);
+      }
       formData.append("expected_benefit", expectedBenefit);
       formData.append("closing_date", closingDate);
       formData.append("treat_status", status);
-      formData.append("user_id", singleId)
+      formData.append("user_id", singleId);
       if (selectedFile) {
         // Make sure selectedFiles is not null and append it to FormData
         formData.append("attachment", selectedFile.originFileObj);
@@ -287,8 +293,10 @@ const Treatment = () => {
         refetch();
         setActionName("");
         setActionDetails("");
-        setActionOwner("");
-        setOwnerEmail("");
+        setSelectedActionOwner(""); 
+        setCustomActionOwner("");
+        setOwnerEmail1(""); 
+        setCustomEmail("");
         setExpectedBenefit("");
         setClosingDate(null);
         setStatus("");
@@ -421,23 +429,55 @@ const Treatment = () => {
     setModalVisible(false);
   };
 
-
   // Event handler for selecting action owner
+  // const handleActionOwnerChange = (value) => {
+  //   setSelectedActionOwner(value);
+
+  //   // Find the selected user by name and update the ownerEmail1 state
+  //   const selectedUser = Userdata.find((user) => user.name === value);
+
+  //   if (selectedUser) {
+  //     setOwnerEmail1(selectedUser.email);
+  //     setSingleId(selectedUser.id)
+  //   } else {
+  //     setOwnerEmail1(""); // Reset the ownerEmail1 if no user is selected
+  //   }
+  // };
+
+  // const [selectedActionOwner, setSelectedActionOwner] = useState(null);
+
   const handleActionOwnerChange = (value) => {
     setSelectedActionOwner(value);
 
-
-    // Find the selected user by name and update the ownerEmail1 state
-    const selectedUser = Userdata.find((user) => user.name === value);
-
-    if (selectedUser) {
-      setOwnerEmail1(selectedUser.email);
-      setSingleId(selectedUser.id)
+    if (value === "other") {
+      setIsOtherSelected(true);
+      setOwnerEmail1(""); // Clear the email field for custom input
+      setSingleId(null); // Reset the ID if "Other" is selected
     } else {
-      setOwnerEmail1(""); // Reset the ownerEmail1 if no user is selected
+      setIsOtherSelected(false);
+
+      // Find the selected user by name and update the ownerEmail1 state
+      const selectedUser = Userdata.find((user) => user.name === value);
+
+      if (selectedUser) {
+        setOwnerEmail1(selectedUser.email);
+        setSingleId(selectedUser.id);
+      } else {
+        setOwnerEmail1(""); // Reset the ownerEmail1 if no user is selected
+        setSingleId(null);
+      }
     }
   };
 
+  const handleCustomEmailChange = (e) => {
+    setCustomEmail(e.target.value);
+    setOwnerEmail1(e.target.value); // Sync custom email input with ownerEmail1 state
+  };
+
+  const handleCustomActionOwnerChange = (e) => {
+    setCustomActionOwner(e.target.value);
+    // Sync custom action owner input with selectedActionOwner state
+  };
   return (
     <div>
       <Title level={2}>{t("risk_treatment.risk_treatment")}</Title>
@@ -634,17 +674,36 @@ const Treatment = () => {
                       {user.name}
                     </Option>
                   ))}
+                  <Option value="other">{t("Other")}</Option>
                 </Select>
+
+                {isOtherSelected && (
+                  <Input
+                    placeholder={t("risk_treatment.custom_action_owner")}
+                    value={customActionOwner}
+                    onChange={handleCustomActionOwnerChange}
+                    style={{ width: "100%", marginTop: "1rem" }}
+                  />
+                )}
 
                 <Typography.Title level={5}>
                   {t("risk_treatment.owner_email_title")}
                 </Typography.Title>
-                <Input
-                  placeholder={t("risk_treatment.owner_email")}
-                  value={ownerEmail1}
-                  readOnly
-              
-                />
+                {isOtherSelected ? (
+                  <Input
+                    placeholder={t("risk_treatment.custom_email")}
+                    value={customEmail}
+                    onChange={handleCustomEmailChange}
+                    style={{ width: "100%", marginTop: "1rem" }}
+                  />
+                ) : (
+                  <Input
+                    placeholder={t("risk_treatment.owner_email")}
+                    value={ownerEmail1}
+                    readOnly={!isOtherSelected}
+                    style={{ width: "100%" }}
+                  />
+                )}
 
                 <Typography.Title level={5}>
                   {t("risk_treatment.expected_benefit_title")}

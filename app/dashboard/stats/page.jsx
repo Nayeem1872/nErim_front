@@ -145,8 +145,18 @@ const Stats = () => {
     },
     {
       title: "Consequence",
-      dataIndex: "Consequence",
-      key: "Consequence",
+      dataIndex: "potential_impact",
+      key: "potential_impact",
+    },
+    {
+      title: "Risk Casused",
+      dataIndex: "risk_casuse",
+      key: "risk_casuse",
+    },
+    {
+      title: "Description",
+      dataIndex: "risk_identified",
+      key: "risk_identified",
     },
   ];
   const gradientColors = [
@@ -344,7 +354,7 @@ const Stats = () => {
           >
             <div className={styles.cardContent}>
               <div className={styles.cardHeader}>
-                <h2>Mitigated %</h2>
+                <h2>Mitigated</h2>
                 <Divider style={{ backgroundColor: "black" }} />
               </div>
               <div className={styles.cardStats}>
@@ -407,10 +417,11 @@ const Stats = () => {
       </Row>
 
       {/* Table */}
-      <Row style={{ margin: "18px", gap: "80px" }}>
-        {/* <Col span={11}> <Table dataSource={riskSummaryData} columns={riskSummaryColumn} pagination={false} /></Col> */}
-        <div>
-          <h1>Top Five Risk</h1>
+      
+        <div style={{marginTop:"10px"}}>
+          <Divider>
+          <h2>Top Five Risk</h2>
+        </Divider>
           <Table
             bordered
             dataSource={topFiveRisk}
@@ -419,16 +430,7 @@ const Stats = () => {
             style={{ boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)" }}
           />
         </div>
-        <div>
-          <h1>Risk Summary</h1>
-          <Table
-            dataSource={dataSource}
-            columns={riskSummaryColumn}
-            pagination={false}
-            style={{ boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)" }}
-          />
-        </div>
-      </Row>
+    
 
       <div style={{ marginTop: "30px" }}>
         <Divider>
@@ -437,7 +439,7 @@ const Stats = () => {
       </div>
       <Row gutter={16}>
         <Col span={12}>
-          <h3>With-in limit</h3>
+          <h3>Risk Below Appatite</h3>
           <Table
             bordered
             dataSource={riskWithInLimit}
@@ -446,7 +448,7 @@ const Stats = () => {
           />
         </Col>
         <Col span={12}>
-          <h3>Exceeded limit</h3>
+          <h3>Risk Upper Appatite</h3>
           <Table
             bordered
             dataSource={riskWithOutLimit}

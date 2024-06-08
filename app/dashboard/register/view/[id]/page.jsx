@@ -48,6 +48,10 @@ const View = ({ params }) => {
   const [ownerEmail1, setOwnerEmail1] = useState("");
   const [userID, setUserID] = useState("");
   const [user_Id, setUser_id] = useState("");
+  const [isOtherSelected, setIsOtherSelected] = useState(false);
+  const [customEmail, setCustomEmail] = useState("");
+  const [customActionOwner, setCustomActionOwner] = useState("");
+  const [recordEmail, setRecordEmail] = useState("")
 
   const { data: Userdata } = useQuery({
     queryKey: ["usersbbbs"],
@@ -100,7 +104,7 @@ const View = ({ params }) => {
     // console.log("record",record);
     setUser_id(record.user_id);
     setEditId(record.id);
-
+    setRecordEmail(record.action_owner_email)
     // Format date fields using dayjs
     const formattedStartedDate = record.started_date
       ? dayjs(record.started_date)
@@ -144,8 +148,15 @@ const View = ({ params }) => {
       formData1.append("resolve", formData.resolve);
       // Append other form data
       formData1.append("expected_benefit", formData.expected_benefit);
-      formData1.append("treat_owner", selectedActionOwner);
-      formData1.append("action_owner_email", ownerEmail1);
+
+      if (isOtherSelected) {
+        formData1.append("treat_owner", customActionOwner);
+        formData1.append("action_owner_email", customEmail || recordEmail);
+      } 
+      else {
+        formData1.append("treat_owner", selectedActionOwner);
+        formData1.append("action_owner_email", ownerEmail1);
+      }
       formData1.append("treat_detial", formData.treat_detial);
       formData1.append("treat_name", formData.treat_name);
       formData1.append("treat_status", formData.treat_status);
@@ -428,16 +439,37 @@ const View = ({ params }) => {
 
   const handleActionOwnerChange = (value) => {
     setSelectedActionOwner(value);
-    const selectedUser = Userdata.find((user) => user.name === value);
 
-    if (selectedUser) {
-      setOwnerEmail1(selectedUser.email);
-      setUserID(selectedUser.id);
-      form.setFieldsValue({
-        action_owner_email: selectedUser.email,
-        user_id: selectedUser.id,
-      });
+    if (value === "other") {
+      setIsOtherSelected(true);
+      setOwnerEmail1(""); // Clear the email field for custom input
+    } else {
+      setIsOtherSelected(false);
+
+      // Find the selected user by name and update the ownerEmail1 state
+      const selectedUser = Userdata.find((user) => user.name === value);
+
+      if (selectedUser) {
+        setOwnerEmail1(selectedUser.email);
+        setUserID(selectedUser.id);
+        form.setFieldsValue({
+          action_owner_email: selectedUser.email,
+        });
+      } else {
+        setOwnerEmail1(""); // Reset the ownerEmail1 if no user is selected
+        // setSingleId(null);
+      }
     }
+  };
+
+  const handleCustomEmailChange = (e) => {
+    setCustomEmail(e.target.value);
+    setOwnerEmail1(e.target.value); // Sync custom email input with ownerEmail1 state
+  };
+
+  const handleCustomActionOwnerChange = (e) => {
+    setCustomActionOwner(e.target.value);
+    // Sync custom action owner input with selectedActionOwner state
   };
   return (
     <>
@@ -542,21 +574,46 @@ const View = ({ params }) => {
               name="treat_owner"
             >
               <Select
+                placeholder={t("risk_treatment.action_owner")}
                 value={selectedActionOwner}
                 onChange={handleActionOwnerChange}
+                style={{ width: "100%" }}
               >
                 {Userdata?.map((user) => (
-                  <Select.Option key={user.id} value={user.name}>
+                  <Option key={user.id} value={user.name}>
                     {user.name}
-                  </Select.Option>
+                  </Option>
                 ))}
+                <Option value="other">{t("Other")}</Option>
               </Select>
+              {isOtherSelected && (
+                <Input
+                  placeholder={t("risk_treatment.custom_action_owner")}
+                  value={customActionOwner}
+                  onChange={handleCustomActionOwnerChange}
+                  style={{ width: "100%", marginTop: "1rem" }}
+                />
+              )}
             </Form.Item>
             <Form.Item
               label={t("treatment_view.Owner_Email")}
               name="action_owner_email"
             >
-              <Input value={ownerEmail1} disabled />
+              {isOtherSelected ? (
+                <Input
+                  placeholder={t("risk_treatment.custom_email")}
+                  value={customEmail}
+                  onChange={handleCustomEmailChange}
+                  style={{ width: "100%", marginTop: "1rem" }}
+                />
+              ) : (
+                <Input
+                  placeholder={t("risk_treatment.owner_email")}
+                  value={ownerEmail1}
+                  readOnly={!isOtherSelected}
+                  style={{ width: "100%" }}
+                />
+              )}
             </Form.Item>
             <Form.Item
               name="expected_benefit"
