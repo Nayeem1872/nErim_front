@@ -68,29 +68,54 @@ const page = () => {
       key: "id",
     },
     {
-      title: "Risk Identified",
+      title: t("heatmap.Risk_Identified"),
       dataIndex: "risk_identified",
       key: "risk_identified",
     },
     {
-      title: "Potential Impact",
+      title: t("heatmap.Potential_Impact"),
       dataIndex: "potential_impact",
       key: "potential_impact",
     },
     {
-      title: "Financial Impact",
+      title: t("heatmap.Financial_Impact"),
       dataIndex: "financial_impact",
       key: "financial_impact",
     },
     {
-      title: "Criticality Score",
-      dataIndex: "criticality_score",
+      title: t("heatmap.Criticality_Score"),
       key: "criticality_score",
+      render: (text, record) => {
+        const criticalityScore = record.risk_impact_id * record.risk_likelihood_id;
+        return <div>{criticalityScore}</div>;
+      },
     },
     {
-      title: "Risk Criticality",
+      title: t("register.risk_criticality"),
       dataIndex: "risk_criticality",
-      key: "risk_criticality",
+      align: "center",
+      render: (text, record) => {
+        const color = record.risk_matrix.color.startsWith("#")
+        ? record.risk_matrix.color
+        : `#${record.risk_matrix.color}`;
+      const isCriticalStepDefined =
+        record.risk_matrix.critical_step !== undefined &&
+        record.risk_matrix.critical_step !== "";
+
+        return (
+          <div
+            style={{
+              backgroundColor: color,
+              borderRadius: "8px",
+              padding: "5px 10px",
+              color: isCriticalStepDefined ? "#000" : "#fff",
+              textAlign: "center",
+            }}
+          >
+            {record.risk_matrix.critical_step}
+          </div>
+        )
+      }
     },
     {
       title: t("settingsImpact.Action"),

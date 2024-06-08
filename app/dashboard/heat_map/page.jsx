@@ -266,8 +266,11 @@ export default function Heatmap() {
     },
     {
       title: t("heatmap.Criticality_Score"),
-      dataIndex: "criticality_score",
       key: "criticality_score",
+      render: (text, record) => {
+        const criticalityScore = record.risk_impact_id * record.risk_likelihood_id;
+        return <div>{criticalityScore}</div>;
+      },
     },
     {
       title: t("heatmap.Risk_Criticality"),
