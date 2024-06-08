@@ -4,6 +4,7 @@ import styles from "./Card.module.css";
 import { Row, Col, Card, Table, Spin, Alert, Divider } from "antd";
 import axios from "axios";
 import StatusRange from "./StatusRange";
+import LineChart from "./LineChart";
 
 const Stats = () => {
   const [riskSummaryData, setRiskSummaryData] = useState([]);
@@ -462,12 +463,20 @@ const Stats = () => {
         <Divider>
           <h2>SLA Violation</h2>
         </Divider>
+        <Row gutter={16}>
+        <Col span={12}>
         <Table
             dataSource={slaViolations}
             columns={slaViolationsColumns}
-            pagination={false}
+            // pagination={false}
             style={{ boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)" }}
           />
+        </Col>
+        <Col span={12}>
+       <LineChart riskSummaryData={riskSummaryData}/>
+        </Col>
+      </Row>
+        
       </div>
     <StatusRange/>
     </>
