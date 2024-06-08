@@ -15,12 +15,10 @@ import {
 import { usePathname } from "next/navigation";
 import React, { useState, useEffect } from "react";
 import { MenuFoldOutlined, MenuUnfoldOutlined, PlusCircleOutlined } from "@ant-design/icons";
-import { Layout, Menu, Button, theme, Space, ConfigProvider } from "antd";
+import { Layout, Menu, Button, theme, Space } from "antd";
 import Dashboard_Settings from "./components/Dashboard_Settings";
 import Notification from "./components/Notification";
 import Search from "./components/Search";
-import { DarkModeProvider } from "./DarkModeContext";
-import { MyProvider } from "@/provider/Context";
 import { useTranslation } from "react-i18next";
 import Logo from "./components/logo";
 import Cookies from "js-cookie";
@@ -170,13 +168,7 @@ export default function DashboardLayout({ children }) {
 
   return (
     <>
-      <MyProvider>
-        <DarkModeProvider>
-          <ConfigProvider
-            theme={{
-              algorithm: isDarkMode ? darkAlgorithm : defaultAlgorithm,
-            }}
-          >
+      
             {domLoaded ? (
               <>
                <Layout
@@ -208,7 +200,8 @@ export default function DashboardLayout({ children }) {
                         padding: "16px",
                         textAlign: "center",
                         // color: "#191919",
-                        backgroundColor: isDarkMode ? "#141414" : "#FFFFFF",
+                        // backgroundColor: isDarkMode ? "#141414" : "#FFFFFF",
+                        backgroundColor:  "#FFFFFF" ,
                       }}
                     >
                       {/* <img
@@ -231,7 +224,8 @@ export default function DashboardLayout({ children }) {
                         style={{
                           margin: "0",
                           fontSize: "12px",
-                          color: isDarkMode ? "#F2F2F2" : "#000000",
+                          // color: isDarkMode ? "#F2F2F2" : "#000000",
+                          color: "#F2F2F2",
                           marginBottom: "30px",
                         }}
                       >
@@ -247,7 +241,8 @@ export default function DashboardLayout({ children }) {
                       // defaultSelectedKeys={["1"]}
                       style={{
                         minHeight: "100vh",
-                        backgroundColor: isDarkMode ? "#001529" : "#ffffff",
+                        // backgroundColor: isDarkMode ? "#001529" : "#ffffff",
+                        backgroundColor: "#ffffff" 
                       }}
                       items={[
                         {
@@ -283,10 +278,11 @@ export default function DashboardLayout({ children }) {
                         {
                           key: "2",
                           icon: <PlusCircleOutlined style={{ fontSize: '22px' }} /> ,
-                          label: "Risk",
+                          label: "Risk Management",
                           style: {
-                            background: isDarkMode ? "#141414" : "#FFFFFF",// Ensure the submenu container is white
+                            // background: isDarkMode ? "#141414" : "#FFFFFF",// Ensure the submenu container is white
                             border: "none", // Ensure no border if applicable
+                            background: "#FFFFFF",
                           },
                           children: [
                             {
@@ -550,13 +546,16 @@ export default function DashboardLayout({ children }) {
                   </Sider>
                   <Layout className="site-layout" style={{ marginLeft: collapsed ? 0 : 200 }}>
                   <Header
-                      style={{
-                        padding: 0,
-                        background: colorBgContainer,
-                        display: "flex",
-                        justifyContent: "space-between",
-                        paddingLeft: 10,
-                      }}
+                     style={{
+                      padding: 0,
+                      background: colorBgContainer,
+                      display: "flex",
+                      justifyContent: "space-between",
+                      paddingLeft: 10,
+                      position: "sticky",
+                      top: 0,
+                      zIndex: 1000, // Ensure the header is on top of other content
+                    }}
                     >
                       <Space>
                         <Button
@@ -593,13 +592,14 @@ export default function DashboardLayout({ children }) {
                     <Footer
                       style={{
                         textAlign: "center",
-                        background: isDarkMode ? "#141414" : "#ffffff",
+                        // background: isDarkMode ? "#141414" : "#ffffff",
+                        background:  "#ffffff",
                         color: "#333", // Adjust text color as needed
                         padding: "20px",
                         // Adjust padding as needed
                       }}
                     >
-                      nErim v0.0.0.01 ©{new Date().getFullYear()} Created by{" "}
+                      nErim v0.0.0.01 ©{new Date().getFullYear()} Developed by{" "}
                       <span style={{ color: "#4096FF", fontWeight: "bold" }}>
                         Alo It Consultant
                       </span>
@@ -611,9 +611,7 @@ export default function DashboardLayout({ children }) {
             ) : (
               <></> // Render nothing until the DOM is loaded
             )}
-          </ConfigProvider>
-        </DarkModeProvider>
-      </MyProvider>
+        
     </>
   );
 }
