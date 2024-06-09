@@ -1,7 +1,17 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import styles from "./Card.module.css";
-import { Row, Col, Card, Table, Spin, Alert, Divider } from "antd";
+import {
+  Row,
+  Col,
+  Card,
+  Table,
+  Spin,
+  Alert,
+  Divider,
+  Button,
+  Modal,
+} from "antd";
 import axios from "axios";
 import StatusRange from "./StatusRange";
 import Dots from "../components/DotLoader";
@@ -17,8 +27,11 @@ const Stats = () => {
   const [riskWithOutLimit, setRiskWithOutLimit] = useState([]);
   const [slaViolations, setSlaViolations] = useState([]);
   const [apatiteValue, setApatiteValue] = useState("");
-  const [riskOwner, setRiskOwner] = useState("");
   const [responseData, setResponseData] = useState(null);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isModalBelowVisible, setIsModalBelowVisible] = useState(false);
+  const [isModalUpperVisible,setIsModalUpperVisible] = useState(false)
+  const [isModalDataExporVisible, setIsModalDataExporVisible] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -248,7 +261,6 @@ const Stats = () => {
       },
     },
   ];
-  
 
   const slaViolationsColumns = [
     {
@@ -284,7 +296,9 @@ const Stats = () => {
       dataIndex: "percentage_violated",
       key: "percentage_violated",
       render: (text, record) => {
-        const percentage = record.total_count ? ((record.violation / record.total_count) * 100).toFixed(2) : 0;
+        const percentage = record.total_count
+          ? ((record.violation / record.total_count) * 100).toFixed(2)
+          : 0;
         return `${percentage}%`;
       },
     },
@@ -343,6 +357,164 @@ const Stats = () => {
       key: "finished_date",
     },
   ];
+
+  // modal top Five Risk
+
+  const showModal = () => {
+    setIsModalVisible(true);
+  };
+
+  const handleOk = async () => {
+    setIsModalVisible(false);
+    try {
+      // Perform the GET request to export the file here
+      const response = await axios.get("/api/export/top-five-risk", {
+        responseType: "blob",
+      });
+      const blobUrl = window.URL.createObjectURL(response.data);
+
+      // Create a link element to trigger the download
+      const link = document.createElement("a");
+      link.href = blobUrl;
+      link.setAttribute("download", "TopFiveRisk.csv");
+
+      // Append the link to the document body and trigger the click event
+      document.body.appendChild(link);
+      link.click();
+
+      // Clean up by removing the link from the document body
+      document.body.removeChild(link);
+
+      // Stop loading after successful download
+      setConfirmLoading(false);
+
+      message.success("Downloaded!");
+      console.log("File exported successfully:", response.data);
+    } catch (error) {
+      console.error("Error exporting file:", error);
+    }
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
+    setIsModalDataExporVisible(false);
+    setIsModalBelowVisible(false);
+  };
+// SLA Below Modal
+
+const showBelowModal = () => {
+  setIsModalBelowVisible(true);
+};
+
+const handleBelowOk = async () => {
+  setIsModalBelowVisible(false);
+  try {
+    // Perform the GET request to export the file here
+    const response = await axios.get("/api/export/top-five-risk", {
+      responseType: "blob",
+    });
+    const blobUrl = window.URL.createObjectURL(response.data);
+
+    // Create a link element to trigger the download
+    const link = document.createElement("a");
+    link.href = blobUrl;
+    link.setAttribute("download", "TopFiveRisk.csv");
+
+    // Append the link to the document body and trigger the click event
+    document.body.appendChild(link);
+    link.click();
+
+    // Clean up by removing the link from the document body
+    document.body.removeChild(link);
+
+    // Stop loading after successful download
+    setConfirmLoading(false);
+
+    message.success("Downloaded!");
+    console.log("File exported successfully:", response.data);
+  } catch (error) {
+    console.error("Error exporting file:", error);
+  }
+};
+
+
+const showUpperModal = () => {
+  setIsModalUpperVisible(true);
+};
+
+const handleUpperOk = async () => {
+  setIsModalUpperVisible(false);
+  try {
+    // Perform the GET request to export the file here
+    const response = await axios.get("/api/export/top-five-risk", {
+      responseType: "blob",
+    });
+    const blobUrl = window.URL.createObjectURL(response.data);
+
+    // Create a link element to trigger the download
+    const link = document.createElement("a");
+    link.href = blobUrl;
+    link.setAttribute("download", "TopFiveRisk.csv");
+
+    // Append the link to the document body and trigger the click event
+    document.body.appendChild(link);
+    link.click();
+
+    // Clean up by removing the link from the document body
+    document.body.removeChild(link);
+
+    // Stop loading after successful download
+    setConfirmLoading(false);
+
+    message.success("Downloaded!");
+    console.log("File exported successfully:", response.data);
+  } catch (error) {
+    console.error("Error exporting file:", error);
+  }
+};
+
+
+
+
+
+
+
+  // SLA Violation Modal
+
+  const showDataExportModal = () => {
+    setIsModalDataExporVisible(true);
+  };
+
+  const handleDataExport = async () => {
+    setIsModalDataExporVisible(false);
+    try {
+      // Perform the GET request to export the data file here
+      const response = await axios.get("/api/export/sla-violations", {
+        responseType: "blob",
+      });
+      const blobUrl = window.URL.createObjectURL(response.data);
+
+      // Create a link element to trigger the download
+      const link = document.createElement("a");
+      link.href = blobUrl;
+      link.setAttribute("download", "SLA.csv");
+
+      // Append the link to the document body and trigger the click event
+      document.body.appendChild(link);
+      link.click();
+
+      // Clean up by removing the link from the document body
+      document.body.removeChild(link);
+
+      // Stop loading after successful download
+      setConfirmLoading(false);
+
+      message.success("Downloaded!");
+      console.log("Data exported successfully:", response.data);
+    } catch (error) {
+      console.error("Error exporting data:", error);
+    }
+  };
 
   return (
     <>
@@ -462,12 +634,31 @@ const Stats = () => {
         </Col>
       </Row>
 
+      <Modal
+        title="Export Confirmation"
+        visible={isModalVisible}
+        onOk={handleOk}
+        onCancel={handleCancel}
+        centered
+      >
+        <p>Are you sure you want to export Top Five Risk?</p>
+      </Modal>
       {/* Table */}
 
       <div style={{ marginTop: "10px" }}>
         <Divider>
           <h2> {t("stats.Top Five Risk")}</h2>
         </Divider>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "flex-end",
+            marginBottom: "10px",
+          }}
+        >
+          <Button onClick={showModal}>Export</Button>
+        </div>
+
         <Table
           bordered
           dataSource={topFiveRisk}
@@ -488,6 +679,23 @@ const Stats = () => {
       <Row gutter={16}>
         <Col xs={24} sm={24} md={12} lg={12} xl={12}>
           <h3>{t("stats.Risk Below Appatite")}</h3>
+          <div
+          style={{
+            display: "flex",
+            justifyContent: "flex-end",
+            marginBottom: "10px",
+          }}
+        >
+          <Button onClick={showBelowModal}>Export Below Appatite</Button>
+        </div>
+        <Modal
+              title="Export Data Confirmation"
+              visible={isModalBelowVisible}
+              onOk={handleBelowOk}
+              onCancel={handleCancel}
+            >
+              <p>Are you sure you want to export the data?</p>
+            </Modal>
           <Table
             bordered
             dataSource={riskWithInLimit}
@@ -497,6 +705,15 @@ const Stats = () => {
         </Col>
         <Col xs={24} sm={24} md={12} lg={12} xl={12}>
           <h3> {t("stats.Risk Upper Appatite")}</h3>
+          <div
+          style={{
+            display: "flex",
+            justifyContent: "flex-end",
+            marginBottom: "10px",
+          }}
+        >
+          <Button onClick={showUpperModal}>Export Upper Appatite</Button>
+        </div>
           <Table
             bordered
             dataSource={riskWithOutLimit}
@@ -512,6 +729,23 @@ const Stats = () => {
             <Divider>
               <h2> {t("stats.SLA Violation")}</h2>
             </Divider>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "flex-end",
+                marginBottom: "10px",
+              }}
+            >
+              <Button onClick={showDataExportModal}>Export SLA</Button>
+            </div>
+            <Modal
+              title="Export Data Confirmation"
+              visible={isModalDataExporVisible}
+              onOk={handleDataExport}
+              onCancel={handleCancel}
+            >
+              <p>Are you sure you want to export the data?</p>
+            </Modal>
             <Table
               dataSource={slaViolations}
               columns={slaViolationsColumns}
@@ -530,7 +764,7 @@ const Stats = () => {
                   columns={ViolationColumns}
                   style={{
                     boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-                    marginTop: "10px",
+                    marginTop: "55px",
                   }}
                 />
               </>

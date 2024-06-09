@@ -298,7 +298,7 @@ export default function DashboardLayout({ children }) {
                         {
                           key: "2",
                           icon: <PlusCircleOutlined style={{ fontSize: '22px' }} /> ,
-                          label: "Risk Management",
+                          label:  t("side_navbar.Risk Management"),
                           style: {
                             // background: isDarkMode ? "#141414" : "#FFFFFF",// Ensure the submenu container is white
                             border: "none", // Ensure no border if applicable
@@ -364,7 +364,7 @@ export default function DashboardLayout({ children }) {
                             {
                               key: "3",
                               icon: <BarChart2 />,
-                              label: "Treatment",
+                              label: t("side_navbar.Treatment"),
                               style: {
                                 paddingLeft: "40px",
                                 background:
@@ -446,7 +446,7 @@ export default function DashboardLayout({ children }) {
                         {
                           key: "7",
                           icon: <BarChart2 />,
-                          label: "States Menu",
+                          label: t("side_navbar.States Menu"),
                           style: {
                             background:
                               pathname === "/dashboard/stats"

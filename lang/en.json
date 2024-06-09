@@ -16,7 +16,10 @@
     "settings": "Settings",
     "account_info": "Account Info",
     "logout": "Logout",
-    "Help":"Help"
+    "Help":"Help",
+    "Risk Management":"Risk Management",
+    "Treatment":"Treatment",
+    "States Menu":"States Menu"
   },
   "dashboard": {
     "Dashboard": "Dashboard",
