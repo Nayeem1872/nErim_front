@@ -4,9 +4,11 @@ import styles from "./Card.module.css";
 import { Row, Col, Card, Table, Spin, Alert, Divider } from "antd";
 import axios from "axios";
 import StatusRange from "./StatusRange";
-import LineChart from "./LineChart";
+import Dots from "../components/DotLoader";
+import { useTranslation } from "react-i18next";
 
 const Stats = () => {
+  const { t } = useTranslation();
   const [riskSummaryData, setRiskSummaryData] = useState([]);
   const [topFiveRisk, setTopFiveRisk] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -59,7 +61,7 @@ const Stats = () => {
   }, []);
 
   if (loading) {
-    return <Spin size="large" />;
+    return <Dots />;
   }
 
   if (error) {
@@ -106,28 +108,28 @@ const Stats = () => {
 
   const columns = [
     {
-      title: "Risk#",
+      title: t("stats.Risk"),
       dataIndex: "refId",
       key: "refId",
     },
     {
-      title: "Risk Domain",
+      title: t("stats.Risk Domain"),
       dataIndex: "category",
       key: "category_name",
       render: (text, record) => record?.category?.category_name,
     },
     {
-      title: "Risk Name",
+      title: t("stats.Risk Name"),
       dataIndex: "risk_name",
       key: "risk_name",
     },
     {
-      title: "risk Owner",
+      title: t("stats.risk Owner"),
       dataIndex: "risk_owner",
       key: "risk_owner",
     },
     {
-      title: "Risk Value",
+      title: t("stats.Risk Value"),
       dataIndex: "risk_matrix",
       key: "risk_value",
       render: (text, record) => {
@@ -153,17 +155,17 @@ const Stats = () => {
       },
     },
     {
-      title: "Consequence",
+      title: t("stats.Consequence"),
       dataIndex: "potential_impact",
       key: "potential_impact",
     },
     {
-      title: "Risk Casused",
+      title: t("stats.Risk Casused"),
       dataIndex: "risk_casuse",
       key: "risk_casuse",
     },
     {
-      title: "Description",
+      title: t("stats.Description"),
       dataIndex: "risk_identified",
       key: "risk_identified",
     },
@@ -184,112 +186,83 @@ const Stats = () => {
 
   const riskWithInLimitColumns = [
     {
-      title: "Risk Id",
+      title: t("stats.Risk Id"),
       dataIndex: "refId",
       key: "refId",
     },
-    // {
-    //   title: "Risk Domain",
-    //   dataIndex: "category",
-    //   key: "category_name",
-    //   render: (text, record) => record.category.category_name,
-    // },
+
     {
-      title: "Risk Name",
+      title: t("stats.Risk Name"),
       dataIndex: "risk_name",
       key: "risk_name",
     },
     {
-      title: "risk Owner",
+      title: t("stats.risk Owner"),
       dataIndex: "risk_owner",
       key: "risk_owner",
     },
-    // {
-    //   title: "Risk Value",
-    //   dataIndex: "risk_matrix",
-    //   key: "risk_value",
-    //   render: (text, record) => {
-    //     const color = record.risk_matrix.color.startsWith("#")
-    //       ? record.risk_matrix.color
-    //       : `#${record.risk_matrix.color}`;
-    //     const isCriticalStepDefined =
-    //       record.risk_matrix.critical_step !== undefined &&
-    //       record.risk_matrix.critical_step !== "";
-    //     return (
-    //       <div
-    //         style={{
-    //           backgroundColor: color,
-    //           borderRadius: "8px",
-    //           padding: "5px 10px",
-    //           color: isCriticalStepDefined ? "#000" : "#fff",
-    //           textAlign: "center",
-    //         }}
-    //       >
-    //         {record.risk_matrix.critical_step}
-    //       </div>
-    //     );
-    //   },
-    // },
+
     {
-      title: "Details",
+      title: t("stats.Details"),
       dataIndex: "risk_identified",
       key: "risk_identified",
     },
     {
-      title: "Risk Apatite Value",
+      title: t("stats.Risk Apatite Value"),
       dataIndex: "risk_identified",
       render: (text, record) => {
         const criticalityScore =
-          record.risk_impact_id * record.risk_likelihood_id;
+          record.risk_consequence_id * record.risk_likelihood_id;
         return <div>{criticalityScore}</div>;
       },
     },
   ];
   const riskWithOutLimitColumns = [
     {
-      title: "Risk Id",
+      title: t("stats.Risk Id"),
       dataIndex: "refId",
       key: "refId",
     },
     {
-      title: "Risk Name",
+      title: t("stats.Risk Name"),
       dataIndex: "risk_name",
       key: "risk_name",
     },
     {
-      title: "risk Owner",
+      title: t("stats.risk Owner"),
       dataIndex: "risk_owner",
       key: "risk_owner",
     },
     {
-      title: "Details",
+      title: t("stats.Details"),
       dataIndex: "risk_identified",
       key: "risk_identified",
     },
     {
-      title: "Risk Apatite Value",
+      title: t("stats.Risk Apatite Value"),
       dataIndex: "risk_identified",
       render: (text, record) => {
         const criticalityScore =
-          record.risk_impact_id * record.risk_likelihood_id;
+          record.risk_consequence_id * record.risk_likelihood_id;
         return <div>{criticalityScore}</div>;
       },
     },
   ];
+  
 
   const slaViolationsColumns = [
     {
-      title: "Risk owner",
+      title: t("stats.Risk owner"),
       dataIndex: "risk_owner",
       key: "risk_owner",
     },
     {
-      title: "Assigned Risks",
+      title: t("stats.Assigned Risks"),
       dataIndex: "total_count",
       key: "total_count",
     },
     {
-      title: "SlA Violated Number",
+      title: t("stats.SlA Violated Number"),
       dataIndex: "violation",
       key: "violation",
       render: (text, record) => (
@@ -307,10 +280,13 @@ const Stats = () => {
       ),
     },
     {
-      title: "SLA Violated (%)",
+      title: t("stats.SLA Violated (%)"),
       dataIndex: "percentage_violated",
       key: "percentage_violated",
-      render: (text) => `${text}%`,
+      render: (text, record) => {
+        const percentage = record.total_count ? ((record.violation / record.total_count) * 100).toFixed(2) : 0;
+        return `${percentage}%`;
+      },
     },
   ];
 
@@ -337,32 +313,32 @@ const Stats = () => {
 
   const ViolationColumns = [
     {
-      title: "ID",
+      title: t("stats.ID"),
       dataIndex: "refId",
       key: "refId",
     },
     {
-      title: "Risk owner",
+      title: t("stats.Risk owner"),
       dataIndex: "treat_owner",
       key: "treat_owner",
     },
     {
-      title: "Decision",
+      title: t("stats.Decision"),
       dataIndex: "treat_status",
       key: "treat_status",
     },
     {
-      title: "Email",
+      title: t("stats.Email"),
       dataIndex: "action_owner_email",
       key: "action_owner_email",
     },
     {
-      title: "Closing Date",
+      title: t("stats.Closing Date"),
       dataIndex: "closing_date",
       key: "closing_date",
     },
     {
-      title: "Finished Date",
+      title: t("stats.Finished Date"),
       dataIndex: "finished_date",
       key: "finished_date",
     },
@@ -383,18 +359,20 @@ const Stats = () => {
           >
             <div className={styles.cardContent}>
               <div className={styles.cardHeader}>
-                <h2>Action</h2>
+                <h2>{t("stats.Action")}</h2>
                 <Divider />
               </div>
               <div className={styles.cardStats}>
                 <div className={styles.statItem}>
-                  <div
-                    style={{ display: "flex", gap:"27px" }}
-                  >
+                  <div style={{ display: "flex", gap: "27px" }}>
                     {Object.keys(riskSummaryData.registerWithStatus).map(
                       (status, index) => (
                         <div key={index} className={styles.statItem}>
-                          <span style={{ fontSize: "18px", fontWeight: "bold" }}>{status}</span>
+                          <span
+                            style={{ fontSize: "18px", fontWeight: "bold" }}
+                          >
+                            {status}
+                          </span>
                           <span>
                             {
                               riskSummaryData.registerWithStatus[status]
@@ -418,12 +396,12 @@ const Stats = () => {
               margin: "5px",
               backgroundImage: gradientColors[1],
               boxShadow: shadowStyles[1],
-              height: "235px" // Adjust the height as needed
+              height: "235px", // Adjust the height as needed
             }}
           >
             <div className={styles.cardContent}>
               <div className={styles.cardHeader}>
-                <h2>Mitigated</h2>
+                <h2>{t("stats.Mitigated")}</h2>
                 <Divider />
               </div>
               <div className={styles.cardStats}>
@@ -442,12 +420,12 @@ const Stats = () => {
               margin: "5px",
               backgroundImage: gradientColors[2],
               boxShadow: shadowStyles[2],
-              height: "235px"
+              height: "235px",
             }}
           >
             <div className={styles.cardContent}>
               <div className={styles.cardHeader}>
-                <h2>Accepted</h2>
+                <h2> {t("stats.Accepted")}</h2>
                 <Divider />
               </div>
               <div className={styles.cardStats}>
@@ -466,12 +444,12 @@ const Stats = () => {
               margin: "5px",
               backgroundImage: gradientColors[3],
               boxShadow: shadowStyles[3],
-              height: "235px"
+              height: "235px",
             }}
           >
             <div className={styles.cardContent}>
               <div className={styles.cardHeader}>
-                <h2>Total Risk</h2>
+                <h2> {t("stats.Total Risk")}</h2>
                 <Divider />
               </div>
               <div className={styles.cardStats}>
@@ -488,7 +466,7 @@ const Stats = () => {
 
       <div style={{ marginTop: "10px" }}>
         <Divider>
-          <h2>Top Five Risk</h2>
+          <h2> {t("stats.Top Five Risk")}</h2>
         </Divider>
         <Table
           bordered
@@ -501,12 +479,15 @@ const Stats = () => {
 
       <div style={{ marginTop: "30px" }}>
         <Divider>
-          <h2>Risk Threshold({apatiteValue}) </h2>
+          <h2>
+            {" "}
+            {t("stats.Risk Threshold")}({apatiteValue}){" "}
+          </h2>
         </Divider>
       </div>
       <Row gutter={16}>
         <Col xs={24} sm={24} md={12} lg={12} xl={12}>
-          <h3>Risk Below Appatite</h3>
+          <h3>{t("stats.Risk Below Appatite")}</h3>
           <Table
             bordered
             dataSource={riskWithInLimit}
@@ -515,7 +496,7 @@ const Stats = () => {
           />
         </Col>
         <Col xs={24} sm={24} md={12} lg={12} xl={12}>
-          <h3>Risk Upper Appatite</h3>
+          <h3> {t("stats.Risk Upper Appatite")}</h3>
           <Table
             bordered
             dataSource={riskWithOutLimit}
@@ -526,37 +507,34 @@ const Stats = () => {
       </Row>
 
       <div>
-        
-        
         <Row gutter={16}>
           <Col span={12}>
-            
-          <Divider>
-          <h2>SLA Violation</h2>
-        </Divider>
-        <Table
-          dataSource={slaViolations}
-          columns={slaViolationsColumns}
-          pagination={{ pageSize: 6 }}
-          style={{ boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)" }}
-        />
-             </Col>
-          <Col span={12}>
-          {responseData && (
-          <>
             <Divider>
-              <h2>Violation</h2>
+              <h2> {t("stats.SLA Violation")}</h2>
             </Divider>
             <Table
-              dataSource={responseData}
-              columns={ViolationColumns}
-              style={{
-                boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-                marginTop: "10px",
-              }}
+              dataSource={slaViolations}
+              columns={slaViolationsColumns}
+              pagination={{ pageSize: 6 }}
+              style={{ boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)" }}
             />
-          </>
-        )}
+          </Col>
+          <Col span={12}>
+            {responseData && (
+              <>
+                <Divider>
+                  <h2>{t("stats.Violation")}</h2>
+                </Divider>
+                <Table
+                  dataSource={responseData}
+                  columns={ViolationColumns}
+                  style={{
+                    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+                    marginTop: "10px",
+                  }}
+                />
+              </>
+            )}
           </Col>
         </Row>
       </div>

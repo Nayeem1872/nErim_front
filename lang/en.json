@@ -426,5 +426,47 @@
     "UserCount":"UserCount",
     "OrgName":"Organization Name"
 
+  },
+  "stats":{
+    "Action":"Action",
+    "Mitigated":"Mitigated",
+    "Accepted":"Accepted",
+    "Total Risk":"Total Risk",
+    "Top Five Risk":"Top Five Risk",
+    "Risk Threshold":"Risk Threshold",
+    "SLA Violation":"SLA Violation",
+    "Violation":"Violation",
+    "Risk":"Risk#",
+    "Risk Domain":"Risk Domain",
+    "Risk Name":"Risk Name",
+    "risk Owner":"Risk Owner",
+    "Risk Value":"Risk Value",
+    "Consequence":"Consequence",
+    "Risk Casused":"Risk Casused",
+    "Description":"Description",
+    "Risk Id":"Risk Id",
+    "Details":"Details",
+    "Risk Apatite Value":"Risk Apatite Value",
+    "Risk owner":"Risk owner",
+    "Assigned Risks":"Assigned Risks",
+    "SlA Violated Number":"SlA Violated Number",
+    "SLA Violated (%)":"SLA Violated (%)",
+    "Finished Date":"Finished Date",
+    "Closing Date":"Closing Date",
+    "Email":"Email",
+    "Decision":"Decision",
+    "ID":"ID",
+    "Risk Below Appatite":"Risk Below Appatite",
+    "Risk Upper Appatite":"Risk Upper Appatite",
+    "Risk Status Report":"Risk Status Report",
+    "Year":"Year",
+    "Custom":"Custom",
+    "Week":"Week",
+    "Month":"Month",
+    "Quarter":"Quarter",
+    "Search":"Search"
+    
   }
+
+
 }

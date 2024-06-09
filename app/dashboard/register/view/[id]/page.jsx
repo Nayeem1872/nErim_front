@@ -199,7 +199,7 @@ const View = ({ params }) => {
 
         if (updatedTreatmentIndex !== -1) {
           const newData2 = { ...data1 };
-          newData2.treatment[updatedTreatmentIndex] = formData1; // Update treatment item with formData1
+          newData2.treatment[updatedTreatmentIndex] = formData1;
           setData1(newData2);
 
           message.success(t("treatment_view.Updated successfully."));
@@ -213,8 +213,8 @@ const View = ({ params }) => {
         message.error(t("treatment_view.Failed to update record."));
       }
     } catch (error) {
-      console.error("Error sending data:", error); // Log the error for debugging
-      message.error(t("treatment_view.Failed to update record.")); // Show error message to the user
+    
+      message.error(t("treatment_view.Failed to update record.")); 
     }
   };
 
@@ -533,6 +533,9 @@ const View = ({ params }) => {
             <Title level={5}>
               {t("treatment_view.Risk_Details")}:{" "}
               {data1.register.risk_identified}
+            </Title>
+            <Title level={5}>
+              {t("Treatment")}: {data1.register.treatment_decision}
             </Title>
             <Title level={5}>
               {t("treatment_view.Created_by")}: {data1.register.owner_email}
