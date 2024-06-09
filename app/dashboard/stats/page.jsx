@@ -14,14 +14,16 @@ const Stats = () => {
   const [riskWithInLimit, setRiskWithInLimit] = useState([]);
   const [riskWithOutLimit, setRiskWithOutLimit] = useState([]);
   const [slaViolations, setSlaViolations] = useState([]);
-  const [apatiteValue, setApatiteValue] = useState("")
+  const [apatiteValue, setApatiteValue] = useState("");
+  const [riskOwner, setRiskOwner] = useState("");
+  const [responseData, setResponseData] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get("/api/statistics");
         setRiskSummaryData(response.data);
-        setApatiteValue(response.data.appetiteValue)
+        setApatiteValue(response.data.appetiteValue);
         setTopFiveRisk(response.data.topFiveRisks);
         setRiskWithInLimit(response.data.riskWithInLimit);
         setRiskWithOutLimit(response.data.riskWithOutLimit);
@@ -31,13 +33,17 @@ const Stats = () => {
 
         Object.keys(response.data.slaViolations).forEach((riskOwner) => {
           const ownerData = response.data.slaViolations[riskOwner];
-          const percentageViolated = response.data.slaViolations.total_count ? (response.data.slaViolations.violation / response.data.slaViolations.total_count) * 100 : 0;
+          const percentageViolated = response.data.slaViolations.total_count
+            ? (response.data.slaViolations.violation /
+                response.data.slaViolations.total_count) *
+              100
+            : 0;
           formattedData.push({
             risk_owner: riskOwner,
             total_count: ownerData.total_count,
             violation: ownerData.violation,
             assigned_risks: ownerData.data.map((d) => d.treat_name).join(", "),
-            percentage_violated: percentageViolated.toFixed(2) // assuming assigned risks are the treat_names
+            percentage_violated: percentageViolated.toFixed(2), // assuming assigned risks are the treat_names
           });
         });
 
@@ -233,7 +239,8 @@ const Stats = () => {
       title: "Risk Apatite Value",
       dataIndex: "risk_identified",
       render: (text, record) => {
-        const criticalityScore = record.risk_impact_id * record.risk_likelihood_id;
+        const criticalityScore =
+          record.risk_impact_id * record.risk_likelihood_id;
         return <div>{criticalityScore}</div>;
       },
     },
@@ -263,7 +270,8 @@ const Stats = () => {
       title: "Risk Apatite Value",
       dataIndex: "risk_identified",
       render: (text, record) => {
-        const criticalityScore = record.risk_impact_id * record.risk_likelihood_id;
+        const criticalityScore =
+          record.risk_impact_id * record.risk_likelihood_id;
         return <div>{criticalityScore}</div>;
       },
     },
@@ -282,54 +290,88 @@ const Stats = () => {
     },
     {
       title: "SlA Violated Number",
-      dataIndex: "violation", // Assuming this should be dataIndex: "total_count"
+      dataIndex: "violation",
       key: "violation",
+      render: (text, record) => (
+        <p
+          style={{
+            textDecoration: "underline",
+            color: "#4096FF",
+            cursor: "pointer",
+            fontWeight: "bold",
+          }}
+          onClick={() => handleViolationClick(record.risk_owner)}
+        >
+          {text}
+        </p>
+      ),
     },
     {
       title: "SLA Violated (%)",
       dataIndex: "percentage_violated",
       key: "percentage_violated",
-      render: (text) => `${text}%`
-    }
+      render: (text) => `${text}%`,
+    },
   ];
 
-  const dataSource = [
+  // const [riskOwner, setRiskOwner] = useState('');
+
+  // const [error, setError] = useState(null);
+
+  const handleViolationClick = async (riskOwner) => {
+    console.log("Clicked on violation for risk owner:", riskOwner);
+    try {
+      // Perform a GET request using Axios
+      const response = await axios.get(`/api/violations/data/${riskOwner}`);
+      // Handle successful response
+      console.log("GET request successful:", response.data);
+      setResponseData(response.data);
+      setError(null);
+    } catch (error) {
+      // Handle error
+      console.error("Error making GET request:", error);
+      setError(error);
+      setResponseData(null);
+    }
+  };
+
+  const ViolationColumns = [
     {
-      key: '1',
-      name: 'Mike',
-      age: 32,
-      address: '10 Downing Street',
+      title: "ID",
+      dataIndex: "refId",
+      key: "refId",
     },
     {
-      key: '2',
-      name: 'John',
-      age: 42,
-      address: '10 Downing Street',
+      title: "Risk owner",
+      dataIndex: "treat_owner",
+      key: "treat_owner",
     },
     {
-      key: '3',
-      name: 'John',
-      age: 42,
-      address: '10 Downing Street',
+      title: "Decision",
+      dataIndex: "treat_status",
+      key: "treat_status",
     },
     {
-      key: '4',
-      name: 'John',
-      age: 42,
-      address: '10 Downing Street',
+      title: "Email",
+      dataIndex: "action_owner_email",
+      key: "action_owner_email",
     },
     {
-      key: '5',
-      name: 'John',
-      age: 42,
-      address: '10 Downing Street',
+      title: "Closing Date",
+      dataIndex: "closing_date",
+      key: "closing_date",
+    },
+    {
+      title: "Finished Date",
+      dataIndex: "finished_date",
+      key: "finished_date",
     },
   ];
 
   return (
     <>
       {/* top */}
-      <Row gutter={24}>
+      <Row gutter={24} justify="center">
         <Col xs={24} sm={12} md={12} lg={8} xl={6} className="mb-24">
           <Card
             bordered={false}
@@ -342,20 +384,27 @@ const Stats = () => {
             <div className={styles.cardContent}>
               <div className={styles.cardHeader}>
                 <h2>Action</h2>
-                <Divider style={{ backgroundColor: "black" }} />
+                <Divider />
               </div>
               <div className={styles.cardStats}>
                 <div className={styles.statItem}>
-                  <span>Total</span>
-                  <span>5</span>
-                </div>
-                <div className={styles.statItem}>
-                  <span>Open</span>
-                  <span>2</span>
-                </div>
-                <div className={styles.statItem}>
-                  <span>Closed</span>
-                  <span>3</span>
+                  <div
+                    style={{ display: "flex", gap:"27px" }}
+                  >
+                    {Object.keys(riskSummaryData.registerWithStatus).map(
+                      (status, index) => (
+                        <div key={index} className={styles.statItem}>
+                          <span style={{ fontSize: "18px", fontWeight: "bold" }}>{status}</span>
+                          <span>
+                            {
+                              riskSummaryData.registerWithStatus[status]
+                                .total_count
+                            }
+                          </span>
+                        </div>
+                      )
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
@@ -369,17 +418,17 @@ const Stats = () => {
               margin: "5px",
               backgroundImage: gradientColors[1],
               boxShadow: shadowStyles[1],
+              height: "235px" // Adjust the height as needed
             }}
           >
             <div className={styles.cardContent}>
               <div className={styles.cardHeader}>
                 <h2>Mitigated</h2>
-                <Divider style={{ backgroundColor: "black" }} />
+                <Divider />
               </div>
               <div className={styles.cardStats}>
                 <div className={styles.statItem}>
-                  <span>Total</span>
-                  <span>5</span>
+                  <span>{riskSummaryData.totalMitigate}</span>
                 </div>
               </div>
             </div>
@@ -393,17 +442,17 @@ const Stats = () => {
               margin: "5px",
               backgroundImage: gradientColors[2],
               boxShadow: shadowStyles[2],
+              height: "235px"
             }}
           >
             <div className={styles.cardContent}>
               <div className={styles.cardHeader}>
                 <h2>Accepted</h2>
-                <Divider style={{ backgroundColor: "black" }} />
+                <Divider />
               </div>
               <div className={styles.cardStats}>
                 <div className={styles.statItem}>
-                  <span>Total</span>
-                  <span>5</span>
+                  <span>{riskSummaryData.totalAccepted}</span>
                 </div>
               </div>
             </div>
@@ -417,17 +466,17 @@ const Stats = () => {
               margin: "5px",
               backgroundImage: gradientColors[3],
               boxShadow: shadowStyles[3],
+              height: "235px"
             }}
           >
             <div className={styles.cardContent}>
               <div className={styles.cardHeader}>
                 <h2>Total Risk</h2>
-                <Divider style={{ backgroundColor: "black" }} />
+                <Divider />
               </div>
               <div className={styles.cardStats}>
                 <div className={styles.statItem}>
-                  <span>Total</span>
-                  <span>5</span>
+                  <span>{riskSummaryData.totalRisk}</span>
                 </div>
               </div>
             </div>
@@ -436,20 +485,19 @@ const Stats = () => {
       </Row>
 
       {/* Table */}
-      
-        <div style={{marginTop:"10px"}}>
-          <Divider>
+
+      <div style={{ marginTop: "10px" }}>
+        <Divider>
           <h2>Top Five Risk</h2>
         </Divider>
-          <Table
-            bordered
-            dataSource={topFiveRisk}
-            columns={columns}
-            pagination={false}
-            style={{ boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)" }}
-          />
-        </div>
-    
+        <Table
+          bordered
+          dataSource={topFiveRisk}
+          columns={columns}
+          pagination={false}
+          style={{ boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)" }}
+        />
+      </div>
 
       <div style={{ marginTop: "30px" }}>
         <Divider>
@@ -457,7 +505,7 @@ const Stats = () => {
         </Divider>
       </div>
       <Row gutter={16}>
-        <Col span={12}>
+        <Col xs={24} sm={24} md={12} lg={12} xl={12}>
           <h3>Risk Below Appatite</h3>
           <Table
             bordered
@@ -466,7 +514,7 @@ const Stats = () => {
             style={{ boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)" }}
           />
         </Col>
-        <Col span={12}>
+        <Col xs={24} sm={24} md={12} lg={12} xl={12}>
           <h3>Risk Upper Appatite</h3>
           <Table
             bordered
@@ -478,26 +526,41 @@ const Stats = () => {
       </Row>
 
       <div>
-        <Divider>
+        
+        
+        <Row gutter={16}>
+          <Col span={12}>
+            
+          <Divider>
           <h2>SLA Violation</h2>
         </Divider>
         <Table
-            dataSource={slaViolations}
-            columns={slaViolationsColumns}
-            // pagination={false}
-            style={{ boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)" }}
-          />
-        <Row gutter={16}>
-        <Col span={12}>
-       
-        </Col>
-        <Col span={12}>
-       {/* <LineChart riskSummaryData={riskSummaryData}/> */}
-        </Col>
-      </Row>
-        
+          dataSource={slaViolations}
+          columns={slaViolationsColumns}
+          pagination={{ pageSize: 6 }}
+          style={{ boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)" }}
+        />
+             </Col>
+          <Col span={12}>
+          {responseData && (
+          <>
+            <Divider>
+              <h2>Violation</h2>
+            </Divider>
+            <Table
+              dataSource={responseData}
+              columns={ViolationColumns}
+              style={{
+                boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+                marginTop: "10px",
+              }}
+            />
+          </>
+        )}
+          </Col>
+        </Row>
       </div>
-    <StatusRange riskSummaryData={riskSummaryData}/>
+      <StatusRange riskSummaryData={riskSummaryData} />
     </>
   );
 };
