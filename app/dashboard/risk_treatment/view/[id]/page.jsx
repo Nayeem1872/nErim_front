@@ -52,6 +52,7 @@ const View = ({ params }) => {
   const [customEmail, setCustomEmail] = useState("");
   const [customActionOwner, setCustomActionOwner] = useState("");
   const [recordEmail, setRecordEmail] = useState("")
+  const[recordActionOwner,setRecordActionOwner] = useState("")
 
   const fetchData = async () => {
     // setIsLoading(true);
@@ -103,12 +104,16 @@ const View = ({ params }) => {
     setUser_id(record.user_id);
     setEditId(record.id);
     setRecordEmail(record.action_owner_email)
+    setRecordActionOwner(record.treat_owner)
     // Format date fields using dayjs
     const formattedStartedDate = record.started_date
       ? dayjs(record.started_date)
       : null;
     const formattedClosingDate = record.closing_date
       ? dayjs(record.closing_date)
+      : null;
+      const formattedfinished_date = record.finished_date
+      ? dayjs(record.finished_date)
       : null;
 
     setStatusValue(record.treat_status);
@@ -118,6 +123,7 @@ const View = ({ params }) => {
       ...record,
       started_date: formattedStartedDate,
       closing_date: formattedClosingDate,
+      finished_date: formattedfinished_date
     });
 
     setIsModalOpen(true);
@@ -135,6 +141,12 @@ const View = ({ params }) => {
       const formattedClosingDate = formData.closing_date
         ? dayjs(formData.closing_date).format("YYYY-MM-DD")
         : null;
+
+        const formattedfinished_date = formData.finished_date
+        ? dayjs(formData.finished_date).format("YYYY-MM-DD")
+        : null;
+
+
       formData1.append("closing_date", formattedClosingDate);
       formData1.append("resolve", formData.resolve);
       const formattedStartDate = formData.started_date
@@ -146,16 +158,18 @@ const View = ({ params }) => {
       formData1.append("expected_benefit", formData.expected_benefit);
 
       if (isOtherSelected) {
-        formData1.append("treat_owner", customActionOwner);
+        formData1.append("treat_owner", customActionOwner ||recordActionOwner);
         formData1.append("action_owner_email", customEmail || recordEmail);
-      } else {
-        formData1.append("treat_owner", selectedActionOwner);
-        formData1.append("action_owner_email", ownerEmail1);
+      } 
+      else {
+        formData1.append("treat_owner", selectedActionOwner || recordActionOwner);
+        formData1.append("action_owner_email", ownerEmail1 || recordEmail);
       }
 
       formData1.append("treat_detial", formData.treat_detial);
       formData1.append("treat_name", formData.treat_name);
       formData1.append("treat_status", formData.treat_status);
+      formData1.append("finished_date", formattedfinished_date);
       formData1.append("user_id", userID || user_Id);
 
       // Append the selected file if it exists
@@ -654,7 +668,7 @@ const View = ({ params }) => {
                   <>
                     <Form.Item
                       style={{ marginLeft: "10px" }}
-                      name="closing_date"
+                      name="finished_date"
                       label={t("treatment_view.Finished_Date")}
                     >
                       <DatePicker onChange={onChange} />

@@ -214,7 +214,7 @@ export default function Heatmap() {
 
           try {
             const response = await axios.get(
-              `/api/get-heatmap/${impact}/${likelihood}/${clickedCustom}`
+              `/api/get-heatmap/${impact}/${likelihood}`
             );
             setData(response.data.scoreData);
           } catch (error) {
@@ -273,9 +273,31 @@ export default function Heatmap() {
       },
     },
     {
-      title: t("heatmap.Risk_Criticality"),
+      title: t("register.risk_criticality"),
       dataIndex: "risk_criticality",
-      key: "risk_criticality",
+      align: "center",
+      render: (text, record) => {
+        const color = record.risk_matrix.color.startsWith("#")
+        ? record.risk_matrix.color
+        : `#${record.risk_matrix.color}`;
+      const isCriticalStepDefined =
+        record.risk_matrix.critical_step !== undefined &&
+        record.risk_matrix.critical_step !== "";
+
+        return (
+          <div
+            style={{
+              backgroundColor: color,
+              borderRadius: "8px",
+              padding: "5px 10px",
+              color: isCriticalStepDefined ? "#000" : "#fff",
+              textAlign: "center",
+            }}
+          >
+            {record.risk_matrix.critical_step}
+          </div>
+        )
+      }
     },
     {
       title: t("heatmap.Action"),
