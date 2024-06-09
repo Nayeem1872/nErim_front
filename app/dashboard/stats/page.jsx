@@ -14,14 +14,16 @@ const Stats = () => {
   const [riskWithInLimit, setRiskWithInLimit] = useState([]);
   const [riskWithOutLimit, setRiskWithOutLimit] = useState([]);
   const [slaViolations, setSlaViolations] = useState([]);
+  const [apatiteValue, setApatiteValue] = useState("")
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get("/api/statistics");
         setRiskSummaryData(response.data);
+        setApatiteValue(response.data.appetiteValue)
         setTopFiveRisk(response.data.topFiveRisks);
-        setRiskWithInLimit(response?.data?.riskWithInLimit);
+        setRiskWithInLimit(response.data.riskWithInLimit);
         setRiskWithOutLimit(response.data.riskWithOutLimit);
         // setSlaViolations(response.data.slaViolations);
 
@@ -227,6 +229,14 @@ const Stats = () => {
       dataIndex: "risk_identified",
       key: "risk_identified",
     },
+    {
+      title: "Risk Apatite Value",
+      dataIndex: "risk_identified",
+      render: (text, record) => {
+        const criticalityScore = record.risk_impact_id * record.risk_likelihood_id;
+        return <div>{criticalityScore}</div>;
+      },
+    },
   ];
   const riskWithOutLimitColumns = [
     {
@@ -248,6 +258,14 @@ const Stats = () => {
       title: "Details",
       dataIndex: "risk_identified",
       key: "risk_identified",
+    },
+    {
+      title: "Risk Apatite Value",
+      dataIndex: "risk_identified",
+      render: (text, record) => {
+        const criticalityScore = record.risk_impact_id * record.risk_likelihood_id;
+        return <div>{criticalityScore}</div>;
+      },
     },
   ];
 
@@ -435,7 +453,7 @@ const Stats = () => {
 
       <div style={{ marginTop: "30px" }}>
         <Divider>
-          <h2>Risk Threshold</h2>
+          <h2>Risk Threshold({apatiteValue}) </h2>
         </Divider>
       </div>
       <Row gutter={16}>
@@ -463,22 +481,23 @@ const Stats = () => {
         <Divider>
           <h2>SLA Violation</h2>
         </Divider>
-        <Row gutter={16}>
-        <Col span={12}>
         <Table
             dataSource={slaViolations}
             columns={slaViolationsColumns}
             // pagination={false}
             style={{ boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)" }}
           />
+        <Row gutter={16}>
+        <Col span={12}>
+       
         </Col>
         <Col span={12}>
-       <LineChart riskSummaryData={riskSummaryData}/>
+       {/* <LineChart riskSummaryData={riskSummaryData}/> */}
         </Col>
       </Row>
         
       </div>
-    <StatusRange/>
+    <StatusRange riskSummaryData={riskSummaryData}/>
     </>
   );
 };

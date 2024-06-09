@@ -3,10 +3,12 @@ import React, { useState, useEffect } from "react";
 import * as am5 from "@amcharts/amcharts5";
 import * as am5xy from "@amcharts/amcharts5/xy";
 import am5themes_Animated from "@amcharts/amcharts5/themes/Animated";
+import moment from 'moment';
+
 
 const { RangePicker } = DatePicker;
 
-const StatusRange = () => {
+const StatusRange = ({ riskSummaryData }) => {
   const [rangeType, setRangeType] = useState("year");
   const [dateRange, setDateRange] = useState([null, null]);
   const [chart, setChart] = useState(null);
@@ -23,28 +25,16 @@ const StatusRange = () => {
   const handleSearch = () => {
     const [start, end] = dateRange;
     if (start && end) {
-      const startYear = start.year();
-      const endYear = end.year();
-      const filteredData = data.filter((item) => {
-        const year = parseInt(item.year, 10);
-        return year >= startYear && year <= endYear;
+      const startDate = start.startOf(rangeType).valueOf();
+      const endDate = end.endOf(rangeType).valueOf();
+      const filteredData = riskSummaryData.dateWiseData.filter((item) => {
+        const itemDate = moment(item.date, "DD MMMM YYYY");
+        return itemDate.valueOf() >= startDate && itemDate.valueOf() <= endDate;
       });
       updateChart(filteredData);
     }
   };
-
-  const data = [
-    { "year": "1 jan 2016", "europe": 2.1, "namerica": 2.3, "asia": 2.0, "lamerica": 1.2, "meast": 0.7, "africa": 0.5 },
-    { "year": "2017", "europe": 2.3, "namerica": 2.4, "asia": 2.1, "lamerica": 1.3, "meast": 0.8, "africa": 0.6 },
-    { "year": "2018", "europe": 2.4, "namerica": 2.5, "asia": 2.2, "lamerica": 1.1, "meast": 0.6, "africa": 0.4 },
-    { "year": "2019", "europe": 2.5, "namerica": 2.6, "asia": 2.3, "lamerica": 1.0, "meast": 0.5, "africa": 0.3 },
-    { "year": "2020", "europe": 2.6, "namerica": 2.7, "asia": 2.2, "lamerica": 0.5, "meast": 0.4, "africa": 0.3 },
-    { "year": "2021", "europe": 2.5, "namerica": 2.5, "asia": 2.1, "lamerica": 1, "meast": 0.8, "africa": 0.4 },
-    { "year": "2022", "europe": 2.6, "namerica": 2.7, "asia": 2.2, "lamerica": 0.5, "meast": 0.4, "africa": 0.3 },
-    { "year": "2023", "europe": 2.8, "namerica": 2.9, "asia": 2.4, "lamerica": 0.3, "meast": 0.9, "africa": 0.5 },
-    { "year": "2025", "europe": 2.8, "namerica": 2.9, "asia": 2.4, "lamerica": 0.3, "meast": 0.9, "africa": 0.5 },
-    { "year": "2027", "europe": 2.8, "namerica": 2.9, "asia": 2.4, "lamerica": 0.3, "meast": 0.9, "africa": 0.5 }
-  ];
+  
 
   const updateChart = (filteredData) => {
     if (chart && root) {
@@ -54,6 +44,7 @@ const StatusRange = () => {
       chart.xAxes.getIndex(0).data.setAll(filteredData);
     }
   };
+
 
   useEffect(() => {
     // Create root element
@@ -91,7 +82,7 @@ const StatusRange = () => {
 
     const xAxis = chartInstance.xAxes.push(
       am5xy.CategoryAxis.new(rootInstance, {
-        categoryField: "year",
+        categoryField: "date",
         renderer: xRenderer,
         tooltip: am5.Tooltip.new(rootInstance, {})
       })
@@ -101,7 +92,7 @@ const StatusRange = () => {
       location: 1
     });
 
-    xAxis.data.setAll(data);
+    xAxis.data.setAll(riskSummaryData.dateWiseData);
 
     const yAxis = chartInstance.yAxes.push(
       am5xy.ValueAxis.new(rootInstance, {
@@ -112,7 +103,14 @@ const StatusRange = () => {
       })
     );
 
-    // Add series
+    // Add series dynamically
+    const firstDataPoint = riskSummaryData.dateWiseData[0];
+    Object.keys(firstDataPoint).forEach((key) => {
+      if (key !== "date") {
+        makeSeries(key, key, false);
+      }
+    });
+
     function makeSeries(name, fieldName, stacked) {
       const series = chartInstance.series.push(
         am5xy.ColumnSeries.new(rootInstance, {
@@ -121,17 +119,17 @@ const StatusRange = () => {
           xAxis: xAxis,
           yAxis: yAxis,
           valueYField: fieldName,
-          categoryXField: "year"
+          categoryXField: "date"
         })
       );
 
       series.columns.template.setAll({
-        tooltipText: "{name}, {categoryX}:{valueY}",
+        tooltipText: "{name}, {categoryX}: {valueY}",
         width: am5.percent(90),
         tooltipY: am5.percent(10)
       });
 
-      series.data.setAll(data);
+      series.data.setAll(riskSummaryData.dateWiseData);
 
       series.appear();
 
@@ -151,13 +149,6 @@ const StatusRange = () => {
       legend.data.push(series);
     }
 
-    makeSeries("Europe", "europe", false);
-    makeSeries("North America", "namerica", true);
-    makeSeries("Asia", "asia", false);
-    makeSeries("Latin America", "lamerica", true);
-    makeSeries("Middle East", "meast", true);
-    makeSeries("Africa", "africa", true);
-
     chartInstance.appear(1000, 100);
 
     setChart(chartInstance);
@@ -166,7 +157,7 @@ const StatusRange = () => {
     return () => {
       rootInstance.dispose();
     };
-  }, []);
+  }, [riskSummaryData.dateWiseData]);
 
   return (
     <>
