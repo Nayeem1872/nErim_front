@@ -27,7 +27,7 @@ import { Bell, Edit, File, LayoutDashboard, Trash } from "lucide-react";
 import dayjs from "dayjs";
 import { useQuery } from "@tanstack/react-query";
 
-const { Title } = Typography;
+const { Title, Text } = Typography;
 
 const View = ({ params }) => {
   const { t } = useTranslation();
@@ -51,9 +51,9 @@ const View = ({ params }) => {
   const [isOtherSelected, setIsOtherSelected] = useState(false);
   const [customEmail, setCustomEmail] = useState("");
   const [customActionOwner, setCustomActionOwner] = useState("");
-  const [recordEmail, setRecordEmail] = useState("")
-  const[recordActionOwner,setRecordActionOwner] = useState("")
-  console.log("recordEmail",recordEmail);
+  const [recordEmail, setRecordEmail] = useState("");
+  const [recordActionOwner, setRecordActionOwner] = useState("");
+  console.log("recordEmail", recordEmail);
 
   const { data: Userdata } = useQuery({
     queryKey: ["usersbbbs"],
@@ -106,8 +106,8 @@ const View = ({ params }) => {
     // console.log("record",record);
     setUser_id(record.user_id);
     setEditId(record.id);
-    setRecordEmail(record.action_owner_email)
-    setRecordActionOwner(record.treat_owner)
+    setRecordEmail(record.action_owner_email);
+    setRecordActionOwner(record.treat_owner);
     // Format date fields using dayjs
     const formattedStartedDate = record.started_date
       ? dayjs(record.started_date)
@@ -115,7 +115,7 @@ const View = ({ params }) => {
     const formattedClosingDate = record.closing_date
       ? dayjs(record.closing_date)
       : null;
-      const formattedfinished_date = record.finished_date
+    const formattedfinished_date = record.finished_date
       ? dayjs(record.finished_date)
       : null;
 
@@ -127,7 +127,7 @@ const View = ({ params }) => {
       started_date: formattedStartedDate,
       closing_date: formattedClosingDate,
       user_id: record.user_id,
-      finished_date: formattedfinished_date
+      finished_date: formattedfinished_date,
     });
 
     setIsModalOpen(true);
@@ -152,8 +152,7 @@ const View = ({ params }) => {
         ? dayjs(formData.started_date).format("YYYY-MM-DD")
         : null;
 
-
-        const formattedfinished_date = formData.finished_date
+      const formattedfinished_date = formData.finished_date
         ? dayjs(formData.finished_date).format("YYYY-MM-DD")
         : null;
       formData1.append("started_date", formattedStartDate);
@@ -162,11 +161,13 @@ const View = ({ params }) => {
       formData1.append("expected_benefit", formData.expected_benefit);
 
       if (isOtherSelected) {
-        formData1.append("treat_owner", customActionOwner ||recordActionOwner);
+        formData1.append("treat_owner", customActionOwner || recordActionOwner);
         formData1.append("action_owner_email", customEmail || recordEmail);
-      } 
-      else {
-        formData1.append("treat_owner", selectedActionOwner || recordActionOwner);
+      } else {
+        formData1.append(
+          "treat_owner",
+          selectedActionOwner || recordActionOwner
+        );
         formData1.append("action_owner_email", ownerEmail1 || recordEmail);
       }
       formData1.append("treat_detial", formData.treat_detial);
@@ -213,8 +214,7 @@ const View = ({ params }) => {
         message.error(t("treatment_view.Failed to update record."));
       }
     } catch (error) {
-    
-      message.error(t("treatment_view.Failed to update record.")); 
+      message.error(t("treatment_view.Failed to update record."));
     }
   };
 
@@ -527,15 +527,21 @@ const View = ({ params }) => {
             style={{ marginTop: "20px" }}
             title={t("treatment_view.Register_View")}
           >
-            <Title level={4}>
-              {t("treatment_view.Risk_Name")}: {data1.register.risk_name}
+            <Title level={5}>
+              {t("treatment_view.Risk_Name")}:{" "}
+              <Text mark style={{ fontSize: "18px" }}>
+                {data1.register.risk_name}
+              </Text>
             </Title>
             <Title level={5}>
               {t("treatment_view.Risk_Details")}:{" "}
               {data1.register.risk_identified}
             </Title>
             <Title level={5}>
-              {t("Treatment")}: {data1.register.treatment_decision}
+              {t("Treatment")}:{" "}
+              <span style={{ color: "#2F6690",fontSize: "18px",fontWeight: 'bold' }}>
+                {data1.register.treatment_decision}
+              </span>
             </Title>
             <Title level={5}>
               {t("treatment_view.Created_by")}: {data1.register.owner_email}

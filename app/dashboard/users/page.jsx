@@ -113,6 +113,25 @@ const Users = () => {
       title: t("users.name"),
       dataIndex: "name",
       key: "name",
+      render: (text, record, index) => {
+        // Predefined colors array
+        const colors = ["#CAE7B9", "#F3DE8A", "#EB9486", "#7E7F9A", "#97A7B3"];
+        // Cycle through the colors array
+        const backgroundColor = colors[index % colors.length];
+        return (
+          <div
+            style={{
+              backgroundColor: backgroundColor,
+              borderRadius: "8px",
+              padding: "5px 10px",
+              color: "#000", // Set text color to black
+              textAlign: "center",
+            }}
+          >
+            {text}
+          </div>
+        );
+      },
     },
     {
       title: t("users.email"),

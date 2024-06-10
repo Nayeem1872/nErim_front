@@ -13,6 +13,7 @@ import {
   Result,
   Alert,
   Select,
+  Tag,
 } from "antd";
 import { Divider, Typography } from "antd";
 const { Title, Text } = Typography;
@@ -33,19 +34,18 @@ const Treatment = () => {
   const [transferInputValue, setTransferInputValue] = useState("");
   const [actionName, setActionName] = useState("");
   const [actionDetails, setActionDetails] = useState("");
-  const [actionOwner, setActionOwner] = useState("");
-  const [ownerEmail, setOwnerEmail] = useState("");
   const [expectedBenefit, setExpectedBenefit] = useState("");
   const [closingDate, setClosingDate] = useState(null);
   const [status, setStatus] = useState("");
   const [editId, setEditId] = useState(null);
   const [selectedFile, setSelectedFile] = useState(null);
   const [singleId, setSingleId] = useState("");
-
+  const [refId, setRefId] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedActionOwner, setSelectedActionOwner] = useState(null);
   const [ownerEmail1, setOwnerEmail1] = useState("");
   const [apiData, setApiData] = useState(null);
-
+  const [modalVisible, setModalVisible] = useState(false);
   const [isOtherSelected, setIsOtherSelected] = useState(false);
   const [customEmail, setCustomEmail] = useState("");
   const [customActionOwner, setCustomActionOwner] = useState("");
@@ -108,7 +108,42 @@ const Treatment = () => {
       key: "treatment_decision",
       width: 150,
       fixed: "left",
-      // onFilter: (value, record) => record.name.indexOf(value) === 0,
+      render: (text) => {
+        let color = '';
+  
+        switch (text) {
+          case 'Accept':
+            color = 'green';
+            break;
+          case 'Manage':
+            color = 'blue';
+            break;
+          case 'Transfer':
+            color = 'cyan';
+            break;
+          case 'Mitigate':
+            color = 'orange';
+            break;
+          case 'Reduce':
+            color = 'volcano';
+            break;
+          case 'Avoid':
+            color = 'gold';
+            break;
+          case 'Control':
+            color = 'purple';
+            break;
+          default:
+            color = '';
+            break;
+        }
+  
+        return (
+          <Tag color={color} key={text}>
+            {text}
+          </Tag>
+        );
+      },
     },
     {
       title: t("risk_treatment.action_summary.summary"),
@@ -179,16 +214,19 @@ const Treatment = () => {
           title: t("risk_treatment.action_summary.owner"),
           dataIndex: "treatments",
           key: "owner",
-          render: (treatments) => (
-            <>
-              {treatments.map((treatment, index) => (
-                <>
-                  <div key={index}>{treatment.treat_owner}</div>
-                  <Divider />
-                </>
-              ))}
-            </>
-          ),
+          render: (treatments) => {
+            console.log("treatments",treatments); // Correct placement of console.log
+            return (
+              <>
+                {treatments.map((treatment, index) => (
+                  <React.Fragment key={index}>
+                    <div>{treatment.user.name}</div>
+                    <Divider />
+                  </React.Fragment>
+                ))}
+              </>
+            );
+          },
         },
       ],
     },
@@ -220,9 +258,8 @@ const Treatment = () => {
       ),
     },
   ];
-  const email = localStorage.getItem("verifyEmail");
   const token = localStorage.getItem("authorization");
-  const userId = localStorage.getItem("userId");
+
 
   const {
     data: data,
@@ -247,9 +284,7 @@ const Treatment = () => {
     },
     staleTime: 1000 * 60 * 60 * 1,
   });
-  const [refId, setRefId] = useState([]);
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const showModal = (record) => {
     setEditId(record.id);
     setRefId(record.refId);
@@ -293,9 +328,9 @@ const Treatment = () => {
         refetch();
         setActionName("");
         setActionDetails("");
-        setSelectedActionOwner(""); 
+        setSelectedActionOwner("");
         setCustomActionOwner("");
-        setOwnerEmail1(""); 
+        setOwnerEmail1("");
         setCustomEmail("");
         setExpectedBenefit("");
         setClosingDate(null);
@@ -388,7 +423,7 @@ const Treatment = () => {
     });
   };
 
-  const [modalVisible, setModalVisible] = useState(false);
+
   // const showModalExample = () => {
   //   setIsModalExampleOpen(true);
   // };

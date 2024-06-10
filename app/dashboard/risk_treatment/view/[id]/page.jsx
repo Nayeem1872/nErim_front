@@ -27,7 +27,7 @@ import { Bell, Edit, File, LayoutDashboard, Trash } from "lucide-react";
 import dayjs from "dayjs";
 import { useQuery } from "@tanstack/react-query";
 
-const { Title } = Typography;
+const { Title,Text } = Typography;
 
 const View = ({ params }) => {
   const { t } = useTranslation();
@@ -532,15 +532,21 @@ const View = ({ params }) => {
             style={{ marginTop: "20px" }}
             title={t("treatment_view.Register_View")}
           >
-            <Title level={4}>
-              {t("treatment_view.Risk_Name")}: {data1.register.risk_name}
+           <Title level={5}>
+              {t("treatment_view.Risk_Name")}:{" "}
+              <Text mark style={{ fontSize: "18px" }}>
+                {data1.register.risk_name}
+              </Text>
             </Title>
             <Title level={5}>
               {t("treatment_view.Risk_Details")}:{" "}
               {data1.register.risk_identified}
             </Title>
             <Title level={5}>
-              {t("Treatment")}: {data1.register.treatment_decision}
+              {t("Treatment")}:{" "}
+              <span style={{ color: "#2F6690",fontSize: "18px",fontWeight: 'bold' }}>
+                {data1.register.treatment_decision}
+              </span>
             </Title>
             <Title level={5}>
               {t("treatment_view.Created_by")}: {data1.register.owner_email}

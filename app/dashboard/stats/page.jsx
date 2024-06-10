@@ -129,7 +129,25 @@ const Stats = () => {
       title: t("stats.Risk Domain"),
       dataIndex: "category",
       key: "category_name",
-      render: (text, record) => record?.category?.category_name,
+      render: (text, record, index) => {
+        // Predefined colors array
+        const colors = ["#81C3D7", "#F3DE8A", "#EB9486", "#3A7CA5", "#97A7B3"];
+        // Cycle through the colors array
+        const backgroundColor = colors[index % colors.length];
+        return (
+          <div
+            style={{
+              backgroundColor: backgroundColor,
+              borderRadius: "8px",
+              padding: "5px 10px",
+              color: "#000", // Set text color to black
+              textAlign: "center",
+            }}
+          >
+            {record?.category?.category_name}
+          </div>
+        );
+      },
     },
     {
       title: t("stats.Risk Name"),
@@ -399,6 +417,7 @@ const Stats = () => {
     setIsModalVisible(false);
     setIsModalDataExporVisible(false);
     setIsModalBelowVisible(false);
+    setIsModalUpperVisible(false);
   };
 // SLA Below Modal
 
@@ -410,7 +429,7 @@ const handleBelowOk = async () => {
   setIsModalBelowVisible(false);
   try {
     // Perform the GET request to export the file here
-    const response = await axios.get("/api/export/top-five-risk", {
+    const response = await axios.get("/api/export/with-in-limit", {
       responseType: "blob",
     });
     const blobUrl = window.URL.createObjectURL(response.data);
@@ -418,7 +437,7 @@ const handleBelowOk = async () => {
     // Create a link element to trigger the download
     const link = document.createElement("a");
     link.href = blobUrl;
-    link.setAttribute("download", "TopFiveRisk.csv");
+    link.setAttribute("download", "BelowAppatite.csv");
 
     // Append the link to the document body and trigger the click event
     document.body.appendChild(link);
@@ -446,7 +465,7 @@ const handleUpperOk = async () => {
   setIsModalUpperVisible(false);
   try {
     // Perform the GET request to export the file here
-    const response = await axios.get("/api/export/top-five-risk", {
+    const response = await axios.get("/api/export/with-out-limit", {
       responseType: "blob",
     });
     const blobUrl = window.URL.createObjectURL(response.data);
@@ -454,7 +473,7 @@ const handleUpperOk = async () => {
     // Create a link element to trigger the download
     const link = document.createElement("a");
     link.href = blobUrl;
-    link.setAttribute("download", "TopFiveRisk.csv");
+    link.setAttribute("download", "UpperApatite.csv");
 
     // Append the link to the document body and trigger the click event
     document.body.appendChild(link);
@@ -641,7 +660,7 @@ const handleUpperOk = async () => {
         onCancel={handleCancel}
         centered
       >
-        <p>Are you sure you want to export Top Five Risk?</p>
+        <p> {t("stats.Are you sure you want to export Top Five Risk?")}</p>
       </Modal>
       {/* Table */}
 
@@ -656,7 +675,7 @@ const handleUpperOk = async () => {
             marginBottom: "10px",
           }}
         >
-          <Button onClick={showModal}>Export</Button>
+          <Button type="primary"  onClick={showModal}> {t("stats.Export Top Five Risk")}</Button>
         </div>
 
         <Table
@@ -686,15 +705,16 @@ const handleUpperOk = async () => {
             marginBottom: "10px",
           }}
         >
-          <Button onClick={showBelowModal}>Export Below Appatite</Button>
+          <Button type="primary"  onClick={showBelowModal}> {t("stats.Export Below Appatite")}</Button>
         </div>
         <Modal
               title="Export Data Confirmation"
               visible={isModalBelowVisible}
               onOk={handleBelowOk}
               onCancel={handleCancel}
+              centered
             >
-              <p>Are you sure you want to export the data?</p>
+              <p>{t("stats.Are you sure you want to export below apatite data?")}</p>
             </Modal>
           <Table
             bordered
@@ -712,8 +732,17 @@ const handleUpperOk = async () => {
             marginBottom: "10px",
           }}
         >
-          <Button onClick={showUpperModal}>Export Upper Appatite</Button>
+          <Button type="primary" onClick={showUpperModal}> {t("stats.Export Upper Appatite")}</Button>
         </div>
+        <Modal
+              title="Export Data Confirmation"
+              visible={isModalUpperVisible}
+              onOk={handleUpperOk}
+              onCancel={handleCancel}
+              centered
+            >
+              <p>{t("stats.Are you sure you want to export upper appatite data?")}</p>
+            </Modal>
           <Table
             bordered
             dataSource={riskWithOutLimit}
@@ -736,15 +765,16 @@ const handleUpperOk = async () => {
                 marginBottom: "10px",
               }}
             >
-              <Button onClick={showDataExportModal}>Export SLA</Button>
+              <Button  type="primary"  onClick={showDataExportModal}> {t("stats.Export SLA")}</Button>
             </div>
             <Modal
               title="Export Data Confirmation"
               visible={isModalDataExporVisible}
               onOk={handleDataExport}
               onCancel={handleCancel}
+              centered
             >
-              <p>Are you sure you want to export the data?</p>
+              <p>{t("stats.Are you sure you want to export SLA data?")}</p>
             </Modal>
             <Table
               dataSource={slaViolations}

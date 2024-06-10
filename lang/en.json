@@ -467,7 +467,15 @@
     "Week":"Week",
     "Month":"Month",
     "Quarter":"Quarter",
-    "Search":"Search"
+    "Search":"Search",
+    "Export Upper Appatite":"Export Upper Appatite",
+    "Export SLA":"Export SLA",
+    "Are you sure you want to export SLA data?":"Are you sure you want to export SLA data?",
+    "Are you sure you want to export upper appatite data?":"Are you sure you want to export upper appatite data?",
+    "Are you sure you want to export Top Five Risk?":"Are you sure you want to export Top Five Risk?",
+    "Export Top Five Risk":"Export Top Five Risk",
+    "Export Below Appatite":"Export Below Appatite",
+    "Are you sure you want to export below apatite data?":"Are you sure you want to export below apatite data?"
     
   }
 
