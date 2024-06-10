@@ -79,19 +79,7 @@ const Settings = () => {
     setIsModalOpen(false);
     setMatrixOptionsSelected(false);
   };
-  // const fetchData = async () => {
-  //   try {
-  //     // Make an HTTP GET request to your API endpoint
-  //     const response = await axios.get("/api/basic-status");
 
-  //     // Update the state with the fetched data
-  //     setApiData(response.data);
-  //   } catch (error) {
-  //     console.error("Error fetching data:", error);
-  //     // You might want to handle errors here
-  //   }
-  // };
-  
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -211,7 +199,7 @@ const Settings = () => {
             </Text>
 
             <Divider />
-            <Tabs tabPosition={tabPosition} defaultActiveKey="" items={items} />
+            <Tabs tabPosition="left" defaultActiveKey="" items={items} />
           </div>
         ) : (
           // Render form and button if formValues is null
@@ -255,7 +243,8 @@ const Settings = () => {
                   {JSON.stringify(matrixId, null, 2)}
                 </Text>
                 <Tabs
-                  tabPosition={tabPosition}
+                  // tabPosition={tabPosition}
+                  tabPosition="left"
                   defaultActiveKey=""
                   items={items}
                 />
