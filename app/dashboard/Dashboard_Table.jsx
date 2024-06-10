@@ -35,16 +35,17 @@ const Dashboard_Table = () => {
     {
       title: "Name",
       dataIndex: "status_name",
-      key: "status_name",
+      key: `status_name`,
     },
     ...matrixWithStatus.map((matrix) => ({
       title: matrix.critical_step,
       dataIndex: `count_${matrix.id}`,
-      key: `count_${matrix.id}`,  // Add a unique key for each column
+      key: `count_${matrix.id}`, 
       render: (text, record) => {
         const dataItem = record.data.find(
           (item) => item.matrix_id === matrix.id
         );
+       
         return (
           <span
             style={{ cursor: "pointer" }}
@@ -74,7 +75,12 @@ const Dashboard_Table = () => {
     >
       <Row justify="center">
         <Col xs={24} sm={24} md={24} lg={24} xl={24}>
-          <Table dataSource={data} columns={columns} pagination={false} />
+          <Table
+            dataSource={data}
+            columns={columns}
+            pagination={false}
+            rowKey={() => Math.random().toString(12).substr(2, 9)}
+          />
         </Col>
       </Row>
     </div>

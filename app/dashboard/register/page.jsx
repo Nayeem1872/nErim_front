@@ -672,7 +672,7 @@ const Register = () => {
       </>
       <Modal
         title={t("risk_treatment.modal_title")}
-        visible={isModalVisible}
+        open={isModalVisible}
         centered
         onOk={handleOk}
         onCancel={handleCancel}
