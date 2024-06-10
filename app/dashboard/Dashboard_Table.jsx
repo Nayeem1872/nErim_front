@@ -10,21 +10,15 @@ const Dashboard_Table = () => {
   const router = useRouter();
 
   useEffect(() => {
-    const email = localStorage.getItem("verifyEmail");
     const token = localStorage.getItem("authorization");
     const fetchData = async () => {
       try {
-        const response = await axios.get(
-          `/api/dashboard/`,
-
-          {
-            withCredentials: true,
-            headers: {
-              // 'Cookie': combinedId,
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+        const response = await axios.get(`/api/dashboard/`, {
+          withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
         setMatrixWithStatus(response.data.matrixWithStatus);
 
         const final = response.data.tblRegisterWithStatus;
@@ -46,7 +40,7 @@ const Dashboard_Table = () => {
     ...matrixWithStatus.map((matrix) => ({
       title: matrix.critical_step,
       dataIndex: `count_${matrix.id}`,
-      key: `count_${matrix.id}`,
+      key: `count_${matrix.id}`,  // Add a unique key for each column
       render: (text, record) => {
         const dataItem = record.data.find(
           (item) => item.matrix_id === matrix.id
@@ -62,6 +56,7 @@ const Dashboard_Table = () => {
       },
     })),
   ];
+
   const handleDataItemClick = async (dataItem) => {
     router.push(
       `/dashboard/register/tableData/${dataItem?.matrix_id}/${dataItem?.status_id}`
@@ -71,7 +66,7 @@ const Dashboard_Table = () => {
   return (
     <div
       style={{
-        marginTop: "110px",
+        marginTop: "17px",
         borderRadius: "10px",
         overflow: "hidden",
         boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)",

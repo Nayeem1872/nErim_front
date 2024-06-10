@@ -175,7 +175,7 @@ const Stacked = () => {
       <Card>
         <Card.Grid style={gridStyle}>
           {t("dashboard.Stacked")} <u>{new Date().toLocaleDateString()}</u>
-          <div id="chartdiv1" style={{ width: "100%", height: "500px" }} />
+          <div id="chartdiv1" style={{ width: "100%", height: "350px" }} />
          
         </Card.Grid>
       </Card>

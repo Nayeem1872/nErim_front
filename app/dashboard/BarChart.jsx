@@ -206,7 +206,7 @@ const BarChart = () => {
     <div>
       {t("dashboard.RiskStatusSummary")}{" "}
       <u>{new Date().toLocaleDateString()}</u> <BarChartOutlined />
-      <div id="chartdiv1872" style={{ width: "100%", height: "500px" }} />
+      <div id="chartdiv1872" style={{ width: "100%", height: "350px" }} />
     </div>
   );
 };

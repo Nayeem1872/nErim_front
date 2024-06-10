@@ -81,7 +81,7 @@ const PieChart = () => {
         <Card.Grid style={gridStyle}>
           {t("dashboard.Pie")} <u>{new Date().toLocaleDateString()}</u>{" "}
           <PieChartOutlined />
-          <div id="chartdiv88" style={{ width: "100%", height: "500px" }} />
+          <div id="chartdiv88" style={{ width: "100%",height: "350px"}} />
         </Card.Grid>
       </Card>
     </div>

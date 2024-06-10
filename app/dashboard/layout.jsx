@@ -252,7 +252,7 @@ export default function DashboardLayout({ children }) {
                     },
                     children: [
                       {
-                        key: "2",
+                        key: "22",
                         icon: <UserRoundPlus />,
                         label: t("side_navbar.register"),
                         style: {
@@ -510,7 +510,7 @@ export default function DashboardLayout({ children }) {
                       height: 64,
                     }}
                   />
-                  <Search />
+                  {/* <Search /> */}
                 </Space>
 
                 <Space style={{ marginRight: "50px" }}>
@@ -521,7 +521,7 @@ export default function DashboardLayout({ children }) {
 
               <Content
                 style={{
-                  margin: "84px 16px 24px",
+                  margin: "20px 16px 24px",
                   padding: 24,
                   minHeight: 280,
                   background: isDarkMode ? "#000000" : "#F5F5F5",

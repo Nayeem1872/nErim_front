@@ -88,7 +88,7 @@ const Tree = () => {
         <Card.Grid style={gridStyle}>
           <div style={{ marginBottom: "20px" }}>
             {t("dashboard.Domain Wise Action Status")}:<u>{new Date().toLocaleDateString()}</u> <DotChartOutlined />
-            <div id="chartdiv3" style={{ width: "100%", height: "500px" }} />
+            <div id="chartdiv3" style={{ width: "100%", height: "350px" }} />
           </div>
         </Card.Grid>
       </Card>

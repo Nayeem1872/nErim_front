@@ -5,8 +5,9 @@ import {
   Button,
   Card,
   Col,
+  Divider,
   FloatButton,
-  message,
+  
   Result,
   Row,
 } from "antd";
@@ -16,7 +17,6 @@ import Pie from "./Pie";
 import Tree from "./Tree";
 import Dashboard_Table from "./Dashboard_Table";
 import { LayoutDashboard } from "lucide-react";
-import MyContext from "@/provider/Context";
 import { useTranslation } from "react-i18next";
 import BarChart from "./BarChart";
 import { useRouter } from "next/navigation";
@@ -89,6 +89,7 @@ const Dashboard = ({ isDarkMode, handleClick }) => {
           },
         ]}
       />
+      <Divider/>
       {isError ? (
         <div
           style={{
