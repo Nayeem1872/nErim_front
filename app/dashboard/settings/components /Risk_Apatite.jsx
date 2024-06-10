@@ -115,23 +115,29 @@ const handleDecrement = () => {
   return (
     <div>
       <div style={{ display: "flex", alignItems: "center" }}>
-        <Title level={4}> {t("Risk_Apatite.Risk_Apatite")}</Title>
-        <div style={{ display: 'flex', alignItems: 'center', marginTop:"12px",marginLeft:"5px" }}>
+  <Title level={4}> {t("Risk_Apatite.Risk_Apatite")}</Title>
+  <div style={{ display: 'flex', alignItems: 'center', marginTop:"12px",marginLeft:"5px" }}>
     <InputNumber
-        readOnly={true}
-        min={1}
-        max={max()}
-        onChange={handleInputChange}
-        value={apetiteValue}
-        // size="large"
-        // className={styles.customInputNumber}
-        style={{ width: "200px", marginRight: "5px" }}
+      readOnly={true}
+      min={1}
+      max={max()}
+      onChange={handleInputChange}
+      value={apetiteValue}
+      // size="large"
+      // className={styles.customInputNumber}
+      style={{ width: "200px", marginRight: "5px" }}
     />
     <Button onClick={() => handleIncrement()} icon={<PlusOutlined />} style={{marginRight:"5px"}} />
     <Button onClick={() => handleDecrement()} icon={<MinusOutlined />} />
+  </div>
 </div>
-        
-      </div>
+
+<div style={{ marginTop: "8px" }}>
+  <p style={{ fontSize: "14px", color: "#555" }}>
+    Risk Appetite reflects your willingness to accept or tolerate risk in pursuit of objectives. 
+    Adjust the value above to indicate your current risk appetite level.
+  </p>
+</div>
     </div>
   );
 };

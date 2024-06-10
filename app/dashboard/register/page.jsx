@@ -610,7 +610,7 @@ const Register = () => {
             <>
               <div style={{ textAlign: "right" }}>
                 <Button onClick={handleRefresh} style={{ marginRight: "10px" }}>
-                  <RedoOutlined /> Refresh
+                  <RedoOutlined />{t("Refresh")}
                 </Button>
                 {/* {loading && (
                   <div

@@ -1,21 +1,15 @@
 "use client";
 import React from "react";
-import { Breadcrumb, Space, Table, Tag } from "antd";
+import { Breadcrumb, Table } from "antd";
 import { useQuery } from "@tanstack/react-query";
 import { Divider, Typography } from "antd";
 import { LayoutDashboard } from "lucide-react";
-import { useCookies } from "react-cookie";
 import axios from "axios";
 import { useTranslation } from "react-i18next";
 const { Title } = Typography;
 
 const Audit = () => {
   const { t } = useTranslation();
-  // const [cookies] = useCookies();
-
-
-  const token = localStorage.getItem("authorization");
-
   const { data: dataSourceQuery } = useQuery({
     queryKey: ["audit"],
     queryFn: async () => {

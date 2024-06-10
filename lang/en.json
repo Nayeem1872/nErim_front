@@ -5,6 +5,9 @@
   "There are some problems with your operation.":"There are some problems with your operation.",
   "Please check your settings.":"Please check your settings.",
   "Go Settings":"Go Settings",
+  "Treatment":"Treatment",
+  "Example File":"Example File",
+  "Refresh":"Refresh",
 
   "side_navbar": {
     "dashboard": "Dashboard",
@@ -17,7 +20,7 @@
     "account_info": "Account Info",
     "logout": "Logout",
     "Help":"Help",
-    "Risk Management":"Risk Management",
+    "Risk Management":"Management",
     "Treatment":"Treatment",
     "States Menu":"States Menu"
   },
@@ -383,9 +386,9 @@
     "Select_Currency": "Select Currency"
   },
   "Risk_Apatite": {
-    "Risk_Apatite": "Risk Apatite:",
+    "Risk_Apatite": "Risk Appetite:",
     "Action_in_progress": "Action in progress....",
-    "Risk_Apatite_updated_successfully.": "Risk Apatite updated successfully.",
+    "Risk_Apatite_updated_successfully.": "Risk Appetite updated successfully.",
     "An_error_occurred_while_updating_the_record.": "An error occurred while updating the record."
   },
   "BackUp": {

@@ -44,7 +44,6 @@ const Settings = () => {
     setMatrixOptionsSelected(true);
   };
 
-
   const showModal = () => {
     setIsModalOpen(true);
   };
@@ -63,8 +62,6 @@ const Settings = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-
-
 
       localStorage.setItem("modelId", response.data.modelId);
 
@@ -89,13 +86,12 @@ const Settings = () => {
         console.error("Error fetching data:", error);
       }
     };
-  
+
     // Fetch data only if it hasn't been fetched yet
     if (!apiData) {
       fetchData();
     }
   }, [apiData]);
-
 
   const [tabPosition, setTabPosition] = useState("left");
   const items = [
@@ -113,31 +109,27 @@ const Settings = () => {
     },
     {
       key: "2",
-      label: 
-      (
+      label: (
         <>
-        {t("settings.RiskLikelihood")}
-        {apiData?.likelihoodStatus === false && (
+          {t("settings.RiskLikelihood")}
+          {apiData?.likelihoodStatus === false && (
             <WarningFilled style={{ marginLeft: "15px", color: "red" }} />
           )}
         </>
-
       ),
       children: <Likelihood setApiData={setApiData} />,
     },
     {
       key: "3",
-      label: 
-      (
+      label: (
         <>
-        {t("settings.RiskValuation")}
-        {apiData?.matrixStatus === false && (
+          {t("settings.RiskValuation")}
+          {apiData?.matrixStatus === false && (
             <WarningFilled style={{ marginLeft: "15px", color: "red" }} />
           )}
         </>
-
       ),
-      children: <Valuation  setApiData={setApiData}/>,
+      children: <Valuation setApiData={setApiData} />,
     },
     {
       key: "4",
@@ -193,7 +185,7 @@ const Settings = () => {
         {matrixId ? (
           // Render content based on formValues
           <div>
-            <Text code>
+            <Text code mark style={{ fontWeight: "bold", fontSize: "16px" }}>
               {t("settings.Choose")}
               {JSON.stringify(matrixId, null, 2)}
             </Text>
@@ -205,8 +197,33 @@ const Settings = () => {
           // Render form and button if formValues is null
           <>
             {!matrixOptionsSelected && !isModalOpen && (
-              <div style={{ marginBottom: "20px" }}>
-                <Button type="primary" onClick={showModal}>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  marginBottom: "20px",
+                }}
+              >
+                <img
+                  src="/image/team.svg"
+                  alt="Team"
+                  style={{
+                    width: "90%",
+                    maxWidth: "400px",
+                  }}
+                />
+                <p style={{ fontSize: "24px", marginBottom: "20px" }}>
+                  Welcome to nErim Dashboard Settings
+                </p>
+                <p style={{ fontSize: "18px", marginBottom: "20px" }}>
+                 Please select matrix model
+                </p>
+                <Button
+                  type="primary"
+                  onClick={showModal}
+                  style={{ fontSize: "18px" }}
+                >
                   {t("settings.OpenMatrixModal")}
                 </Button>
               </div>

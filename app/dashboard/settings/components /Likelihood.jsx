@@ -142,6 +142,26 @@ const Likelihood = ({ setApiData }) => {
       title: t("settingsLikelihood.Likelihood"),
       dataIndex: "relative",
       key: "relative",
+      render: (text, record, index) => {
+        const colors = ["#81C3D7", "#F3DE8A", "#EB9486", "#3A7CA5", "#97A7B3"];
+        const colorFromRecord = record?.color || colors[index % colors.length];
+        const backgroundColor = colorFromRecord.startsWith("#")
+          ? colorFromRecord
+          : `#${colorFromRecord}`;
+        return (
+          <div
+            style={{
+              backgroundColor: backgroundColor,
+              borderRadius: "8px",
+              padding: "5px 10px",
+              color: "#000",
+              textAlign: "center",
+            }}
+          >
+            {record?.relative}
+          </div>
+        );
+      },
     },
     {
       title: t("settingsLikelihood.Description"),
@@ -460,6 +480,7 @@ const Likelihood = ({ setApiData }) => {
         dataSource={dataSourceQuery}
         pagination={false}
         columns={columns}
+        bordered
       />
       )}
     </div>

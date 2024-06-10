@@ -50,7 +50,7 @@ const Impact = ({ setApiData }) => {
           Authorization: `Bearer ${token}`,
         },
       });
-  
+
       if (response.data.impactData.length > 0) {
         // Extracting colors from all items in impactData
         const colors = response.data.impactData.map((item) => item.color);
@@ -84,8 +84,28 @@ const Impact = ({ setApiData }) => {
     {
       title: t("settingsImpact.Impact"),
       dataIndex: "relative",
+      key: "relative",
+      render: (text, record, index) => {
+        const colors = ["#81C3D7", "#F3DE8A", "#EB9486", "#3A7CA5", "#97A7B3"];
+        const colorFromRecord = record?.color || colors[index % colors.length];
+        const backgroundColor = colorFromRecord.startsWith("#")
+          ? colorFromRecord
+          : `#${colorFromRecord}`;
+        return (
+          <div
+            style={{
+              backgroundColor: backgroundColor,
+              borderRadius: "8px",
+              padding: "5px 10px",
+              color: "#000",
+              textAlign: "center",
+            }}
+          >
+            {record?.relative}
+          </div>
+        );
+      },
     },
-
     { title: t("settingsImpact.Criteria"), dataIndex: "criteria" },
     {
       title: t("settingsImpact.Weight"),
@@ -201,7 +221,6 @@ const Impact = ({ setApiData }) => {
       if (dataSourceQuery.length < storedMatrixId) {
         try {
           const data = { userId: userId, verifyEmail: email, ...formData };
-       
 
           const apiUrl = "/api/risk-impact";
 
@@ -220,8 +239,6 @@ const Impact = ({ setApiData }) => {
             // Update the state with the fetched data
             setApiData(response.data);
           }
-
-      
         } catch (error) {
           if (
             error.response &&
@@ -310,9 +327,7 @@ const Impact = ({ setApiData }) => {
     setIsModalOpen(false);
   };
 
-  const handleChange = (value) => {
-
-  };
+  const handleChange = (value) => {};
   // Delete Request
   const showPopconfirm = (record) => {
     setOpen(record?.id);

@@ -12,7 +12,6 @@ import {
   Upload,
   Result,
   Alert,
-  Select,
   Tag,
 } from "antd";
 import { Divider, Typography } from "antd";
@@ -586,7 +585,7 @@ const Treatment = () => {
                 onClick={handleImportModal}
                 style={{ marginRight: "10px" }}
               >
-                Example File
+               {t("Example File")}
               </Button>
               <Modal
                 width={800}
