@@ -146,7 +146,7 @@ const Impact = ({ setApiData }) => {
                   <strong>Are you sure you want to delete?</strong>
                 </>
               }
-              visible={open === record?.id} // Changed open to visible
+              open={open === record?.id} 
               onConfirm={() => confirm(record?.id)}
               onCancel={cancel}
               okText="Yes"

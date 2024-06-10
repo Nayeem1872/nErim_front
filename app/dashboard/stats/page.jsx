@@ -83,41 +83,6 @@ const Stats = () => {
     );
   }
 
-  const riskSummaryColumn = [
-    {
-      title: "Name",
-      dataIndex: "name",
-      key: "name",
-    },
-    {
-      title: "Current Risk",
-      dataIndex: "age",
-      key: "age",
-    },
-    {
-      title: "Residual Risk",
-      dataIndex: "address",
-      key: "address",
-    },
-    {
-      title: "%",
-      dataIndex: "address",
-      key: "address",
-    },
-  ];
-  if (loading) {
-    return (
-      <div className={styles.centeredSpinner}>
-        <Spin size="large" />
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <Alert message="Error" description="Failed to fetch data" type="error" />
-    );
-  }
 
   const columns = [
     {
@@ -129,7 +94,7 @@ const Stats = () => {
       title: t("stats.Risk Domain"),
       dataIndex: "category",
       key: "category_name",
-      render: (text, record, index) => {
+      render: (record, index) => {
         // Predefined colors array
         const colors = ["#81C3D7", "#F3DE8A", "#EB9486", "#3A7CA5", "#97A7B3"];
         // Cycle through the colors array
@@ -655,7 +620,7 @@ const handleUpperOk = async () => {
 
       <Modal
         title="Export Confirmation"
-        visible={isModalVisible}
+        open={isModalVisible}
         onOk={handleOk}
         onCancel={handleCancel}
         centered
@@ -709,7 +674,7 @@ const handleUpperOk = async () => {
         </div>
         <Modal
               title="Export Data Confirmation"
-              visible={isModalBelowVisible}
+              open={isModalBelowVisible}
               onOk={handleBelowOk}
               onCancel={handleCancel}
               centered
@@ -736,7 +701,7 @@ const handleUpperOk = async () => {
         </div>
         <Modal
               title="Export Data Confirmation"
-              visible={isModalUpperVisible}
+              open={isModalUpperVisible}
               onOk={handleUpperOk}
               onCancel={handleCancel}
               centered
@@ -769,7 +734,7 @@ const handleUpperOk = async () => {
             </div>
             <Modal
               title="Export Data Confirmation"
-              visible={isModalDataExporVisible}
+              open={isModalDataExporVisible}
               onOk={handleDataExport}
               onCancel={handleCancel}
               centered

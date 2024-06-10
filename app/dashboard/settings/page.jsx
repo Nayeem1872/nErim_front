@@ -230,7 +230,7 @@ const Settings = () => {
             )}
             <Modal
               title={t("settings.Matrix_Modal")}
-              visible={isModalOpen}
+              open={isModalOpen}
               centered
               onOk={handleOk}
               onCancel={handleCancel}

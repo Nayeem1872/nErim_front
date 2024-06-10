@@ -7,7 +7,6 @@ import {
   Col,
   Divider,
   FloatButton,
-  
   Result,
   Row,
 } from "antd";
