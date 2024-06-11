@@ -248,8 +248,6 @@ const Add = () => {
     }
   };
 
-
-
   const calculateRiskScore = () => {
     if (selectedLikelihood && selectedImpact) {
       const riskScore = selectedLikelihood * selectedImpact;
@@ -276,9 +274,7 @@ const Add = () => {
     return rangeInfo;
   };
 
-
   const riskInfo = getRiskInfo(calculateRiskScore());
-
 
   // Compare risk score with risk appetite
   const compareRiskWithAppetite = () => {
@@ -313,7 +309,6 @@ const Add = () => {
     try {
       const response = await axios.post("/api/register/import", formData);
 
-
       if (response.status === 200) {
         // Handle success
 
@@ -328,7 +323,7 @@ const Add = () => {
       }
     } catch (error) {
       // Handle error
- 
+
       message.error("Error uploading file");
     }
   };
@@ -370,6 +365,12 @@ const Add = () => {
   const handleImportModal = () => {
     setModalVisible(true);
   };
+
+  function decodeHTMLEntities(text) {
+    const tempElement = document.createElement("div");
+    tempElement.innerHTML = text;
+    return tempElement.textContent || tempElement.innerText || "";
+  }
 
   return (
     <>
@@ -447,17 +448,7 @@ const Add = () => {
                   },
                 ]}
               >
-                <Input
-                  placeholder={t("add_register.input_name")}
-                  suffix={
-                    <Tooltip title="prompt text" color="blue">
-                      <QuestionCircleOutlined
-                        size={16}
-                        style={{ alignItems: "center" }}
-                      />
-                    </Tooltip>
-                  }
-                />
+                <Input placeholder={t("add_register.input_name")} />
               </Form.Item>
               <Form.Item
                 name="owner_email"
@@ -469,17 +460,7 @@ const Add = () => {
                   },
                 ]}
               >
-                <Input
-                  placeholder={t("add_register.input_email")}
-                  suffix={
-                    <Tooltip title="prompt text" color="blue">
-                      <QuestionCircleOutlined
-                        size={16}
-                        style={{ alignItems: "center" }}
-                      />
-                    </Tooltip>
-                  }
-                />
+                <Input placeholder={t("add_register.input_email")} />
               </Form.Item>
 
               <Form.Item
@@ -494,14 +475,6 @@ const Add = () => {
               >
                 <Input
                   placeholder={t("add_register.input_owner")}
-                  suffix={
-                    <Tooltip title="prompt text" color="blue">
-                      <QuestionCircleOutlined
-                        size={16}
-                        style={{ alignItems: "center" }}
-                      />
-                    </Tooltip>
-                  }
                   style={{ alignItems: "center" }}
                 />
               </Form.Item>
@@ -516,21 +489,26 @@ const Add = () => {
               <Form.Item
                 name="financial_impact"
                 label={t("add_register.financial_impact")}
-                // rules={[
-                //   {
-                //     type: "number",
-                //   },
-                // ]}
               >
                 <Input
+                type="number"
                   placeholder={t("add_register.input_financial_impact")}
                   suffix={
-                    <Tooltip title="prompt text" color="blue">
-                      <QuestionCircleOutlined
-                        size={16}
-                        style={{ alignItems: "center" }}
-                      />
-                    </Tooltip>
+                    <span
+                    style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      backgroundColor: '#4096FF',
+                      color: 'white',
+                      padding: '5px 10px',
+                      borderRadius: '4px',
+                      fontSize: '16px',
+                      marginLeft: '8px',
+                    }}
+                  >
+                    {decodeHTMLEntities(`&#${data?.currency?.symbol}`)}
+                  </span>
                   }
                   style={{ alignItems: "center" }}
                 />
@@ -585,14 +563,6 @@ const Add = () => {
               >
                 <Input
                   placeholder={t("add_register.input_impact_area")}
-                  suffix={
-                    <Tooltip title="prompt text" color="blue">
-                      <QuestionCircleOutlined
-                        size={16}
-                        style={{ alignItems: "center" }}
-                      />
-                    </Tooltip>
-                  }
                   style={{ alignItems: "center" }}
                 />
               </Form.Item>
@@ -602,14 +572,6 @@ const Add = () => {
               >
                 <Input.TextArea
                   placeholder={t("add_register.input_risk_details")}
-                  suffix={
-                    <Tooltip title="prompt text" color="blue">
-                      <QuestionCircleOutlined
-                        size={16}
-                        style={{ alignItems: "center" }}
-                      />
-                    </Tooltip>
-                  }
                 />
               </Form.Item>
               <Form.Item

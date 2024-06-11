@@ -79,7 +79,7 @@ const Currency = () => {
   // Conditionally include the Edit column based on apiData
   if (apiData !== "user") {
     columns.push({
-      title: t("settingsCurrency.Edit"),
+      title: t("treatment_view.action"),
       key: "action",
       render: (text, record) => (
         <Space size="small">

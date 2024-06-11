@@ -15,7 +15,7 @@ import {
   Tag,
 } from "antd";
 import { Divider, Typography } from "antd";
-const { Title, Text } = Typography;
+const { Text } = Typography;
 const { Option } = Select;
 import axios from "axios";
 import { useRouter } from "next/navigation";
@@ -48,6 +48,8 @@ const Treatment = () => {
   const [isOtherSelected, setIsOtherSelected] = useState(false);
   const [customEmail, setCustomEmail] = useState("");
   const [customActionOwner, setCustomActionOwner] = useState("");
+  const [filterInput, setFilterInput] = useState("");
+
 
   const handleSettingsClick = () => {
     router.push("/dashboard/settings"); // Navigate to settings page
@@ -72,7 +74,7 @@ const Treatment = () => {
   }, []);
 
   const { data: Userdata } = useQuery({
-    queryKey: ["usersbbbs"],
+    queryKey: ["usersbbbs4545"],
     queryFn: async () => {
       const response = await axios.get(`/api/users`, {
         withCredentials: true,
@@ -394,7 +396,6 @@ const Treatment = () => {
 
   // search function
 
-  const [filterInput, setFilterInput] = useState("");
   const handleSearch = (value) => {
     setFilterInput(value);
   };
@@ -427,6 +428,8 @@ const Treatment = () => {
   const handleImportModal = () => {
     setModalVisible(true);
   };
+
+
 
   const handleImport = () => {
     // Make an API call to download the file
@@ -510,30 +513,40 @@ const Treatment = () => {
     setCustomActionOwner(e.target.value);
     // Sync custom action owner input with selectedActionOwner state
   };
+
+  const breadcrumbItems = [
+    {
+      key: "dashboard",
+      title: (
+        <a
+          onClick={() => {
+            router.push(`/dashboard`);
+          }}
+          style={{ display: "flex", alignItems: "center", gap: "5px" }}
+        >
+          <LayoutDashboard
+            style={{ fontSize: "20px", marginBottom: "2px" }}
+            color="#0D85D8"
+          />
+        </a>
+      ),
+    },
+    {
+      key: "riskTreatment",
+      title: (
+        <div>
+          <span style={{ fontSize: "15px", color: "gray" }}>
+            {t("risk_treatment.risk_treatment_page")}
+          </span>
+        </div>
+      ),
+      style: { marginBottom: "20px" },
+    },
+  ];
+
   return (
     <div>
-      <Breadcrumb style={{ padding: "10px" }}>
-        <Breadcrumb.Item>
-          <a
-            onClick={() => {
-              router.push(`/dashboard`);
-            }}
-            style={{ display: "flex", alignItems: "center", gap: "5px" }}
-          >
-            <LayoutDashboard
-              style={{ fontSize: "20px", marginBottom: "2px" }}
-              color="#0D85D8"
-            />
-          </a>
-        </Breadcrumb.Item>
-        <Breadcrumb.Item style={{ marginBottom: "20px" }}>
-          <div >
-            <span style={{ fontSize: "15px", color: "gray" }}>
-              {t("risk_treatment.risk_treatment_page")}
-            </span>
-          </div>
-        </Breadcrumb.Item>
-      </Breadcrumb>
+      <Breadcrumb style={{ padding: "10px" }} items={breadcrumbItems} />
       <Divider />
       {isError ? (
         <div

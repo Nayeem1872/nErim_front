@@ -66,28 +66,35 @@ const Dashboard = ({ isDarkMode, handleClick }) => {
   };
 
  
-
-  return (
-    <>
-      {/* <h1>{t("dashboard.Dashboard")}</h1> */}
-      <Breadcrumb style={{ padding: '10px' }}>
-      <Breadcrumb.Item>
+  const breadcrumbItems = [
+    {
+      key: 'dashboard',
+      title: (
         <a
           onClick={() => {
             router.push(`/dashboard`);
           }}
           style={{ display: 'flex', alignItems: 'center', gap: '5px' }}
         >
-          <LayoutDashboard style={{fontSize: '20px', marginBottom:"2px"}} color="#0D85D8" />
-          
+          <LayoutDashboard style={{ fontSize: '20px', marginBottom: '2px' }} color="#0D85D8" />
         </a>
-      </Breadcrumb.Item>
-      <Breadcrumb.Item style={{marginBottom:"20px"}}>
-      <div >
-          <span style={{ fontSize: '15px',color: "gray"  }}>{t("dashboard.Dashboard")}</span>
+      ),
+    },
+    {
+      key: 'dashboardPage',
+      title: (
+        <div>
+          <span style={{ fontSize: '15px', color: 'gray' }}>{t("dashboard.Dashboard")}</span>
         </div>
-      </Breadcrumb.Item>
-    </Breadcrumb>
+      ),
+      style: { marginBottom: '20px' },
+    },
+  ];
+
+  return (
+    <>
+      {/* <h1>{t("dashboard.Dashboard")}</h1> */}
+      <Breadcrumb style={{ padding: '10px' }} items={breadcrumbItems} />
       <Divider/>
       {isError ? (
         <div

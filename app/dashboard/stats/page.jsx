@@ -495,30 +495,35 @@ const Stats = () => {
       console.error("Error exporting data:", error);
     }
   };
+  const breadcrumbItems = [
+    {
+      key: 'dashboard',
+      title: (
+        <a
+          onClick={() => {
+            router.push(`/dashboard`);
+          }}
+          style={{ display: 'flex', alignItems: 'center', gap: '5px' }}
+        >
+          <LayoutDashboard style={{ fontSize: '20px', marginBottom: '2px' }} color="#0D85D8" />
+        </a>
+      ),
+    },
+    {
+      key: 'statesMenu',
+      title: (
+        <div>
+          <span style={{ fontSize: '15px', color: 'gray' }}>{t("side_navbar.States Menu")}</span>
+        </div>
+      ),
+      style: { marginBottom: '20px' },
+    },
+  ];
 
   return (
     <>
       {/* top */}
-      <Breadcrumb style={{ padding: "10px" }}>
-        <Breadcrumb.Item>
-          <a
-            onClick={() => {
-              router.push(`/dashboard`);
-            }}
-            style={{ display: "flex", alignItems: "center", gap: "5px" }}
-          >
-            <LayoutDashboard
-              style={{ fontSize: "20px", marginBottom: "2px" }}
-              color="#0D85D8"
-            />
-          </a>
-        </Breadcrumb.Item>
-        <Breadcrumb.Item style={{ marginBottom: "20px" }}>
-          <div >
-            <span style={{ fontSize: "15px",color: "gray"  }}>{t("side_navbar.States Menu")}</span>
-          </div>
-        </Breadcrumb.Item>
-      </Breadcrumb>
+      <Breadcrumb style={{ padding: '10px' }} items={breadcrumbItems} />
       <Divider/>
       <Row gutter={24} justify="center">
         <Col xs={24} sm={12} md={12} lg={8} xl={6}>
@@ -677,7 +682,9 @@ const Stats = () => {
         <Divider>
           <h2>
             {" "}
-            {t("stats.Risk Threshold")}({apatiteValue}){" "}
+            {t("stats.Risk Threshold")}
+            
+            {/* ({apatiteValue}){" "} */}
           </h2>
         </Divider>
       </div>
@@ -711,6 +718,7 @@ const Stats = () => {
             bordered
             dataSource={riskWithInLimit}
             columns={riskWithInLimitColumns}
+            pagination={{ pageSize: 5 }}
             style={{ boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)" }}
             rowKey={() => Math.random().toString(12).substr(2, 9)}
           />
@@ -744,6 +752,7 @@ const Stats = () => {
             bordered
             dataSource={riskWithOutLimit}
             columns={riskWithOutLimitColumns}
+            pagination={{ pageSize: 5 }}
             style={{ boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)" }}
             rowKey={() => Math.random().toString(12).substr(2, 9)}
           />

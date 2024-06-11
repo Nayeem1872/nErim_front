@@ -581,30 +581,36 @@ const Register = () => {
     // Sync custom action owner input with selectedActionOwner state
   };
 
+
+  const breadcrumbItems = [
+    {
+      key: 'dashboard',
+      title: (
+        <a
+          onClick={() => {
+            router.push(`/dashboard`);
+          }}
+          style={{ display: 'flex', alignItems: 'center', gap: '5px' }}
+        >
+          <LayoutDashboard style={{ fontSize: '20px', marginBottom: '2px' }} color="#0D85D8" />
+        </a>
+      ),
+    },
+    {
+      key: 'register',
+      title: (
+        <div>
+          <span style={{ fontSize: '15px', color: 'gray' }}>{t("register.register_page")}</span>
+        </div>
+      ),
+      style: { marginBottom: '20px' },
+    },
+  ];
   return (
     <div>
       <>
         <div>
-           <Breadcrumb style={{ padding: "10px" }}>
-        <Breadcrumb.Item>
-          <a
-            onClick={() => {
-              router.push(`/dashboard`);
-            }}
-            style={{ display: "flex", alignItems: "center", gap: "5px" }}
-          >
-            <LayoutDashboard
-              style={{ fontSize: "20px", marginBottom: "2px" }}
-              color="#0D85D8"
-            />
-          </a>
-        </Breadcrumb.Item>
-        <Breadcrumb.Item style={{ marginBottom: "20px" }}>
-          <div >
-            <span style={{ fontSize: "15px",color: "gray"  }}>{t("register.register_page")}</span>
-          </div>
-        </Breadcrumb.Item>
-      </Breadcrumb>
+        <Breadcrumb style={{ padding: '10px' }} items={breadcrumbItems} />
           <Divider />
           <div></div>
 

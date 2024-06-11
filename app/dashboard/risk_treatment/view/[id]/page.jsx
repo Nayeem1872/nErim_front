@@ -490,45 +490,54 @@ const View = ({ params }) => {
     // Sync custom action owner input with selectedActionOwner state
   };
 
+  const breadcrumbItems = [
+    {
+      key: 'dashboard',
+      title: (
+        <a
+          onClick={() => {
+            router.push(`/dashboard`);
+          }}
+          style={{ display: 'flex', alignItems: 'center', gap: '5px' }}
+        >
+          <LayoutDashboard style={{ fontSize: '20px', marginBottom: '2px' }} color="#0D85D8" />
+        </a>
+      ),
+    },
+    {
+      key: 'riskTreatment',
+      title: (
+        <a
+          onClick={() => {
+            router.push(`/dashboard/risk_treatment`);
+          }}
+          style={{ color: '#0D85D8' }}
+        >
+          {t("treatment_view.Risk_Treatment")}
+        </a>
+      ),
+    },
+    {
+      key: 'view',
+      title: (
+        <div>
+          <span style={{ fontSize: '15px', color: 'gray' }}>
+            {t("treatment_view.View")}
+          </span>
+        </div>
+      ),
+      style: { marginBottom: '20px' },
+    },
+  ];
+
   return (
     <>
-      <Breadcrumb style={{ padding: "10px" }}>
-        <Breadcrumb.Item>
-          <a
-            onClick={() => {
-              router.push(`/dashboard`);
-            }}
-            style={{ display: "flex", alignItems: "center", gap: "5px" }}
-          >
-            <LayoutDashboard
-              style={{ fontSize: "20px", marginBottom: "2px" }}
-              color="#0D85D8"
-            />
-          </a>
-        </Breadcrumb.Item>
-        <Breadcrumb.Item>
-          <a
-            onClick={() => {
-              router.push(`/dashboard/risk_treatment`);
-            }}
-            style={{ color: "#0D85D8" }}
-          >
-            {t("treatment_view.Risk_Treatment")}
-          </a>
-        </Breadcrumb.Item>
-        <Breadcrumb.Item style={{ marginBottom: "20px" }}>
-          <div >
-            <span style={{ fontSize: "15px", color: "gray" }}>
-              {t("treatment_view.View")}
-            </span>
-          </div>
-        </Breadcrumb.Item>
-      </Breadcrumb>
+     <Breadcrumb style={{ padding: '10px' }} items={breadcrumbItems} />
       {data1 && (
         <>
           <Card
             style={{ marginTop: "20px" }}
-            title={t("treatment_view.Register_View")}
+            title={t("treatment_view.treatment_View")}
           >
             <Title level={5}>
               {t("treatment_view.Risk_Name")}:{" "}

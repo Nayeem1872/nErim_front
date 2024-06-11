@@ -38,8 +38,8 @@ const Audit = () => {
     },
     {
       title: t("audit.username"),
-      dataIndex: "username",
-      key: "username",
+      dataIndex: "useremail",
+      key: "useremail",
     },
     {
       title: t("audit.ip_address"),
@@ -52,30 +52,41 @@ const Audit = () => {
       key: "change",
     },
   ];
+
+
+  const breadcrumbItems = [
+    {
+      key: 'dashboard',
+      title: (
+        <a
+          onClick={() => {
+            router.push(`/dashboard`);
+          }}
+          style={{ display: 'flex', alignItems: 'center', gap: '5px' }}
+        >
+          <LayoutDashboard style={{ fontSize: '20px', marginBottom: '2px' }} color="#0D85D8" />
+        </a>
+      ),
+    },
+    {
+      key: 'audit',
+      title: (
+        <div>
+          <span style={{ fontSize: '15px', color: 'gray' }}>{t("audit.audit")}</span>
+        </div>
+      ),
+      style: { marginBottom: '20px' },
+    },
+  ];
+
+
+
+
   return (
     <div>
       {/* <Title level={2}>{t("audit.audit")}</Title> */}
    
-       <Breadcrumb style={{ padding: "10px" }}>
-        <Breadcrumb.Item>
-          <a
-            onClick={() => {
-              router.push(`/dashboard`);
-            }}
-            style={{ display: "flex", alignItems: "center", gap: "5px" }}
-          >
-            <LayoutDashboard
-              style={{ fontSize: "20px", marginBottom: "2px" }}
-              color="#0D85D8"
-            />
-          </a>
-        </Breadcrumb.Item>
-        <Breadcrumb.Item style={{ marginBottom: "20px" }}>
-          <div >
-            <span style={{ fontSize: "15px",color: "gray"  }}>{t("audit.audit")}</span>
-          </div>
-        </Breadcrumb.Item>
-      </Breadcrumb>
+      <Breadcrumb style={{ padding: '10px' }} items={breadcrumbItems} />
       <Divider />
 
       <Table dataSource={dataSourceQuery} columns={columns} rowKey={() => Math.random().toString(12).substr(2, 9)} />

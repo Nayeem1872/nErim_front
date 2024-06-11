@@ -514,7 +514,7 @@ export default function DashboardLayout({ children }) {
                 </Space>
 
                 <Space style={{ marginRight: "50px" }}>
-                  <Notification />
+                  {/* <Notification /> */}
                   <Dashboard_Settings onToggle={handleClick} />
                 </Space>
               </Header>
@@ -542,7 +542,7 @@ export default function DashboardLayout({ children }) {
                 >
                   nErim v0.0.0.01 ©{new Date().getFullYear()} Developed by{" "}
                   <span style={{ color: "#4096FF", fontWeight: "bold" }}>
-                    Alo It Consultant
+                    Alo It Consultants
                   </span>
                 </Footer>
               )}
