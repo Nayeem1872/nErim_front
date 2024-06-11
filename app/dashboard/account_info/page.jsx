@@ -45,8 +45,8 @@ function Account() {
           </a>
         </Breadcrumb.Item>
         <Breadcrumb.Item style={{ marginBottom: "20px" }}>
-          <div style={{ marginTop: "-2px" }}>
-            <span style={{ fontSize: "18px",color: "gray"  }}>{t("side_navbar.account_info")}</span>
+          <div >
+            <span style={{ fontSize: "15px",color: "gray"  }}>{t("side_navbar.account_info")}</span>
           </div>
         </Breadcrumb.Item>
       </Breadcrumb>
@@ -59,6 +59,7 @@ function Account() {
           width: "860px",
           height: "550px",
           marginLeft: "-20px",
+          marginTop:"0px",
           top: "10",
           left: "0",
         }}
@@ -80,10 +81,11 @@ function Account() {
               top: "0",
               left: "50%",
               transform: "translate(-50%, -100%)",
+              marginTop:"-50px"
             }}
           >
             {/* <hr className="my-25" /> */}
-            <Descriptions title="" style={{ marginTop: "20px" }}>
+            <Descriptions title="" style={{ marginTop: "20px",textAlign: "center"  }}>
               <Descriptions.Item
                 label={t("account_info.OrgName")}
                 span={3}

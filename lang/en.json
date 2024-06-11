@@ -278,7 +278,7 @@
     "You_have_choose_the_Matrix_model": "You have choose the Matrix model:"
   },
   "settingsImpact": {
-    "Add": "Add Row",
+    "Add": "Add New",
     "Delete": "Delete",
     "Edit": "Edit",
     "Impact": "Impact",
@@ -311,7 +311,7 @@
     "Weight": "Weight",
     "Color": "Color",
     "Action": "Action",
-    "Add": "Add Row",
+    "Add": "Add New",
     "Delete": "Delete",
     "Edit": "Edit",
     "Likelihood_deleted_successfully": "Likelihood deleted successfully.",
@@ -331,7 +331,7 @@
     "Color_defaultValue": "Select Color"
   },
   "settingsValuation": {
-    "Add": "Add Row",
+    "Add": "Add New",
     "Delete": "Delete",
     "Edit": "Edit",
     "Range": "Range",
@@ -344,7 +344,7 @@
   "settingsStatus": {
     "Status_Name": "Status Name",
     "Action": "Action",
-    "Add": "Add Row",
+    "Add": "Add New",
     "Delete": "Delete",
     "Edit": "Edit",
     "Delete_the_task": "Delete the task",
@@ -358,7 +358,7 @@
   },
   "settingsCategory": {
     "Action": "Action",
-    "Add": "Add Row",
+    "Add": "Add New",
     "Delete": "Delete",
     "Edit": "Edit",
     "Category_Name": "Category Name",

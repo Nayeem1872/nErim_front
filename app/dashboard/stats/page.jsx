@@ -17,7 +17,10 @@ import axios from "axios";
 import StatusRange from "./StatusRange";
 import Dots from "../components/DotLoader";
 import { useTranslation } from "react-i18next";
-import { LayoutDashboard } from "lucide-react";
+import { LayoutDashboard,CloudDownload, Download } from "lucide-react";
+import { CaretRightOutlined, DownloadOutlined } from "@ant-design/icons";
+
+
 
 const Stats = () => {
   const { t } = useTranslation();
@@ -511,8 +514,8 @@ const Stats = () => {
           </a>
         </Breadcrumb.Item>
         <Breadcrumb.Item style={{ marginBottom: "20px" }}>
-          <div style={{ marginTop: "-2px" }}>
-            <span style={{ fontSize: "18px",color: "gray"  }}>{t("side_navbar.States Menu")}</span>
+          <div >
+            <span style={{ fontSize: "15px",color: "gray"  }}>{t("side_navbar.States Menu")}</span>
           </div>
         </Breadcrumb.Item>
       </Breadcrumb>
@@ -656,7 +659,7 @@ const Stats = () => {
         >
           <Button type="primary" onClick={showModal}>
             {" "}
-            {t("stats.Export Top Five Risk")}
+            {t("register.export")} <Download size={16} />
           </Button>
         </div>
 
@@ -690,7 +693,7 @@ const Stats = () => {
           >
             <Button type="primary" onClick={showBelowModal}>
               {" "}
-              {t("stats.Export Below Appatite")}
+              {t("register.export")} <Download size={16} />
             </Button>
           </div>
           <Modal
@@ -723,7 +726,7 @@ const Stats = () => {
           >
             <Button type="primary" onClick={showUpperModal}>
               {" "}
-              {t("stats.Export Upper Appatite")}
+              {t("register.export")} <Download size={16} />
             </Button>
           </div>
           <Modal
@@ -762,7 +765,7 @@ const Stats = () => {
         >
           <Button type="primary" onClick={showDataExportModal}>
             {" "}
-            {t("stats.Export SLA")}
+            {t("register.export")} <Download size={16} />
           </Button>
         </div>
         <Modal

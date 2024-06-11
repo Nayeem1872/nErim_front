@@ -335,8 +335,8 @@ export default function Heatmap() {
           </a>
         </Breadcrumb.Item>
         <Breadcrumb.Item style={{ marginBottom: "20px" }}>
-          <div style={{ marginTop: "-2px" }}>
-            <span style={{ fontSize: "18px",color: "gray"  }}>{t("heatmap.heat_map")}</span>
+          <div >
+            <span style={{ fontSize: "15px",color: "gray"  }}>{t("heatmap.heat_map")}</span>
           </div>
         </Breadcrumb.Item>
       </Breadcrumb>

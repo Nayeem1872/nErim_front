@@ -527,8 +527,8 @@ const Treatment = () => {
           </a>
         </Breadcrumb.Item>
         <Breadcrumb.Item style={{ marginBottom: "20px" }}>
-          <div style={{ marginTop: "-2px" }}>
-            <span style={{ fontSize: "18px", color: "gray" }}>
+          <div >
+            <span style={{ fontSize: "15px", color: "gray" }}>
               {t("risk_treatment.risk_treatment_page")}
             </span>
           </div>
