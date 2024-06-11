@@ -218,10 +218,10 @@ const Treatment = () => {
             return (
               <>
                 {treatments.map((treatment, index) => (
-                  <React.Fragment key={index}>
-                    <div>{treatment.user.name}</div>
+                  <div key={index}>
+                    <div>{treatment?.user?.name}</div>
                     <Divider />
-                  </React.Fragment>
+                  </div>
                 ))}
               </>
             );

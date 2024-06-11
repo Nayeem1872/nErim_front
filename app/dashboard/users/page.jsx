@@ -60,7 +60,6 @@ const Users = () => {
 
   // handle delete
   const handleDelete = async (record) => {
- 
     try {
       const data = { userId: userId, verifyEmail: email, id: record };
       const response = await axios.post(`/api/user/delete`, data, {
@@ -102,6 +101,22 @@ const Users = () => {
     // Call the fetch function when the component mounts
     fetchData();
   }, []);
+  const showDeleteConfirm = (record) => {
+    Modal.confirm({
+      title: t("users.Confirm_Delete_Title"),
+      content: t("users.Confirm_Delete_Content"),
+      okText: t("users.Confirm"),
+      okType: 'danger',
+      cancelText: t("users.Cancel"),
+      centered: true,
+      onOk() {
+        handleDelete(record);
+      },
+      onCancel() {
+        console.log('Cancel');
+      },
+    });
+  };
 
   const columns = [
     {
@@ -143,12 +158,10 @@ const Users = () => {
       dataIndex: "is_admin",
       key: "is_admin",
     },
-    
   ];
 
   if (apiData !== "user") {
     columns.push({
-
       title: t("users.Action"),
       key: "action",
       render: (_, record) => (
@@ -158,21 +171,19 @@ const Users = () => {
               <Button type="default" onClick={() => showModal(record)}>
                 {t("users.Edit")}
               </Button>
-              <a onClick={() => handleDelete(record?.id)}>
+              <a onClick={() => showDeleteConfirm(record?.id)}>
                 {t("users.Delete")}
               </a>
             </>
           )}
         </Space>
       ),
-
-    })
-
+    });
   }
 
   const onFinish = async (values) => {
     setIsModalOpen(false);
-  
+
     if (!editId) {
       try {
         const data = { userId: userId, verifyEmail: email, ...values };
@@ -186,7 +197,7 @@ const Users = () => {
         });
         refetch();
         // message.success(t("users.Success_Messages.New_User_Added"));
-        message.success(response.data)
+        message.success(response.data);
       } catch (error) {
         message.error(error.response.data);
       }
@@ -201,7 +212,6 @@ const Users = () => {
           ...values,
           id: editId,
         };
-
 
         const apiUrl = `/api/user/update`;
 
@@ -258,7 +268,11 @@ const Users = () => {
         {t("users.Add_New_User")}
       </Button>
 
-      <Table dataSource={data} columns={columns}  rowKey={() => Math.random().toString(12).substr(2, 9)}/>
+      <Table
+        dataSource={data}
+        columns={columns}
+        rowKey={() => Math.random().toString(12).substr(2, 9)}
+      />
       <Modal
         centered
         title={t("users.user")}
