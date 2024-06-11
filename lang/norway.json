@@ -23,7 +23,7 @@
     "Treatment": "Behandling",
     "States Menu": "Stater-meny"
   },
-  
+
   "dashboard": {
     "Dashboard": "Instrumentbord",
     "Dashboard_Page": "Instrumentbordside",
@@ -139,7 +139,9 @@
     "Halted_Need Managedment Support": "Stanset - Trenger ledelsesstøtte",
     "Finished": "Ferdig",
     "Attachment": "Vedlegg",
-    "Click to Upload": "Klikk for å laste opp"
+    "Click to Upload": "Klikk for å laste opp",
+    "custom_action_owner": "Skriv eierens navn",
+    "custom_email": "Skriv e-post"
   },
   "treatment_view": {
     "action": "Handling",
@@ -424,10 +426,10 @@
     "Period": "Periode",
     "StartDate": "Startdato",
     "EndDate": "Sluttdato",
-    "ModelName":"Modellnavn",
-    "Status":"Status",
-    "UserCount":"Antall brukere",
-    "OrgName":"Organisasjonsnavn"
+    "ModelName": "Modellnavn",
+    "Status": "Status",
+    "UserCount": "Antall brukere",
+    "OrgName": "Organisasjonsnavn"
   },
   "stats": {
     "Action": "Handling",
@@ -476,5 +478,4 @@
     "Export Below Appatite": "Eksporter under appetitt",
     "Are you sure you want to export below apatite data?": "Er du sikker på at du vil eksportere under appetittdata?"
   }
-
 }

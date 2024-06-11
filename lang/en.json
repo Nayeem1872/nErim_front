@@ -138,7 +138,9 @@
     "Halted_Need Managedment Support": "Halted - Need Managedment Support",
     "Finished": "Finished",
     "Attachment": "Attachment",
-    "Click to Upload": "Click to Upload"
+    "Click to Upload": "Click to Upload",
+    "custom_action_owner":"Write the Owner",
+    "custom_email":"Write the Email"
   },
   "treatment_view": {
     "action": "Action",

@@ -136,7 +136,9 @@
     "Halted_Need Managedment Support": "বিরতি - পরিচালনার সহায়তা প্রয়োজন",
     "Finished": "সমাপ্ত",
     "Attachment": "সংযুক্তি",
-    "Click to Upload": "আপলোড করতে ক্লিক করুন"
+    "Click to Upload": "আপলোড করতে ক্লিক করুন",
+    "custom_action_owner": "মালিকের নাম লিখুন",
+    "custom_email": "ইমেইল লিখুন"
   },
   "treatment_view": {
     "action": "অ্যাকশন",

@@ -757,7 +757,7 @@ const Register = () => {
 
 
                 {isOtherSelected && (
-                  <Input
+                  <Input 
                     placeholder={t("risk_treatment.custom_action_owner")}
                     value={customActionOwner}
                     onChange={handleCustomActionOwnerChange}

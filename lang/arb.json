@@ -137,7 +137,9 @@
     "Halted_Need Managedment Support": "متوقف - بحاجة لدعم الإدارة",
     "Finished": "منتهي",
     "Attachment": "مرفق",
-    "Click to Upload": "انقر للتحميل"
+    "Click to Upload": "انقر للتحميل",
+    "custom_action_owner":"اكتب اسم المالك",
+"custom_email":"اكتب البريد الإلكتروني"
   },
   "treatment_view": {
     "action": "إجراء",
