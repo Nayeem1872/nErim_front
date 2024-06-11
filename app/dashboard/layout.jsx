@@ -45,7 +45,7 @@ export default function DashboardLayout({ children }) {
         setApiData(response.data);
         setOtpVerify(response.data.otp_verify);
       } catch (error) {
-        if (error.response.data.message === "Unauthenticated.") {
+        if (error?.response?.data?.message === "Unauthenticated.") {
           // Redirect to the "/" page
           router.push("/");
         }
