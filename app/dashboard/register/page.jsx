@@ -55,6 +55,12 @@ const Register = () => {
   const [filterInput, setFilterInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [startingDate,setStartingDate] = useState(null)
+  const [isOtherSelected, setIsOtherSelected] = useState(false);
+  const [customEmail, setCustomEmail] = useState("");
+  const [customActionOwner, setCustomActionOwner] = useState("");
+
+
+
 
   const handleSettingsClick = () => {
     router.push("/dashboard/settings"); // Navigate to settings page
@@ -210,9 +216,14 @@ const Register = () => {
       formData.append("resolve", transferInputValue);
       formData.append("treat_name", actionName);
       formData.append("treat_detial", actionDetails);
-      formData.append("treat_owner", selectedActionOwner);
-      formData.append("action_owner_email", ownerEmail1);
-      formData.append("expected_benefit", expectedBenefit);
+      if (isOtherSelected) {
+        formData.append("treat_owner", customActionOwner);
+        formData.append("action_owner_email", customEmail);
+      } else {
+        formData.append("treat_owner", selectedActionOwner);
+        formData.append("action_owner_email", ownerEmail1);
+      }
+     formData.append("expected_benefit", expectedBenefit);
       formData.append("closing_date", closingDate);
       formData.append("finishing_date", finishingDate);
       formData.append("treat_status", status);
@@ -410,7 +421,7 @@ const Register = () => {
                   />
                 </a>
               </Tooltip>
-              <Tooltip title="Add treatment">
+              <Tooltip title="Treatment Action">
                 <a
                   onClick={() => showModal(record)}
                   style={{
@@ -535,18 +546,39 @@ const Register = () => {
     setTimeout(() => setLoading(false), 1000); // Set loading to false after 1 second
   };
 
+   // Event handler for selecting action owner
+
   const handleActionOwnerChange = (value) => {
     setSelectedActionOwner(value);
 
-    // Find the selected user by name and update the ownerEmail1 state
-    const selectedUser = Userdata.find((user) => user.name === value);
-
-    if (selectedUser) {
-      setOwnerEmail1(selectedUser.email);
-      setSingleId(selectedUser.id);
+    if (value === "other") {
+      setIsOtherSelected(true);
+      setOwnerEmail1(""); // Clear the email field for custom input
+      setSingleId(null); // Reset the ID if "Other" is selected
     } else {
-      setOwnerEmail1(""); // Reset the ownerEmail1 if no user is selected
+      setIsOtherSelected(false);
+
+      // Find the selected user by name and update the ownerEmail1 state
+      const selectedUser = Userdata.find((user) => user.name === value);
+
+      if (selectedUser) {
+        setOwnerEmail1(selectedUser.email);
+        setSingleId(selectedUser.id);
+      } else {
+        setOwnerEmail1(""); // Reset the ownerEmail1 if no user is selected
+        setSingleId(null);
+      }
     }
+  };
+
+  const handleCustomEmailChange = (e) => {
+    setCustomEmail(e.target.value);
+    setOwnerEmail1(e.target.value); // Sync custom email input with ownerEmail1 state
+  };
+
+  const handleCustomActionOwnerChange = (e) => {
+    setCustomActionOwner(e.target.value);
+    // Sync custom action owner input with selectedActionOwner state
   };
 
   return (
@@ -612,17 +644,7 @@ const Register = () => {
                 <Button onClick={handleRefresh} style={{ marginRight: "10px" }}>
                   <RedoOutlined />{t("Refresh")}
                 </Button>
-                {/* {loading && (
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                    }}
-                  >
-                    <Spin />
-                  </div>
-                )} */}
+          
                 <Button
                   onClick={handleExportButtonClick}
                   style={{ marginRight: "10px" }}
@@ -720,26 +742,47 @@ const Register = () => {
               {t("risk_treatment.action_owner_title")}
             </Typography.Title>
             <Select
-              placeholder={t("risk_treatment.action_owner")}
-              value={selectedActionOwner}
-              onChange={handleActionOwnerChange}
-              style={{ width: "100%" }}
-            >
-              {Userdata?.map((user) => (
-                <Option key={user.id} value={user.name}>
-                  {user.name}
-                </Option>
-              ))}
-            </Select>
+                  placeholder={t("risk_treatment.action_owner")}
+                  value={selectedActionOwner}
+                  onChange={handleActionOwnerChange}
+                  style={{ width: "100%" }}
+                >
+                  {Userdata?.map((user) => (
+                    <Select.Option key={user.id} value={user.name}>
+                      {user.name}
+                    </Select.Option>
+                  ))}
+                  <Select.Option value="other">{t("Other")}</Select.Option>
+                </Select>
 
-            <Typography.Title level={5}>
-              {t("risk_treatment.owner_email_title")}
-            </Typography.Title>
-            <Input
-              placeholder={t("risk_treatment.owner_email")}
-              value={ownerEmail1}
-              disabled
-            />
+
+                {isOtherSelected && (
+                  <Input
+                    placeholder={t("risk_treatment.custom_action_owner")}
+                    value={customActionOwner}
+                    onChange={handleCustomActionOwnerChange}
+                    style={{ width: "100%", marginTop: "1rem" }}
+                  />
+                )}
+
+                <Typography.Title level={5}>
+                  {t("risk_treatment.owner_email_title")}
+                </Typography.Title>
+                {isOtherSelected ? (
+                  <Input
+                    placeholder={t("risk_treatment.custom_email")}
+                    value={customEmail}
+                    onChange={handleCustomEmailChange}
+                    style={{ width: "100%", marginTop: "1rem" }}
+                  />
+                ) : (
+                  <Input
+                    placeholder={t("risk_treatment.owner_email")}
+                    value={ownerEmail1}
+                    readOnly={!isOtherSelected}
+                    style={{ width: "100%" }}
+                  />
+                )}
 
             <Typography.Title level={5}>
               {t("risk_treatment.expected_benefit_title")}
