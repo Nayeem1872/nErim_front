@@ -395,7 +395,7 @@ export default function Heatmap() {
           <div id="chartdiv15" style={{ width: "100%", height: "500px" }} />
           {data && data.length > 0 && (
             <div style={{ marginTop: "20px" }}>
-              <Table dataSource={data} columns={columns} />
+              <Table dataSource={data} columns={columns} rowKey={() => Math.random().toString(12).substr(2, 9)} />
             </div>
           )}
         </div>

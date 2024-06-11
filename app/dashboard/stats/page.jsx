@@ -30,7 +30,7 @@ const Stats = () => {
   const [responseData, setResponseData] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isModalBelowVisible, setIsModalBelowVisible] = useState(false);
-  const [isModalUpperVisible,setIsModalUpperVisible] = useState(false)
+  const [isModalUpperVisible, setIsModalUpperVisible] = useState(false);
   const [isModalDataExporVisible, setIsModalDataExporVisible] = useState(false);
 
   useEffect(() => {
@@ -82,8 +82,6 @@ const Stats = () => {
       <Alert message="Error" description="Failed to fetch data" type="error" />
     );
   }
-
-
   const columns = [
     {
       title: t("stats.Risk"),
@@ -93,8 +91,8 @@ const Stats = () => {
     {
       title: t("stats.Risk Domain"),
       dataIndex: "category",
-      key: "category_name",
-      render: (record, index) => {
+      key: "category",
+      render: (category, record, index) => {
         // Predefined colors array
         const colors = ["#81C3D7", "#F3DE8A", "#EB9486", "#3A7CA5", "#97A7B3"];
         // Cycle through the colors array
@@ -109,7 +107,7 @@ const Stats = () => {
               textAlign: "center",
             }}
           >
-            {record?.category?.category_name}
+            {category?.category_name}
           </div>
         );
       },
@@ -384,84 +382,77 @@ const Stats = () => {
     setIsModalBelowVisible(false);
     setIsModalUpperVisible(false);
   };
-// SLA Below Modal
+  // SLA Below Modal
 
-const showBelowModal = () => {
-  setIsModalBelowVisible(true);
-};
+  const showBelowModal = () => {
+    setIsModalBelowVisible(true);
+  };
 
-const handleBelowOk = async () => {
-  setIsModalBelowVisible(false);
-  try {
-    // Perform the GET request to export the file here
-    const response = await axios.get("/api/export/with-in-limit", {
-      responseType: "blob",
-    });
-    const blobUrl = window.URL.createObjectURL(response.data);
+  const handleBelowOk = async () => {
+    setIsModalBelowVisible(false);
+    try {
+      // Perform the GET request to export the file here
+      const response = await axios.get("/api/export/with-in-limit", {
+        responseType: "blob",
+      });
+      const blobUrl = window.URL.createObjectURL(response.data);
 
-    // Create a link element to trigger the download
-    const link = document.createElement("a");
-    link.href = blobUrl;
-    link.setAttribute("download", "BelowAppatite.csv");
+      // Create a link element to trigger the download
+      const link = document.createElement("a");
+      link.href = blobUrl;
+      link.setAttribute("download", "BelowAppatite.csv");
 
-    // Append the link to the document body and trigger the click event
-    document.body.appendChild(link);
-    link.click();
+      // Append the link to the document body and trigger the click event
+      document.body.appendChild(link);
+      link.click();
 
-    // Clean up by removing the link from the document body
-    document.body.removeChild(link);
+      // Clean up by removing the link from the document body
+      document.body.removeChild(link);
 
-    // Stop loading after successful download
-    setConfirmLoading(false);
+      // Stop loading after successful download
+      setConfirmLoading(false);
 
-    message.success("Downloaded!");
-    console.log("File exported successfully:", response.data);
-  } catch (error) {
-    console.error("Error exporting file:", error);
-  }
-};
+      message.success("Downloaded!");
+      console.log("File exported successfully:", response.data);
+    } catch (error) {
+      console.error("Error exporting file:", error);
+    }
+  };
 
+  const showUpperModal = () => {
+    setIsModalUpperVisible(true);
+  };
 
-const showUpperModal = () => {
-  setIsModalUpperVisible(true);
-};
+  const handleUpperOk = async () => {
+    setIsModalUpperVisible(false);
+    try {
+      // Perform the GET request to export the file here
+      const response = await axios.get("/api/export/with-out-limit", {
+        responseType: "blob",
+      });
+      const blobUrl = window.URL.createObjectURL(response.data);
 
-const handleUpperOk = async () => {
-  setIsModalUpperVisible(false);
-  try {
-    // Perform the GET request to export the file here
-    const response = await axios.get("/api/export/with-out-limit", {
-      responseType: "blob",
-    });
-    const blobUrl = window.URL.createObjectURL(response.data);
+      // Create a link element to trigger the download
+      const link = document.createElement("a");
+      link.href = blobUrl;
+      link.setAttribute("download", "UpperApatite.csv");
 
-    // Create a link element to trigger the download
-    const link = document.createElement("a");
-    link.href = blobUrl;
-    link.setAttribute("download", "UpperApatite.csv");
+      // Append the link to the document body and trigger the click event
+      document.body.appendChild(link);
+      link.click();
 
-    // Append the link to the document body and trigger the click event
-    document.body.appendChild(link);
-    link.click();
+      // Clean up by removing the link from the document body
+      document.body.removeChild(link);
 
-    // Clean up by removing the link from the document body
-    document.body.removeChild(link);
+      // Stop loading after successful download
+      setConfirmLoading(false);
 
-    // Stop loading after successful download
-    setConfirmLoading(false);
-
-    message.success("Downloaded!");
-    console.log("File exported successfully:", response.data);
-  } catch (error) {
-    console.error("Error exporting file:", error);
-  }
-};
-
-
-
-
-
-
+      message.success("Downloaded!");
+      console.log("File exported successfully:", response.data);
+    } catch (error) {
+      console.error("Error exporting file:", error);
+    }
+  };
 
   // SLA Violation Modal
 
@@ -504,7 +495,7 @@ const handleUpperOk = async () => {
     <>
       {/* top */}
       <Row gutter={24} justify="center">
-        <Col xs={24} sm={12} md={12} lg={8} xl={6} className="mb-24">
+        <Col xs={24} sm={12} md={12} lg={8} xl={6}>
           <Card
             bordered={false}
             style={{
@@ -545,7 +536,7 @@ const handleUpperOk = async () => {
           </Card>
         </Col>
 
-        <Col xs={24} sm={12} md={12} lg={8} xl={6} className="mb-24">
+        <Col xs={24} sm={12} md={12} lg={8} xl={6} >
           <Card
             bordered={false}
             style={{
@@ -561,7 +552,7 @@ const handleUpperOk = async () => {
                 <Divider />
               </div>
               <div className={styles.cardStats}>
-                <div className={styles.statItem}>
+                <div className={styles.statItem} style={{marginTop:"18px"}}>
                   <span>{riskSummaryData.totalMitigate}</span>
                 </div>
               </div>
@@ -569,7 +560,7 @@ const handleUpperOk = async () => {
           </Card>
         </Col>
 
-        <Col xs={24} sm={12} md={12} lg={8} xl={6} className="mb-24">
+        <Col xs={24} sm={12} md={12} lg={8} xl={6} >
           <Card
             bordered={false}
             style={{
@@ -585,7 +576,7 @@ const handleUpperOk = async () => {
                 <Divider />
               </div>
               <div className={styles.cardStats}>
-                <div className={styles.statItem}>
+                <div className={styles.statItem} style={{marginTop:"18px"}}>
                   <span>{riskSummaryData.totalAccepted}</span>
                 </div>
               </div>
@@ -593,7 +584,7 @@ const handleUpperOk = async () => {
           </Card>
         </Col>
 
-        <Col xs={24} sm={12} md={12} lg={8} xl={6} className="mb-24">
+        <Col xs={24} sm={12} md={12} lg={8} xl={6} >
           <Card
             bordered={false}
             style={{
@@ -609,7 +600,7 @@ const handleUpperOk = async () => {
                 <Divider />
               </div>
               <div className={styles.cardStats}>
-                <div className={styles.statItem}>
+                <div className={styles.statItem} style={{marginTop:"18px"}}>
                   <span>{riskSummaryData.totalRisk}</span>
                 </div>
               </div>
@@ -640,7 +631,10 @@ const handleUpperOk = async () => {
             marginBottom: "10px",
           }}
         >
-          <Button type="primary"  onClick={showModal}> {t("stats.Export Top Five Risk")}</Button>
+          <Button type="primary" onClick={showModal}>
+            {" "}
+            {t("stats.Export Top Five Risk")}
+          </Button>
         </div>
 
         <Table
@@ -649,6 +643,7 @@ const handleUpperOk = async () => {
           columns={columns}
           pagination={false}
           style={{ boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)" }}
+          rowKey={() => Math.random().toString(12).substr(2, 9)}
         />
       </div>
 
@@ -664,108 +659,125 @@ const handleUpperOk = async () => {
         <Col xs={24} sm={24} md={12} lg={12} xl={12}>
           <h3>{t("stats.Risk Below Appatite")}</h3>
           <div
-          style={{
-            display: "flex",
-            justifyContent: "flex-end",
-            marginBottom: "10px",
-          }}
-        >
-          <Button type="primary"  onClick={showBelowModal}> {t("stats.Export Below Appatite")}</Button>
-        </div>
-        <Modal
-              title="Export Data Confirmation"
-              open={isModalBelowVisible}
-              onOk={handleBelowOk}
-              onCancel={handleCancel}
-              centered
-            >
-              <p>{t("stats.Are you sure you want to export below apatite data?")}</p>
-            </Modal>
+            style={{
+              display: "flex",
+              justifyContent: "flex-end",
+              marginBottom: "10px",
+            }}
+          >
+            <Button type="primary" onClick={showBelowModal}>
+              {" "}
+              {t("stats.Export Below Appatite")}
+            </Button>
+          </div>
+          <Modal
+            title="Export Data Confirmation"
+            open={isModalBelowVisible}
+            onOk={handleBelowOk}
+            onCancel={handleCancel}
+            centered
+          >
+            <p>
+              {t("stats.Are you sure you want to export below apatite data?")}
+            </p>
+          </Modal>
           <Table
             bordered
             dataSource={riskWithInLimit}
             columns={riskWithInLimitColumns}
             style={{ boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)" }}
+            rowKey={() => Math.random().toString(12).substr(2, 9)}
           />
         </Col>
         <Col xs={24} sm={24} md={12} lg={12} xl={12}>
           <h3> {t("stats.Risk Upper Appatite")}</h3>
           <div
+            style={{
+              display: "flex",
+              justifyContent: "flex-end",
+              marginBottom: "10px",
+            }}
+          >
+            <Button type="primary" onClick={showUpperModal}>
+              {" "}
+              {t("stats.Export Upper Appatite")}
+            </Button>
+          </div>
+          <Modal
+            title="Export Data Confirmation"
+            open={isModalUpperVisible}
+            onOk={handleUpperOk}
+            onCancel={handleCancel}
+            centered
+          >
+            <p>
+              {t("stats.Are you sure you want to export upper appatite data?")}
+            </p>
+          </Modal>
+          <Table
+            bordered
+            dataSource={riskWithOutLimit}
+            columns={riskWithOutLimitColumns}
+            style={{ boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)" }}
+            rowKey={() => Math.random().toString(12).substr(2, 9)}
+          />
+        </Col>
+      </Row>
+
+      <div>
+        {/* <Row gutter={16}>
+          <Col span={12}> */}
+        <Divider>
+          <h2> {t("stats.SLA Violation")}</h2>
+        </Divider>
+        <div
           style={{
             display: "flex",
             justifyContent: "flex-end",
             marginBottom: "10px",
           }}
         >
-          <Button type="primary" onClick={showUpperModal}> {t("stats.Export Upper Appatite")}</Button>
+          <Button type="primary" onClick={showDataExportModal}>
+            {" "}
+            {t("stats.Export SLA")}
+          </Button>
         </div>
         <Modal
-              title="Export Data Confirmation"
-              open={isModalUpperVisible}
-              onOk={handleUpperOk}
-              onCancel={handleCancel}
-              centered
-            >
-              <p>{t("stats.Are you sure you want to export upper appatite data?")}</p>
-            </Modal>
-          <Table
-            bordered
-            dataSource={riskWithOutLimit}
-            columns={riskWithOutLimitColumns}
-            style={{ boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)" }}
-          />
-        </Col>
-      </Row>
-
-      <div>
-        <Row gutter={16}>
-          <Col span={12}>
+          title="Export Data Confirmation"
+          open={isModalDataExporVisible}
+          onOk={handleDataExport}
+          onCancel={handleCancel}
+          centered
+        >
+          <p>{t("stats.Are you sure you want to export SLA data?")}</p>
+        </Modal>
+        <Table
+          dataSource={slaViolations}
+          columns={slaViolationsColumns}
+          pagination={{ pageSize: 5 }}
+          style={{ boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)" }}
+          rowKey={() => Math.random().toString(12).substr(2, 9)}
+        />
+        {/* </Col> */}
+        {/* <Col span={12}> */}
+        {responseData && (
+          <>
             <Divider>
-              <h2> {t("stats.SLA Violation")}</h2>
+              <h2>{t("stats.Violation")}</h2>
             </Divider>
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "flex-end",
-                marginBottom: "10px",
-              }}
-            >
-              <Button  type="primary"  onClick={showDataExportModal}> {t("stats.Export SLA")}</Button>
-            </div>
-            <Modal
-              title="Export Data Confirmation"
-              open={isModalDataExporVisible}
-              onOk={handleDataExport}
-              onCancel={handleCancel}
-              centered
-            >
-              <p>{t("stats.Are you sure you want to export SLA data?")}</p>
-            </Modal>
             <Table
-              dataSource={slaViolations}
-              columns={slaViolationsColumns}
-              pagination={{ pageSize: 6 }}
-              style={{ boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)" }}
+              dataSource={responseData}
+              columns={ViolationColumns}
+              rowKey={() => Math.random().toString(12).substr(2, 9)}
+              style={{
+                boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+                marginTop: "55px",
+              }}
             />
-          </Col>
-          <Col span={12}>
-            {responseData && (
-              <>
-                <Divider>
-                  <h2>{t("stats.Violation")}</h2>
-                </Divider>
-                <Table
-                  dataSource={responseData}
-                  columns={ViolationColumns}
-                  style={{
-                    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-                    marginTop: "55px",
-                  }}
-                />
-              </>
-            )}
-          </Col>
-        </Row>
+          </>
+        )}
+        {/* </Col>
+        </Row> */}
       </div>
       <StatusRange riskSummaryData={riskSummaryData} />
     </>

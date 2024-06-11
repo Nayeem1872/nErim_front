@@ -454,6 +454,7 @@ const Backup = () => {
                 // rowSelection={rowSelection}
                 columns={columns}
                 dataSource={dataSourceQuery}
+                rowKey={() => Math.random().toString(12).substr(2, 9)}
               />
             )}
           </div>

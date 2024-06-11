@@ -325,7 +325,7 @@ const Category = () => {
         <Dots />
     </div>
       ) : (
-        <Table dataSource={dataSource} columns={columns} />
+        <Table dataSource={dataSource} columns={columns} rowKey={() => Math.random().toString(12).substr(2, 9)} />
       )}
       </div>
     </>

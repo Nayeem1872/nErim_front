@@ -549,9 +549,9 @@ const View = ({ params }) => {
           </Card>
           <Divider>{t("treatment_view.Treatment_Status")}</Divider>
           {data1?.register.treatment_decision !== "Transfer" ? (
-            <Table dataSource={data1?.treatment} columns={columns} />
+            <Table dataSource={data1?.treatment} columns={columns} rowKey={() => Math.random().toString(12).substr(2, 9)} />
           ) : (
-            <Table dataSource={data1?.treatment} columns={columnsTransfer} />
+            <Table dataSource={data1?.treatment} columns={columnsTransfer}  rowKey={() => Math.random().toString(12).substr(2, 9)}/>
           )}
         </>
       )}

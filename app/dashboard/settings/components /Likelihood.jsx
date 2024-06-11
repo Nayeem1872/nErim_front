@@ -481,6 +481,7 @@ const Likelihood = ({ setApiData }) => {
         pagination={false}
         columns={columns}
         bordered
+        rowKey={() => Math.random().toString(12).substr(2, 9)}
       />
       )}
     </div>

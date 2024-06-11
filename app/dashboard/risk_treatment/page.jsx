@@ -645,6 +645,7 @@ const Treatment = () => {
             columns={columns}
             bordered
             size="middle"
+            rowKey={() => Math.random().toString(12).substr(2, 9)}
           />
           <Modal
             title={t("risk_treatment.modal_title")}

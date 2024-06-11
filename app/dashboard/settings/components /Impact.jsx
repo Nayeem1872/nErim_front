@@ -453,6 +453,7 @@ const Impact = ({ setApiData }) => {
           columns={columns}
           dataSource={dataSourceQuery}
           pagination={false}
+          rowKey={() => Math.random().toString(12).substr(2, 9)}
         />
       )}
     </>

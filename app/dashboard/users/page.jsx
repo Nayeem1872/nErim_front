@@ -258,7 +258,7 @@ const Users = () => {
         {t("users.Add_New_User")}
       </Button>
 
-      <Table dataSource={data} columns={columns} />
+      <Table dataSource={data} columns={columns}  rowKey={() => Math.random().toString(12).substr(2, 9)}/>
       <Modal
         centered
         title={t("users.user")}

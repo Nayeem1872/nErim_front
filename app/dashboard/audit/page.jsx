@@ -66,7 +66,7 @@ const Audit = () => {
       />
       <Divider />
 
-      <Table dataSource={dataSourceQuery} columns={columns} />
+      <Table dataSource={dataSourceQuery} columns={columns} rowKey={() => Math.random().toString(12).substr(2, 9)} />
     </div>
   );
 };

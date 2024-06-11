@@ -168,7 +168,7 @@ const page = () => {
       />
       <Divider />
 
-      <Table dataSource={data} columns={columns} pagination={false} />
+      <Table dataSource={data} columns={columns} pagination={false} rowKey={() => Math.random().toString(12).substr(2, 9)} />
     </div>
   );
 };

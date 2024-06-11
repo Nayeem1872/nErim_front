@@ -151,7 +151,7 @@ const Edit = ({ params }) => {
           <Title level={4}>Risk Name: {data.name}</Title>
           <Title level={5}>Risk Details: {data.decision}</Title>
           <Divider />
-          <Table dataSource={dataSource} columns={columns} />
+          <Table dataSource={dataSource} columns={columns} rowKey={() => Math.random().toString(12).substr(2, 9)} />
         </>
       )}
     </>

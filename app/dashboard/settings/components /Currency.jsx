@@ -210,7 +210,7 @@ const Currency = () => {
         <Dots />
     </div>
       ) : (
-      <Table dataSource={dataSourceQuery} columns={columns} pagination={false} />
+      <Table dataSource={dataSourceQuery} columns={columns} pagination={false} rowKey={() => Math.random().toString(12).substr(2, 9)} />
       )}
     </div>
   );

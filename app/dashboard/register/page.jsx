@@ -663,6 +663,7 @@ const Register = () => {
                     onChange={onChange}
                     bordered
                     loading={isLoading}
+                    rowKey={() => Math.random().toString(12).substr(2, 9)}
                   />
                 </ConfigProvider>
               </div>

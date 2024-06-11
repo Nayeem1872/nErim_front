@@ -457,7 +457,7 @@ const Valuation = ({ setApiData }) => {
         <Dots />
     </div>
       ) : (
-        <Table dataSource={dataSource} pagination={false} columns={columns} bordered/>
+        <Table dataSource={dataSource} pagination={false} columns={columns} rowKey={() => Math.random().toString(12).substr(2, 9)} bordered/>
       )}
       </div>
     </>
