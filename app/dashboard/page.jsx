@@ -65,29 +65,29 @@ const Dashboard = ({ isDarkMode, handleClick }) => {
     setMode(selectedMode);
   };
 
-  const token = localStorage.getItem("authorization");
+ 
 
   return (
     <>
-      <h1>{t("dashboard.Dashboard")}</h1>
-      <Breadcrumb
-        items={[
-          {
-            title: (
-              <a
-                onClick={() => {
-                  router.push(`/dashboard`);
-                }}
-              >
-                <LayoutDashboard color="#0D85D8" size={20} />
-              </a>
-            ),
-          },
-          {
-            title: t("dashboard.Dashboard"),
-          },
-        ]}
-      />
+      {/* <h1>{t("dashboard.Dashboard")}</h1> */}
+      <Breadcrumb style={{ padding: '10px' }}>
+      <Breadcrumb.Item>
+        <a
+          onClick={() => {
+            router.push(`/dashboard`);
+          }}
+          style={{ display: 'flex', alignItems: 'center', gap: '5px' }}
+        >
+          <LayoutDashboard style={{fontSize: '20px', marginBottom:"2px"}} color="#0D85D8" />
+          
+        </a>
+      </Breadcrumb.Item>
+      <Breadcrumb.Item style={{marginBottom:"20px"}}>
+      <div style={{ marginTop: '-2px' }}>
+          <span style={{ fontSize: '18px',color: "gray"  }}>{t("dashboard.Dashboard")}</span>
+        </div>
+      </Breadcrumb.Item>
+    </Breadcrumb>
       <Divider/>
       {isError ? (
         <div

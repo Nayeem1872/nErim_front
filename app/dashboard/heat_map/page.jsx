@@ -320,25 +320,26 @@ export default function Heatmap() {
 
   return (
     <>
-      <Title level={2}>{t("heatmap.heat_map")}</Title>
-      <Breadcrumb
-        items={[
-          {
-            title: (
-              <a
-                onClick={() => {
-                  router.push(`/dashboard`);
-                }}
-              >
-                <LayoutDashboard color="#0D85D8" size={20} />
-              </a>
-            ),
-          },
-          {
-            title: t("heatmap.heat_map"),
-          },
-        ]}
-      />
+           <Breadcrumb style={{ padding: "10px" }}>
+        <Breadcrumb.Item>
+          <a
+            onClick={() => {
+              router.push(`/dashboard`);
+            }}
+            style={{ display: "flex", alignItems: "center", gap: "5px" }}
+          >
+            <LayoutDashboard
+              style={{ fontSize: "20px", marginBottom: "2px" }}
+              color="#0D85D8"
+            />
+          </a>
+        </Breadcrumb.Item>
+        <Breadcrumb.Item style={{ marginBottom: "20px" }}>
+          <div style={{ marginTop: "-2px" }}>
+            <span style={{ fontSize: "18px",color: "gray"  }}>{t("heatmap.heat_map")}</span>
+          </div>
+        </Breadcrumb.Item>
+      </Breadcrumb>
       <Divider />
       {isError ? (
         <div

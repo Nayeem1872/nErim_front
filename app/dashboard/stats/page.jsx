@@ -11,11 +11,13 @@ import {
   Divider,
   Button,
   Modal,
+  Breadcrumb,
 } from "antd";
 import axios from "axios";
 import StatusRange from "./StatusRange";
 import Dots from "../components/DotLoader";
 import { useTranslation } from "react-i18next";
+import { LayoutDashboard } from "lucide-react";
 
 const Stats = () => {
   const { t } = useTranslation();
@@ -494,6 +496,27 @@ const Stats = () => {
   return (
     <>
       {/* top */}
+      <Breadcrumb style={{ padding: "10px" }}>
+        <Breadcrumb.Item>
+          <a
+            onClick={() => {
+              router.push(`/dashboard`);
+            }}
+            style={{ display: "flex", alignItems: "center", gap: "5px" }}
+          >
+            <LayoutDashboard
+              style={{ fontSize: "20px", marginBottom: "2px" }}
+              color="#0D85D8"
+            />
+          </a>
+        </Breadcrumb.Item>
+        <Breadcrumb.Item style={{ marginBottom: "20px" }}>
+          <div style={{ marginTop: "-2px" }}>
+            <span style={{ fontSize: "18px",color: "gray"  }}>{t("side_navbar.States Menu")}</span>
+          </div>
+        </Breadcrumb.Item>
+      </Breadcrumb>
+      <Divider/>
       <Row gutter={24} justify="center">
         <Col xs={24} sm={12} md={12} lg={8} xl={6}>
           <Card

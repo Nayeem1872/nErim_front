@@ -27,7 +27,7 @@ import { Bell, Edit, File, LayoutDashboard, Trash } from "lucide-react";
 import dayjs from "dayjs";
 import { useQuery } from "@tanstack/react-query";
 
-const { Title,Text } = Typography;
+const { Title, Text } = Typography;
 
 const View = ({ params }) => {
   const { t } = useTranslation();
@@ -51,8 +51,8 @@ const View = ({ params }) => {
   const [isOtherSelected, setIsOtherSelected] = useState(false);
   const [customEmail, setCustomEmail] = useState("");
   const [customActionOwner, setCustomActionOwner] = useState("");
-  const [recordEmail, setRecordEmail] = useState("")
-  const[recordActionOwner,setRecordActionOwner] = useState("")
+  const [recordEmail, setRecordEmail] = useState("");
+  const [recordActionOwner, setRecordActionOwner] = useState("");
 
   const fetchData = async () => {
     // setIsLoading(true);
@@ -103,8 +103,8 @@ const View = ({ params }) => {
   const showModal = (record) => {
     setUser_id(record.user_id);
     setEditId(record.id);
-    setRecordEmail(record.action_owner_email)
-    setRecordActionOwner(record.treat_owner)
+    setRecordEmail(record.action_owner_email);
+    setRecordActionOwner(record.treat_owner);
     // Format date fields using dayjs
     const formattedStartedDate = record.started_date
       ? dayjs(record.started_date)
@@ -112,7 +112,7 @@ const View = ({ params }) => {
     const formattedClosingDate = record.closing_date
       ? dayjs(record.closing_date)
       : null;
-      const formattedfinished_date = record.finished_date
+    const formattedfinished_date = record.finished_date
       ? dayjs(record.finished_date)
       : null;
 
@@ -123,7 +123,7 @@ const View = ({ params }) => {
       ...record,
       started_date: formattedStartedDate,
       closing_date: formattedClosingDate,
-      finished_date: formattedfinished_date
+      finished_date: formattedfinished_date,
     });
 
     setIsModalOpen(true);
@@ -142,10 +142,9 @@ const View = ({ params }) => {
         ? dayjs(formData.closing_date).format("YYYY-MM-DD")
         : null;
 
-        const formattedfinished_date = formData.finished_date
+      const formattedfinished_date = formData.finished_date
         ? dayjs(formData.finished_date).format("YYYY-MM-DD")
         : null;
-
 
       formData1.append("closing_date", formattedClosingDate);
       formData1.append("resolve", formData.resolve);
@@ -158,11 +157,13 @@ const View = ({ params }) => {
       formData1.append("expected_benefit", formData.expected_benefit);
 
       if (isOtherSelected) {
-        formData1.append("treat_owner", customActionOwner ||recordActionOwner);
+        formData1.append("treat_owner", customActionOwner || recordActionOwner);
         formData1.append("action_owner_email", customEmail || recordEmail);
-      } 
-      else {
-        formData1.append("treat_owner", selectedActionOwner || recordActionOwner);
+      } else {
+        formData1.append(
+          "treat_owner",
+          selectedActionOwner || recordActionOwner
+        );
         formData1.append("action_owner_email", ownerEmail1 || recordEmail);
       }
 
@@ -491,48 +492,45 @@ const View = ({ params }) => {
 
   return (
     <>
-      <Breadcrumb
-        items={[
-          {
-            title: (
-              <a
-                onClick={() => {
-                  router.push(`/dashboard`);
-                }}
-              >
-                <LayoutDashboard color="#0D85D8" size={20} />
-              </a>
-            ),
-          },
-          {
-            title: (
-              <a
-                onClick={() => {
-                  router.push(`/dashboard/risk_treatment`);
-                }}
-                style={{ color: "#0D85D8" }}
-              >
-                {t("treatment_view.Risk_Treatment")}
-              </a>
-            ),
-          },
-          {
-            title: (
-              <span style={{ color: "gray" }}>
-                {t("treatment_view.View")}
-                {/* :{data1.register.risk_name} */}
-              </span>
-            ),
-          },
-        ]}
-      />
+      <Breadcrumb style={{ padding: "10px" }}>
+        <Breadcrumb.Item>
+          <a
+            onClick={() => {
+              router.push(`/dashboard`);
+            }}
+            style={{ display: "flex", alignItems: "center", gap: "5px" }}
+          >
+            <LayoutDashboard
+              style={{ fontSize: "20px", marginBottom: "2px" }}
+              color="#0D85D8"
+            />
+          </a>
+        </Breadcrumb.Item>
+        <Breadcrumb.Item>
+          <a
+            onClick={() => {
+              router.push(`/dashboard/risk_treatment`);
+            }}
+            style={{ color: "#0D85D8" }}
+          >
+            {t("treatment_view.Risk_Treatment")}
+          </a>
+        </Breadcrumb.Item>
+        <Breadcrumb.Item style={{ marginBottom: "20px" }}>
+          <div style={{ marginTop: "-2px" }}>
+            <span style={{ fontSize: "18px", color: "gray" }}>
+              {t("treatment_view.View")}
+            </span>
+          </div>
+        </Breadcrumb.Item>
+      </Breadcrumb>
       {data1 && (
         <>
           <Card
             style={{ marginTop: "20px" }}
             title={t("treatment_view.Register_View")}
           >
-           <Title level={5}>
+            <Title level={5}>
               {t("treatment_view.Risk_Name")}:{" "}
               <Text mark style={{ fontSize: "18px" }}>
                 {data1.register.risk_name}
@@ -544,7 +542,13 @@ const View = ({ params }) => {
             </Title>
             <Title level={5}>
               {t("Treatment")}:{" "}
-              <span style={{ color: "#2F6690",fontSize: "18px",fontWeight: 'bold' }}>
+              <span
+                style={{
+                  color: "#2F6690",
+                  fontSize: "18px",
+                  fontWeight: "bold",
+                }}
+              >
                 {data1.register.treatment_decision}
               </span>
             </Title>
@@ -554,9 +558,17 @@ const View = ({ params }) => {
           </Card>
           <Divider>{t("treatment_view.Treatment_Status")}</Divider>
           {data1?.register.treatment_decision !== "Transfer" ? (
-            <Table dataSource={data1?.treatment} columns={columns} rowKey={() => Math.random().toString(12).substr(2, 9)} />
+            <Table
+              dataSource={data1?.treatment}
+              columns={columns}
+              rowKey={() => Math.random().toString(12).substr(2, 9)}
+            />
           ) : (
-            <Table dataSource={data1?.treatment} columns={columnsTransfer} rowKey={() => Math.random().toString(12).substr(2, 9)} />
+            <Table
+              dataSource={data1?.treatment}
+              columns={columnsTransfer}
+              rowKey={() => Math.random().toString(12).substr(2, 9)}
+            />
           )}
         </>
       )}

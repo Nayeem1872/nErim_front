@@ -3,16 +3,20 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { Col, Row, Table } from "antd";
 import { useRouter } from "next/navigation";
+import Dots from "./components/DotLoader";
 
 const Dashboard_Table = () => {
   const [matrixWithStatus, setMatrixWithStatus] = useState([]);
   const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
   const router = useRouter();
 
   useEffect(() => {
-    const token = localStorage.getItem("authorization");
     const fetchData = async () => {
       try {
+        setLoading(true); // Set loading state to true when fetching starts
+
+        const token = localStorage.getItem("authorization");
         const response = await axios.get(`/api/dashboard/`, {
           withCredentials: true,
           headers: {
@@ -20,16 +24,20 @@ const Dashboard_Table = () => {
           },
         });
         setMatrixWithStatus(response.data.matrixWithStatus);
+        setData(response.data.tblRegisterWithStatus);
 
-        const final = response.data.tblRegisterWithStatus;
-        setData(final);
+        setLoading(false); // Set loading state to false when fetching finishes
       } catch (error) {
         console.error("Error fetching data:", error);
+        setLoading(false); // Set loading state to false if an error occurs
       }
     };
 
     fetchData();
   }, []);
+  if (loading) {
+    return <Dots/>  // Render a loading message if data is still loading
+  }
 
   const columns = [
     {

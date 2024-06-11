@@ -486,41 +486,39 @@ const View = ({ params }) => {
   };
   return (
     <>
-      <Breadcrumb
-        items={[
-          {
-            title: (
-              <a
-                onClick={() => {
-                  router.push(`/dashboard`);
-                }}
-              >
-                <LayoutDashboard color="#0D85D8" size={20} />
-              </a>
-            ),
-          },
-          {
-            title: (
-              <a
-                onClick={() => {
-                  router.push(`/dashboard/register`);
-                }}
-                style={{ color: "#0D85D8" }}
-              >
-                {t("register.register_page")}
-              </a>
-            ),
-          },
-          {
-            title: (
-              <span style={{ color: "gray" }}>
-                {t("treatment_view.View")}
-                {/* :{data1.register.risk_name} */}
-              </span>
-            ),
-          },
-        ]}
-      />
+      
+      <Breadcrumb style={{ padding: "10px" }}>
+        <Breadcrumb.Item>
+          <a
+            onClick={() => {
+              router.push(`/dashboard`);
+            }}
+            style={{ display: "flex", alignItems: "center", gap: "5px" }}
+          >
+            <LayoutDashboard
+              style={{ fontSize: "20px", marginBottom: "2px" }}
+              color="#0D85D8"
+            />
+          </a>
+        </Breadcrumb.Item>
+        <Breadcrumb.Item>
+          <a
+            onClick={() => {
+              router.push(`/dashboard/register`);
+            }}
+            style={{ color: "#0D85D8" }}
+          >
+            {t("register.register_page")}
+          </a>
+        </Breadcrumb.Item>
+        <Breadcrumb.Item style={{ marginBottom: "20px" }}>
+          <div style={{ marginTop: "-2px" }}>
+            <span style={{ fontSize: "18px", color: "gray" }}>
+              {t("treatment_view.View")}
+            </span>
+          </div>
+        </Breadcrumb.Item>
+      </Breadcrumb>
       {data1 && (
         <>
           <Card
@@ -539,7 +537,13 @@ const View = ({ params }) => {
             </Title>
             <Title level={5}>
               {t("Treatment")}:{" "}
-              <span style={{ color: "#2F6690",fontSize: "18px",fontWeight: 'bold' }}>
+              <span
+                style={{
+                  color: "#2F6690",
+                  fontSize: "18px",
+                  fontWeight: "bold",
+                }}
+              >
                 {data1.register.treatment_decision}
               </span>
             </Title>
@@ -549,9 +553,17 @@ const View = ({ params }) => {
           </Card>
           <Divider>{t("treatment_view.Treatment_Status")}</Divider>
           {data1?.register.treatment_decision !== "Transfer" ? (
-            <Table dataSource={data1?.treatment} columns={columns} rowKey={() => Math.random().toString(12).substr(2, 9)} />
+            <Table
+              dataSource={data1?.treatment}
+              columns={columns}
+              rowKey={() => Math.random().toString(12).substr(2, 9)}
+            />
           ) : (
-            <Table dataSource={data1?.treatment} columns={columnsTransfer}  rowKey={() => Math.random().toString(12).substr(2, 9)}/>
+            <Table
+              dataSource={data1?.treatment}
+              columns={columnsTransfer}
+              rowKey={() => Math.random().toString(12).substr(2, 9)}
+            />
           )}
         </>
       )}

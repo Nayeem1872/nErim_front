@@ -108,35 +108,35 @@ const Treatment = () => {
       width: 150,
       fixed: "left",
       render: (text) => {
-        let color = '';
-  
+        let color = "";
+
         switch (text) {
-          case 'Accept':
-            color = 'green';
+          case "Accept":
+            color = "green";
             break;
-          case 'Manage':
-            color = 'blue';
+          case "Manage":
+            color = "blue";
             break;
-          case 'Transfer':
-            color = 'cyan';
+          case "Transfer":
+            color = "cyan";
             break;
-          case 'Mitigate':
-            color = 'orange';
+          case "Mitigate":
+            color = "orange";
             break;
-          case 'Reduce':
-            color = 'volcano';
+          case "Reduce":
+            color = "volcano";
             break;
-          case 'Avoid':
-            color = 'gold';
+          case "Avoid":
+            color = "gold";
             break;
-          case 'Control':
-            color = 'purple';
+          case "Control":
+            color = "purple";
             break;
           default:
-            color = '';
+            color = "";
             break;
         }
-  
+
         return (
           <Tag color={color} key={text}>
             {text}
@@ -214,7 +214,7 @@ const Treatment = () => {
           dataIndex: "treatments",
           key: "owner",
           render: (treatments) => {
-            console.log("treatments",treatments); // Correct placement of console.log
+            console.log("treatments", treatments); // Correct placement of console.log
             return (
               <>
                 {treatments.map((treatment, index) => (
@@ -258,7 +258,6 @@ const Treatment = () => {
     },
   ];
   const token = localStorage.getItem("authorization");
-
 
   const {
     data: data,
@@ -422,7 +421,6 @@ const Treatment = () => {
     });
   };
 
-
   // const showModalExample = () => {
   //   setIsModalExampleOpen(true);
   // };
@@ -514,29 +512,28 @@ const Treatment = () => {
   };
   return (
     <div>
-      <Title level={2}>{t("risk_treatment.risk_treatment")}</Title>
-      <Breadcrumb
-        items={[
-          {
-            title: (
-              <a
-                onClick={() => {
-                  router.push(`/dashboard`);
-                }}
-              >
-                <LayoutDashboard color="#0D85D8" size={20} />
-              </a>
-            ),
-          },
-          {
-            title: (
-              <span style={{ color: "gray" }}>
-                {t("risk_treatment.risk_treatment_page")}
-              </span>
-            ),
-          },
-        ]}
-      />
+      <Breadcrumb style={{ padding: "10px" }}>
+        <Breadcrumb.Item>
+          <a
+            onClick={() => {
+              router.push(`/dashboard`);
+            }}
+            style={{ display: "flex", alignItems: "center", gap: "5px" }}
+          >
+            <LayoutDashboard
+              style={{ fontSize: "20px", marginBottom: "2px" }}
+              color="#0D85D8"
+            />
+          </a>
+        </Breadcrumb.Item>
+        <Breadcrumb.Item style={{ marginBottom: "20px" }}>
+          <div style={{ marginTop: "-2px" }}>
+            <span style={{ fontSize: "18px", color: "gray" }}>
+              {t("risk_treatment.risk_treatment_page")}
+            </span>
+          </div>
+        </Breadcrumb.Item>
+      </Breadcrumb>
       <Divider />
       {isError ? (
         <div
@@ -585,7 +582,7 @@ const Treatment = () => {
                 onClick={handleImportModal}
                 style={{ marginRight: "10px" }}
               >
-               {t("Example File")}
+                {t("Example File")}
               </Button>
               <Modal
                 width={800}

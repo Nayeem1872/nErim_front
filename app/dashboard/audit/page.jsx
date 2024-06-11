@@ -6,21 +6,30 @@ import { Divider, Typography } from "antd";
 import { LayoutDashboard } from "lucide-react";
 import axios from "axios";
 import { useTranslation } from "react-i18next";
+import Dots from "../components/DotLoader";
 const { Title } = Typography;
 
 const Audit = () => {
   const { t } = useTranslation();
-  const { data: dataSourceQuery } = useQuery({
+  const { data: dataSourceQuery, isLoading, error } = useQuery({
     queryKey: ["audit"],
     queryFn: async () => {
-      const response = await axios.get(
-        `/api/risk-audit`,
-      );
-
+      const response = await axios.get(`/api/risk-audit`);
       return response.data.auditData;
     },
     staleTime: 1000 * 60 * 60 * 1,
   });
+  
+  if (isLoading) {
+    return <Dots />;
+  }
+
+  if (error) {
+    return (
+      <Alert message="Error" description="Failed to fetch data" type="error" />
+    );
+  }
+  
   const columns = [
     {
       title: t("audit.time"),
@@ -45,25 +54,28 @@ const Audit = () => {
   ];
   return (
     <div>
-      <Title level={2}>{t("audit.audit")}</Title>
-      <Breadcrumb
-        items={[
-          {
-            title: (
-              <a
-                onClick={() => {
-                  router.push(`/dashboard`);
-                }}
-              >
-                 <LayoutDashboard color="#0D85D8" size={20} />
-              </a>
-            ),
-          },
-          {
-            title: "Audit",
-          },
-        ]}
-      />
+      {/* <Title level={2}>{t("audit.audit")}</Title> */}
+   
+       <Breadcrumb style={{ padding: "10px" }}>
+        <Breadcrumb.Item>
+          <a
+            onClick={() => {
+              router.push(`/dashboard`);
+            }}
+            style={{ display: "flex", alignItems: "center", gap: "5px" }}
+          >
+            <LayoutDashboard
+              style={{ fontSize: "20px", marginBottom: "2px" }}
+              color="#0D85D8"
+            />
+          </a>
+        </Breadcrumb.Item>
+        <Breadcrumb.Item style={{ marginBottom: "20px" }}>
+          <div style={{ marginTop: "-2px" }}>
+            <span style={{ fontSize: "18px",color: "gray"  }}>{t("audit.audit")}</span>
+          </div>
+        </Breadcrumb.Item>
+      </Breadcrumb>
       <Divider />
 
       <Table dataSource={dataSourceQuery} columns={columns} rowKey={() => Math.random().toString(12).substr(2, 9)} />

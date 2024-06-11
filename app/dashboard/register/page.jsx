@@ -585,26 +585,26 @@ const Register = () => {
     <div>
       <>
         <div>
-          <Title level={2}>{t("register.register")}</Title>
-
-          <Breadcrumb
-            items={[
-              {
-                title: (
-                  <a
-                    onClick={() => {
-                      router.push(`/dashboard`);
-                    }}
-                  >
-                    <LayoutDashboard color="#0D85D8" size={20} />
-                  </a>
-                ),
-              },
-              {
-                title: t("register.register_page"),
-              },
-            ]}
-          />
+           <Breadcrumb style={{ padding: "10px" }}>
+        <Breadcrumb.Item>
+          <a
+            onClick={() => {
+              router.push(`/dashboard`);
+            }}
+            style={{ display: "flex", alignItems: "center", gap: "5px" }}
+          >
+            <LayoutDashboard
+              style={{ fontSize: "20px", marginBottom: "2px" }}
+              color="#0D85D8"
+            />
+          </a>
+        </Breadcrumb.Item>
+        <Breadcrumb.Item style={{ marginBottom: "20px" }}>
+          <div style={{ marginTop: "-2px" }}>
+            <span style={{ fontSize: "18px",color: "gray"  }}>{t("register.register_page")}</span>
+          </div>
+        </Breadcrumb.Item>
+      </Breadcrumb>
           <Divider />
           <div></div>
 

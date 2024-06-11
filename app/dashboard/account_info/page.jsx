@@ -1,9 +1,10 @@
 "use client";
 import styles from "./style.module.css";
-import { Row, Col, Card, Descriptions } from "antd";
+import { Row, Col, Card, Descriptions, Breadcrumb } from "antd";
 import { useTranslation } from "react-i18next";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { LayoutDashboard } from "lucide-react";
 
 function Account() {
   const { t } = useTranslation();
@@ -21,9 +22,7 @@ function Account() {
           },
         });
         setDataSourceQuery(response.data.data);
-      } catch (error) {
-     
-      }
+      } catch (error) {}
     };
 
     fetchData();
@@ -31,22 +30,44 @@ function Account() {
 
   return (
     <>
-      <div className={styles.profile}>
-        <img
-          src="/image/bg-profile.jpg"
-          alt="User Image"
-          style={{
-            width: "1670px",
-            height: "350px",
-            borderRadius: "10%",
-            marginBottom: "8px",
-          }}
-        />
-      </div>
+      <Breadcrumb style={{ padding: "10px" }}>
+        <Breadcrumb.Item>
+          <a
+            onClick={() => {
+              router.push(`/dashboard`);
+            }}
+            style={{ display: "flex", alignItems: "center", gap: "5px" }}
+          >
+            <LayoutDashboard
+              style={{ fontSize: "20px", marginBottom: "2px" }}
+              color="#0D85D8"
+            />
+          </a>
+        </Breadcrumb.Item>
+        <Breadcrumb.Item style={{ marginBottom: "20px" }}>
+          <div style={{ marginTop: "-2px" }}>
+            <span style={{ fontSize: "18px",color: "gray"  }}>{t("side_navbar.account_info")}</span>
+          </div>
+        </Breadcrumb.Item>
+      </Breadcrumb>
+      {/* <div className={styles.profile}> */}
+      <img
+        src="/image/Account.svg"
+        alt="User Image"
+        style={{
+          position: "relative",
+          width: "860px",
+          height: "550px",
+          marginLeft: "-20px",
+          top: "10",
+          left: "0",
+        }}
+      />
+      {/* </div> */}
 
       <Row className={styles.middle} gutter={[24, 0]}>
         <Col span={12} offset={6} className="mb-24">
-        <Card
+          <Card
             bordered={true}
             title={
               <h3 className={`${styles.cardTitle} font-semibold m-0`}>
@@ -54,14 +75,20 @@ function Account() {
               </h3>
             }
             className={`${styles.cardCustom} header-solid h-full card-profile-information`}
-            bodyStyle={{ paddingTop: 0, paddingBottom: 16 }}
+            style={{
+              position: "absolute",
+              top: "0",
+              left: "50%",
+              transform: "translate(-50%, -100%)",
+            }}
           >
             {/* <hr className="my-25" /> */}
-            <Descriptions title="" style={{marginTop:"20px"}}>
+            <Descriptions title="" style={{ marginTop: "20px" }}>
               <Descriptions.Item
                 label={t("account_info.OrgName")}
                 span={3}
                 className={styles.descriptionItem}
+                style={{ textAlign: "center" }}
               >
                 {dataSourceQuery.orgName}
               </Descriptions.Item>
