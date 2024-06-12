@@ -540,7 +540,7 @@ export default function DashboardLayout({ children }) {
                     // Adjust padding as needed
                   }}
                 >
-                  nErim v0.0.01 ©{new Date().getFullYear()} Developed by{" "}
+                  nErim v0.0.0.01 ©{new Date().getFullYear()} Developed by{" "}
                   <span style={{ color: "#4096FF", fontWeight: "bold" }}>
                     Alo It Consultants
                   </span>

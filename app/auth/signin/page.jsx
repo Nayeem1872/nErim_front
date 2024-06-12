@@ -64,15 +64,7 @@ const SignIn = () => {
   const onFinishFailed = (errorInfo) => {
   
   };
-  useEffect(() => {
-    const authorizationToken = Cookies.get("nerim_session");
-
-  if (authorizationToken) {
-    // Redirect to dashboard if authorization token exists in cookies
-    router.push("/dashboard");
-    window.location.reload();
-  }
-  }, []);
+  
 
   return (
     <>
