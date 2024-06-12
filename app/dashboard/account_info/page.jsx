@@ -1,10 +1,10 @@
 "use client";
 import styles from "./style.module.css";
-import { Row, Col, Card, Descriptions, Breadcrumb } from "antd";
+import { Row, Col, Card, Descriptions } from "antd";
 import { useTranslation } from "react-i18next";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { LayoutDashboard } from "lucide-react";
+
 
 function Account() {
   const { t } = useTranslation();
@@ -163,11 +163,14 @@ function Account() {
               <h3 className={`${styles.cardTitle} font-semibold m-0`}>
                 {t("account_info.ProfileInformation")}
               </h3>
+              
             }
             className={`${styles.cardCustom} header-solid h-full card-profile-information`}
             style={{ paddingTop: 0, paddingBottom: 16 }}
           >
             {/* <hr className="my-25" /> */}
+            <Row gutter={16}>
+              <Col span={12}>
             <Descriptions title="" style={{marginTop:"20px"}}>
               <Descriptions.Item
                 label={t("account_info.OrgName")}
@@ -219,6 +222,19 @@ function Account() {
                 {dataSourceQuery.status}
               </Descriptions.Item>
             </Descriptions>
+            </Col>
+            <Col span={12}>
+                <img
+                  src="/image/account.svg"
+                  alt="Description of image"
+                  style={{
+                    width: "100%",
+                    height: "300px",
+                    // marginLeft: "50px",
+                  }}
+                />
+              </Col>
+            </Row>
           </Card>
         </Col>
       </Row>

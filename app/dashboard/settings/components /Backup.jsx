@@ -65,7 +65,7 @@ const Backup = () => {
   const handleOk = async () => {
     setIsModalOpen(false);
     try {
-      const data = { userId: userId, verifyEmail: email, ...checkboxValues }; // Spread the object into the data object
+      const data = { userId: userId, verifyEmail: email, ...checkboxValues }; 
 
       const apiUrl = "/api/create-backup";
 
@@ -105,29 +105,33 @@ const Backup = () => {
       const response = await axios.get(
         `/api/download-backup/${record?.storeFolder}`,
         {
-          responseType: "blob", // Set the response type to 'blob'
-          withCredentials: true, // Include credentials in the request
+          responseType: "blob", 
+          withCredentials: true,
           headers: {
             Authorization: `Bearer ${token}`,
           },
         }
       );
       const blobUrl = window.URL.createObjectURL(response.data);
+      const fileName = `Backup${
+        record?.storeFolder ? `_${record.storeFolder}` : ""
+      }.zip`;
 
-      // Create a link element to trigger the download
       const link = document.createElement("a");
       link.href = blobUrl;
-      link.setAttribute("download", "backup.zip");
+      link.setAttribute("download", fileName);
 
-      // Append the link to the document body and trigger the click event
+   
       document.body.appendChild(link);
       link.click();
 
-      // Clean up by removing the link from the document body
+    
       document.body.removeChild(link);
 
-      // Stop loading after successful download
+    
       setConfirmLoading(false);
+      
+      setOpen(false);
 
       message.success(t("BackUp.Downloaded!"));
     } catch (error) {
@@ -138,7 +142,6 @@ const Backup = () => {
   };
 
   const handleDownloadCancel = () => {
-
     setOpen(false);
   };
 
@@ -161,7 +164,6 @@ const Backup = () => {
         }
       );
 
-
       // Check if the deletion was successful
       if (response.status === 200) {
         refetch();
@@ -177,12 +179,9 @@ const Backup = () => {
     } catch (error) {
       setOpen(false);
       setConfirmLoading(false);
-      // console.error("Error deleting record:", error);
-      // message.error("An error occurred while deleting the record.");
     }
   };
   const handleDeleteCancel = () => {
-   
     setOpenDelete(false);
   };
 
@@ -199,7 +198,6 @@ const Backup = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-
 
       // Check if the deletion was successful
       if (response.status === 200) {
@@ -306,7 +304,12 @@ const Backup = () => {
 
           <Button
             type="primary"
-            style={{ display: "flex", alignItems: "center" }}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              background: "#2d6a4f",
+              borderColor: "#2d6a4f",
+            }}
             onClick={() => showRestoreModal(record)}
           >
             <ArchiveRestore size={16} style={{ marginRight: 5 }} />
@@ -347,7 +350,6 @@ const Backup = () => {
     }, 1000);
   };
   const onSelectChange = (newSelectedRowKeys) => {
-
     setSelectedRowKeys(newSelectedRowKeys);
   };
   const rowSelection = {
@@ -388,7 +390,7 @@ const Backup = () => {
       </Modal>
 
       <div>
-      {apiData !== "user" && (
+        {apiData !== "user" && (
           <Button type="primary" onClick={showModal}>
             <DatabaseTwoTone /> {t("BackUp.Take_New_Backup")}
           </Button>

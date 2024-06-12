@@ -12,15 +12,21 @@ import {
   Button,
   Modal,
   Breadcrumb,
+  FloatButton,
 } from "antd";
 import axios from "axios";
 import StatusRange from "./StatusRange";
 import Dots from "../components/DotLoader";
 import { useTranslation } from "react-i18next";
-import { LayoutDashboard,CloudDownload, Download } from "lucide-react";
-import { CaretRightOutlined, DownloadOutlined } from "@ant-design/icons";
-
-
+import { LayoutDashboard, CloudDownload, Download } from "lucide-react";
+import {
+  CaretRightOutlined,
+  CheckCircleOutlined,
+  DownloadOutlined,
+  ExclamationCircleOutlined,
+  SafetyOutlined,
+  ThunderboltOutlined,
+} from "@ant-design/icons";
 
 const Stats = () => {
   const { t } = useTranslation();
@@ -497,48 +503,61 @@ const Stats = () => {
   };
   const breadcrumbItems = [
     {
-      key: 'dashboard',
+      key: "dashboard",
       title: (
         <a
           onClick={() => {
             router.push(`/dashboard`);
           }}
-          style={{ display: 'flex', alignItems: 'center', gap: '5px' }}
+          style={{ display: "flex", alignItems: "center", gap: "5px" }}
         >
-          <LayoutDashboard style={{ fontSize: '20px', marginBottom: '2px' }} color="#0D85D8" />
+          <LayoutDashboard
+            style={{ fontSize: "20px", marginBottom: "2px" }}
+            color="#0D85D8"
+          />
         </a>
       ),
     },
     {
-      key: 'statesMenu',
+      key: "statesMenu",
       title: (
         <div>
-          <span style={{ fontSize: '15px', color: 'gray' }}>{t("side_navbar.States Menu")}</span>
+          <span style={{ fontSize: "15px", color: "gray" }}>
+            {t("side_navbar.States Menu")}
+          </span>
         </div>
       ),
-      style: { marginBottom: '20px' },
+      style: { marginBottom: "20px" },
     },
   ];
 
   return (
     <>
       {/* top */}
-      <Breadcrumb style={{ padding: '10px' }} items={breadcrumbItems} />
-      <Divider/>
+      <Breadcrumb style={{ padding: "10px" }} items={breadcrumbItems} />
+      <Divider />
       <Row gutter={24} justify="center">
         <Col xs={24} sm={12} md={12} lg={8} xl={6}>
           <Card
             bordered={false}
             style={{
               margin: "5px",
-              backgroundImage: gradientColors[0],
-              boxShadow: shadowStyles[0],
+              height: "220px",
+              backgroundColor: "#2f6690",
+              boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)", // Improved shadow for better aesthetics
+              borderRadius: "10px", // Rounded corners for a smoother look
+              color: "#fff", // White text color for better contrast
             }}
           >
             <div className={styles.cardContent}>
               <div className={styles.cardHeader}>
-                <h2>{t("stats.Action")}</h2>
-                <Divider />
+                <h2>
+                  <ThunderboltOutlined
+                    style={{ marginRight: "10px", color: "#fff" }}
+                  />
+                  {t("stats.Action")}
+                </h2>
+                <Divider style={{ backgroundColor: "#fff" }} />
               </div>
               <div className={styles.cardStats}>
                 <div className={styles.statItem}>
@@ -567,23 +586,30 @@ const Stats = () => {
           </Card>
         </Col>
 
-        <Col xs={24} sm={12} md={12} lg={8} xl={6} >
+        <Col xs={24} sm={12} md={12} lg={8} xl={6}>
           <Card
             bordered={false}
             style={{
               margin: "5px",
-              backgroundImage: gradientColors[1],
-              boxShadow: shadowStyles[1],
-              height: "235px", // Adjust the height as needed
+              backgroundColor: "#3a7ca5",
+              boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)", // Improved shadow for better aesthetics
+              borderRadius: "10px", // Rounded corners for a smoother look
+              height: "220px",
+              color: "#fff", // White text color for better contrast
             }}
           >
             <div className={styles.cardContent}>
               <div className={styles.cardHeader}>
-                <h2>{t("stats.Mitigated")}</h2>
-                <Divider />
+                <h2>
+                  <SafetyOutlined
+                    style={{ marginRight: "10px", color: "#fff" }}
+                  />
+                  {t("stats.Mitigated")}
+                </h2>
+                <Divider style={{ backgroundColor: "#fff" }} />
               </div>
               <div className={styles.cardStats}>
-                <div className={styles.statItem} style={{marginTop:"18px"}}>
+                <div className={styles.statItem} style={{ marginTop: "18px" }}>
                   <span>{riskSummaryData.totalMitigate}</span>
                 </div>
               </div>
@@ -591,47 +617,60 @@ const Stats = () => {
           </Card>
         </Col>
 
-        <Col xs={24} sm={12} md={12} lg={8} xl={6} >
+        <Col xs={24} sm={12} md={12} lg={8} xl={6}>
           <Card
             bordered={false}
             style={{
               margin: "5px",
-              backgroundImage: gradientColors[2],
-              boxShadow: shadowStyles[2],
-              height: "235px",
+              backgroundColor: "#00607a",
+              boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)", // Improved shadow for better aesthetics
+              borderRadius: "10px", // Rounded corners for a smoother look
+              height: "220px",
+              color: "#fff", // White text color for better contrast
             }}
           >
             <div className={styles.cardContent}>
               <div className={styles.cardHeader}>
-                <h2> {t("stats.Accepted")}</h2>
-                <Divider />
+                <h2>
+                  <CheckCircleOutlined
+                    style={{ marginRight: "10px", color: "#fff" }}
+                  />
+                  {t("stats.Accepted")}
+                </h2>
+                <Divider style={{ backgroundColor: "#fff" }} />
               </div>
               <div className={styles.cardStats}>
-                <div className={styles.statItem} style={{marginTop:"18px"}}>
+                <div className={styles.statItem} style={{ marginTop: "18px" }}>
                   <span>{riskSummaryData.totalAccepted}</span>
                 </div>
               </div>
             </div>
           </Card>
         </Col>
-
-        <Col xs={24} sm={12} md={12} lg={8} xl={6} >
+        <Col xs={24} sm={12} md={12} lg={8} xl={6}>
           <Card
             bordered={false}
             style={{
               margin: "5px",
-              backgroundImage: gradientColors[3],
-              boxShadow: shadowStyles[3],
-              height: "235px",
+              backgroundColor: "#003d5c",
+              boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)", // Improved shadow for better aesthetics
+              borderRadius: "10px", // Rounded corners for a smoother look
+              height: "220px",
+              color: "#fff", // White text color for better contrast
             }}
           >
             <div className={styles.cardContent}>
               <div className={styles.cardHeader}>
-                <h2> {t("stats.Total Risk")}</h2>
-                <Divider />
+                <h2>
+                  <ExclamationCircleOutlined
+                    style={{ marginRight: "10px", color: "#fff" }}
+                  />
+                  {t("stats.Total Risk")}
+                </h2>
+                <Divider style={{ backgroundColor: "#fff" }} />
               </div>
               <div className={styles.cardStats}>
-                <div className={styles.statItem} style={{marginTop:"18px"}}>
+                <div className={styles.statItem} style={{ marginTop: "18px" }}>
                   <span>{riskSummaryData.totalRisk}</span>
                 </div>
               </div>
@@ -683,7 +722,6 @@ const Stats = () => {
           <h2>
             {" "}
             {t("stats.Risk Threshold")}
-            
             {/* ({apatiteValue}){" "} */}
           </h2>
         </Divider>
@@ -815,6 +853,8 @@ const Stats = () => {
         </Row> */}
       </div>
       <StatusRange riskSummaryData={riskSummaryData} />
+
+      <FloatButton.BackTop />
     </>
   );
 };

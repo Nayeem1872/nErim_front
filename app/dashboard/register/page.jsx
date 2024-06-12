@@ -54,13 +54,10 @@ const Register = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [filterInput, setFilterInput] = useState("");
   const [loading, setLoading] = useState(false);
-  const [startingDate,setStartingDate] = useState(null)
+  const [startingDate, setStartingDate] = useState(null);
   const [isOtherSelected, setIsOtherSelected] = useState(false);
   const [customEmail, setCustomEmail] = useState("");
   const [customActionOwner, setCustomActionOwner] = useState("");
-
-
-
 
   const handleSettingsClick = () => {
     router.push("/dashboard/settings"); // Navigate to settings page
@@ -223,12 +220,12 @@ const Register = () => {
         formData.append("treat_owner", selectedActionOwner);
         formData.append("action_owner_email", ownerEmail1);
       }
-     formData.append("expected_benefit", expectedBenefit);
+      formData.append("expected_benefit", expectedBenefit);
       formData.append("closing_date", closingDate);
       formData.append("finishing_date", finishingDate);
       formData.append("treat_status", status);
       formData.append("user_id", singleId);
-      formData.append("started_date",startingDate)
+      formData.append("started_date", startingDate);
 
       if (selectedFile) {
         formData.append("attachment", selectedFile.originFileObj);
@@ -260,8 +257,13 @@ const Register = () => {
         message.success({
           content: (
             <span>
-              Risk Treatment has been added!{' '}
-              <a onClick={() => router.push(`/dashboard/register/view/${selectedRow?.id}`)} style={{ color: '#1890ff' }}>
+              Risk Treatment has been added!{" "}
+              <a
+                onClick={() =>
+                  router.push(`/dashboard/register/view/${selectedRow?.id}`)
+                }
+                style={{ color: "#1890ff" }}
+              >
                 Go there
               </a>
             </span>
@@ -370,11 +372,11 @@ const Register = () => {
       align: "center",
       render: (text, record) => {
         const color = record.risk_matrix.color.startsWith("#")
-        ? record.risk_matrix.color
-        : `#${record.risk_matrix.color}`;
-      const isCriticalStepDefined =
-        record.risk_matrix.critical_step !== undefined &&
-        record.risk_matrix.critical_step !== "";
+          ? record.risk_matrix.color
+          : `#${record.risk_matrix.color}`;
+        const isCriticalStepDefined =
+          record.risk_matrix.critical_step !== undefined &&
+          record.risk_matrix.critical_step !== "";
 
         return (
           <div
@@ -388,8 +390,8 @@ const Register = () => {
           >
             {record.risk_matrix.critical_step}
           </div>
-        )
-      }
+        );
+      },
     },
     {
       title: t("register.action"),
@@ -546,7 +548,7 @@ const Register = () => {
     setTimeout(() => setLoading(false), 1000); // Set loading to false after 1 second
   };
 
-   // Event handler for selecting action owner
+  // Event handler for selecting action owner
 
   const handleActionOwnerChange = (value) => {
     setSelectedActionOwner(value);
@@ -581,36 +583,40 @@ const Register = () => {
     // Sync custom action owner input with selectedActionOwner state
   };
 
-
   const breadcrumbItems = [
     {
-      key: 'dashboard',
+      key: "dashboard",
       title: (
         <a
           onClick={() => {
             router.push(`/dashboard`);
           }}
-          style={{ display: 'flex', alignItems: 'center', gap: '5px' }}
+          style={{ display: "flex", alignItems: "center", gap: "5px" }}
         >
-          <LayoutDashboard style={{ fontSize: '20px', marginBottom: '2px' }} color="#0D85D8" />
+          <LayoutDashboard
+            style={{ fontSize: "20px", marginBottom: "2px" }}
+            color="#0D85D8"
+          />
         </a>
       ),
     },
     {
-      key: 'register',
+      key: "register",
       title: (
         <div>
-          <span style={{ fontSize: '15px', color: 'gray' }}>{t("register.register_page")}</span>
+          <span style={{ fontSize: "15px", color: "gray" }}>
+            {t("register.register_page")}
+          </span>
         </div>
       ),
-      style: { marginBottom: '20px' },
+      style: { marginBottom: "20px" },
     },
   ];
   return (
     <div>
       <>
         <div>
-        <Breadcrumb style={{ padding: '10px' }} items={breadcrumbItems} />
+          <Breadcrumb style={{ padding: "10px" }} items={breadcrumbItems} />
           <Divider />
           <div></div>
 
@@ -646,26 +652,14 @@ const Register = () => {
             </div>
           ) : (
             <>
-              <div style={{ textAlign: "right" }}>
-                <Button onClick={handleRefresh} style={{ marginRight: "10px" }}>
-                  <RedoOutlined />{t("Refresh")}
-                </Button>
-          
-                <Button
-                  onClick={handleExportButtonClick}
-                  style={{ marginRight: "10px" }}
-                >
-                  {t("register.export")}
-                </Button>
-                <Button
-                  onClick={() => router.push("/dashboard/register/add")}
-                  type="primary"
-                >
-                  {t("register.add_new")}
-                </Button>
-              </div>
-
-              <div>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  marginBottom: "15px",
+                }}
+              >
                 <Search
                   placeholder={t("register.search_risk_name")}
                   onSearch={handleSearch}
@@ -673,9 +667,32 @@ const Register = () => {
                   enterButton
                   style={{
                     width: 400,
-                    marginBottom: "15px",
                   }}
                 />
+                <div style={{ textAlign: "right" }}>
+                  <Button
+                    onClick={handleRefresh}
+                    style={{ marginRight: "10px" }}
+                  >
+                    <RedoOutlined />
+                    {t("Refresh")}
+                  </Button>
+                  <Button
+                    onClick={handleExportButtonClick}
+                    style={{ marginRight: "10px" }}
+                  >
+                    {t("register.export")}
+                  </Button>
+                  <Button
+                    onClick={() => router.push("/dashboard/register/add")}
+                    type="primary"
+                  >
+                    {t("register.add_new")}
+                  </Button>
+                </div>
+              </div>
+
+              <div>
                 <ConfigProvider
                   theme={{
                     table: {
@@ -752,47 +769,46 @@ const Register = () => {
               {t("risk_treatment.action_owner_title")}
             </Typography.Title>
             <Select
-                  placeholder={t("risk_treatment.action_owner")}
-                  value={selectedActionOwner}
-                  onChange={handleActionOwnerChange}
-                  style={{ width: "100%" }}
-                >
-                  {Userdata?.map((user) => (
-                    <Select.Option key={user.id} value={user.name}>
-                      {user.name}
-                    </Select.Option>
-                  ))}
-                  <Select.Option value="other">{t("Other")}</Select.Option>
-                </Select>
+              placeholder={t("risk_treatment.action_owner")}
+              value={selectedActionOwner}
+              onChange={handleActionOwnerChange}
+              style={{ width: "100%" }}
+            >
+              {Userdata?.map((user) => (
+                <Select.Option key={user.id} value={user.name}>
+                  {user.name}
+                </Select.Option>
+              ))}
+              <Select.Option value="other">{t("Other")}</Select.Option>
+            </Select>
 
+            {isOtherSelected && (
+              <Input
+                placeholder={t("risk_treatment.custom_action_owner")}
+                value={customActionOwner}
+                onChange={handleCustomActionOwnerChange}
+                style={{ width: "100%", marginTop: "1rem" }}
+              />
+            )}
 
-                {isOtherSelected && (
-                  <Input 
-                    placeholder={t("risk_treatment.custom_action_owner")}
-                    value={customActionOwner}
-                    onChange={handleCustomActionOwnerChange}
-                    style={{ width: "100%", marginTop: "1rem" }}
-                  />
-                )}
-
-                <Typography.Title level={5}>
-                  {t("risk_treatment.owner_email_title")}
-                </Typography.Title>
-                {isOtherSelected ? (
-                  <Input
-                    placeholder={t("risk_treatment.custom_email")}
-                    value={customEmail}
-                    onChange={handleCustomEmailChange}
-                    style={{ width: "100%", marginTop: "1rem" }}
-                  />
-                ) : (
-                  <Input
-                    placeholder={t("risk_treatment.owner_email")}
-                    value={ownerEmail1}
-                    readOnly={!isOtherSelected}
-                    style={{ width: "100%" }}
-                  />
-                )}
+            <Typography.Title level={5}>
+              {t("risk_treatment.owner_email_title")}
+            </Typography.Title>
+            {isOtherSelected ? (
+              <Input
+                placeholder={t("risk_treatment.custom_email")}
+                value={customEmail}
+                onChange={handleCustomEmailChange}
+                style={{ width: "100%", marginTop: "1rem" }}
+              />
+            ) : (
+              <Input
+                placeholder={t("risk_treatment.owner_email")}
+                value={ownerEmail1}
+                readOnly={!isOtherSelected}
+                style={{ width: "100%" }}
+              />
+            )}
 
             <Typography.Title level={5}>
               {t("risk_treatment.expected_benefit_title")}
@@ -814,39 +830,34 @@ const Register = () => {
                 />
                 {status === "Finished" && (
                   <>
-                    <div style={{marginLeft:"10px", display:'flex'}}>
+                    <div style={{ marginLeft: "10px", display: "flex" }}>
                       <Typography.Title level={5}>
                         Finishing Date:
                       </Typography.Title>
                       <DatePicker
-                     
                         onChange={(date, dateString) =>
                           setFinishingDate(dateString)
                         }
-                        style={{ marginLeft:"5px" , marginTop:"20px" }}
+                        style={{ marginLeft: "5px", marginTop: "20px" }}
                       />
                     </div>
                   </>
                 )}
-{status === "Started" && (
-                <>
-                    <div style={{marginLeft:"10px", display:'flex'}}>
+                {status === "Started" && (
+                  <>
+                    <div style={{ marginLeft: "10px", display: "flex" }}>
                       <Typography.Title level={5}>
                         Starting Date:
                       </Typography.Title>
                       <DatePicker
-                     
                         onChange={(date, dateString) =>
                           setStartingDate(dateString)
                         }
-                        style={{ marginLeft:"5px" , marginTop:"20px" }}
+                        style={{ marginLeft: "5px", marginTop: "20px" }}
                       />
                     </div>
-                  
-                </>
-              )}
-
-
+                  </>
+                )}
 
                 <Typography.Title level={5} style={{ marginLeft: "10px" }}>
                   {t("risk_treatment.status_title")}
