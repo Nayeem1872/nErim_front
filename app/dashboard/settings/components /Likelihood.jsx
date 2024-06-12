@@ -482,6 +482,10 @@ const Likelihood = ({ setApiData }) => {
         columns={columns}
         bordered
         rowKey={() => Math.random().toString(12).substr(2, 9)}
+        style={{
+          boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2)",
+          borderRadius: "10px",
+        }}
       />
       )}
     </div>

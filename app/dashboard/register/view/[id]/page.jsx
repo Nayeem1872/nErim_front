@@ -531,48 +531,83 @@ const View = ({ params }) => {
       {data1 && (
         <>
           <Card
-            style={{ marginTop: "20px" }}
+            style={{
+              marginTop: "20px",
+              boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+              borderRadius: "10px",
+            }}
             title={t("treatment_view.Register_View")}
           >
-            <Title level={5}>
-              {t("treatment_view.Risk_Name")}:{" "}
-              <Text mark style={{ fontSize: "18px" }}>
-                {data1.register.risk_name}
-              </Text>
-            </Title>
-            <Title level={5}>
-              {t("treatment_view.Risk_Details")}:{" "}
-              {data1.register.risk_identified}
-            </Title>
-            <Title level={5}>
-              {t("Treatment")}:{" "}
-              <span
-                style={{
-                  color: "#2F6690",
-                  fontSize: "18px",
-                  fontWeight: "bold",
-                }}
-              >
-                {data1.register.treatment_decision}
-              </span>
-            </Title>
-            <Title level={5}>
-              {t("treatment_view.Created_by")}: {data1.register.owner_email}
-            </Title>
+            <Row gutter={16}>
+              <Col span={12}>
+                <Title level={5}>
+                  {t("treatment_view.Risk_Name")}:{" "}
+                  <Text mark style={{ fontSize: "18px" }}>
+                    {data1.register.risk_name}
+                  </Text>
+                </Title>
+                <Title level={5}>
+                  {t("treatment_view.Risk_Details")}:{" "}
+                  {data1.register.risk_identified}
+                </Title>
+                <Title level={5}>
+                  {t("Treatment")}:{" "}
+                  <span
+                    style={{
+                      color: "#2F6690",
+                      fontSize: "18px",
+                      fontWeight: "bold",
+                    }}
+                  >
+                    {data1.register.treatment_decision}
+                  </span>
+                </Title>
+                <Title level={5}>
+                  {t("treatment_view.Created_by")}: {data1.register.owner_email}
+                </Title>
+              </Col>
+              <Col span={12}>
+                <img
+                  src="/image/Data1.svg"
+                  alt="Description of image"
+                  style={{
+                    width: "100%",
+                    height: "200px",
+                    marginLeft: "150px",
+                  }}
+                />
+              </Col>
+            </Row>
           </Card>
           <Divider>{t("treatment_view.Treatment_Status")}</Divider>
           {data1?.register.treatment_decision !== "Transfer" ? (
-            <Table
-              dataSource={data1?.treatment}
-              columns={columns}
-              rowKey={() => Math.random().toString(12).substr(2, 9)}
-            />
+              <div
+              style={{
+                marginTop: "20px",
+                boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+                borderRadius: "10px",
+              }}
+            >
+              <Table
+                dataSource={data1?.treatment}
+                columns={columns}
+                rowKey={() => Math.random().toString(12).substr(2, 9)}
+              />
+            </div>
           ) : (
-            <Table
-              dataSource={data1?.treatment}
-              columns={columnsTransfer}
-              rowKey={() => Math.random().toString(12).substr(2, 9)}
-            />
+            <div
+              style={{
+                marginTop: "20px",
+                boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+                borderRadius: "10px",
+              }}
+            >
+              <Table
+                dataSource={data1?.treatment}
+                columns={columnsTransfer}
+                rowKey={() => Math.random().toString(12).substr(2, 9)}
+              />
+            </div>
           )}
         </>
       )}

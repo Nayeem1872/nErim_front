@@ -88,7 +88,7 @@ export default function Home() {
           </Card>
         </Content>
 
-        <Footer style={{ textAlign: "center" }}>nErim v0.0.0.01 ©{new Date().getFullYear()} Developed by{" "}
+        <Footer style={{ textAlign: "center" }}>nErim v0.0.01 ©{new Date().getFullYear()} Developed by{" "}
                         <span style={{ color: "#4096FF", fontWeight: "bold", cursor:'pointer' }}>
                           Alo It Consultants
                         </span> </Footer>

@@ -521,7 +521,7 @@ export default function DashboardLayout({ children }) {
 
               <Content
                 style={{
-                  margin: "20px 16px 24px",
+                  margin: "15px 16px 24px",
                   padding: 24,
                   minHeight: 280,
                   background: isDarkMode ? "#000000" : "#F5F5F5",
@@ -540,7 +540,7 @@ export default function DashboardLayout({ children }) {
                     // Adjust padding as needed
                   }}
                 >
-                  nErim v0.0.0.01 ©{new Date().getFullYear()} Developed by{" "}
+                  nErim v0.0.01 ©{new Date().getFullYear()} Developed by{" "}
                   <span style={{ color: "#4096FF", fontWeight: "bold" }}>
                     Alo It Consultants
                   </span>

@@ -27,7 +27,11 @@ const Valuation = ({ setApiData }) => {
   const [apiData, setApiData1] = useState(null);
   const [form] = Form.useForm();
   const token = localStorage.getItem("authorization");
-  const { data: dataSourceQuery,isLoading, refetch } = useQuery({
+  const {
+    data: dataSourceQuery,
+    isLoading,
+    refetch,
+  } = useQuery({
     queryKey: ["valuation"],
     queryFn: async () => {
       const response = await axios.get(`/api/get-risk-valuation`, {
@@ -45,7 +49,6 @@ const Valuation = ({ setApiData }) => {
     setId(record?.id);
     setOpen(record?.id);
   };
- 
 
   const confirm = async (e) => {
     setConfirmLoading(true);
@@ -57,7 +60,6 @@ const Valuation = ({ setApiData }) => {
           Authorization: `Bearer ${token}`,
         },
       });
-     
 
       // Check if the deletion was successful
       if (response.status === 200) {
@@ -68,7 +70,7 @@ const Valuation = ({ setApiData }) => {
         setApiData(response.data);
         setOpen(false);
         setConfirmLoading(false);
-    
+
         message.success("Risk valuation has deleted successfully.");
       } else {
         // Handle error if deletion fails
@@ -86,7 +88,6 @@ const Valuation = ({ setApiData }) => {
     }
   };
   const cancel = (e) => {
-
     message.error("Cancel");
     setOpen(false);
   };
@@ -97,7 +98,6 @@ const Valuation = ({ setApiData }) => {
       setMatrixId(parseInt(storedMatrixId));
     }
   }, []);
-
 
   useEffect(() => {
     const fetchData = async () => {
@@ -122,7 +122,6 @@ const Valuation = ({ setApiData }) => {
       title: t("settingsValuation.Range"),
       dataIndex: "range",
       key: "range",
-      
     },
     {
       title: t("settingsValuation.Critical"),
@@ -185,10 +184,13 @@ const Valuation = ({ setApiData }) => {
                 title={`Dependency ${record?.dependency}`}
                 description={
                   <>
-                    Deleting this item will result in the removal of its {record?.dependency} associated <br /> dependent risk indices. After deletion, you will <br /> need to manually assign the appropriate   risk matrix to each <br /> corresponding risk index.
-                
+                    Deleting this item will result in the removal of its{" "}
+                    {record?.dependency} associated <br /> dependent risk
+                    indices. After deletion, you will <br /> need to manually
+                    assign the appropriate risk matrix to each <br />{" "}
+                    corresponding risk index.
                     <br />
-                  <strong>Are you sure you want to delete?</strong>  
+                    <strong>Are you sure you want to delete?</strong>
                   </>
                 }
                 open={open === record?.id}
@@ -212,18 +214,14 @@ const Valuation = ({ setApiData }) => {
           )}
         </Space>
       ),
-    })
-
+    });
   }
-
-
 
   useEffect(() => {
     if (dataSourceQuery) {
       setDataSource(dataSourceQuery);
     }
   }, [dataSourceQuery]);
-
 
   const addRow = async (formData) => {
     if (dataSourceQuery.length < matrixId) {
@@ -322,12 +320,10 @@ const Valuation = ({ setApiData }) => {
       }
     } else {
       try {
-      
         const data = {
           ...formData,
           id: editId,
         };
-   
 
         const apiUrl = `/api/update-risk-valuation`;
 
@@ -386,9 +382,7 @@ const Valuation = ({ setApiData }) => {
     setIsModalOpen(false);
   };
 
-  const handleChange = (value) => {
-
-  };
+  const handleChange = (value) => {};
 
   return (
     <>
@@ -453,12 +447,29 @@ const Valuation = ({ setApiData }) => {
           </Form>
         </Modal>
         {isLoading ? (
-      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop:"100px" }}>
-        <Dots />
-    </div>
-      ) : (
-        <Table dataSource={dataSource} pagination={false} columns={columns} rowKey={() => Math.random().toString(12).substr(2, 9)} bordered/>
-      )}
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              marginTop: "100px",
+            }}
+          >
+            <Dots />
+          </div>
+        ) : (
+          <Table
+            dataSource={dataSource}
+            style={{
+              boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2)",
+              borderRadius: "10px",
+            }}
+            pagination={false}
+            columns={columns}
+            rowKey={() => Math.random().toString(12).substr(2, 9)}
+            bordered
+          />
+        )}
       </div>
     </>
   );

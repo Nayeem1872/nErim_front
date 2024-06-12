@@ -29,7 +29,11 @@ const Category = () => {
   const token = localStorage.getItem("authorization");
   const [apiData, setApiData] = useState(null);
 
-  const { data: dataSourceQuery,isLoading,refetch } = useQuery({
+  const {
+    data: dataSourceQuery,
+    isLoading,
+    refetch,
+  } = useQuery({
     queryKey: ["category"],
     queryFn: async () => {
       const response = await axios.get(`/api/get-risk-category`, {
@@ -84,12 +88,9 @@ const Category = () => {
     }
   };
   const cancel = (e) => {
-
     message.error(t("settingsCategory.Cancel"));
     setOpen(false);
   };
-
- 
 
   useEffect(() => {
     const fetchData = async () => {
@@ -115,10 +116,7 @@ const Category = () => {
       dataIndex: "category_name",
       key: "category_name",
     },
-
   ];
-
-
 
   if (apiData !== "user") {
     columns.push({
@@ -132,15 +130,18 @@ const Category = () => {
                 {t("settingsCategory.Edit")}
               </Button>
               <Popconfirm
-               title={`Dependency ${record?.dependency}`}
-               description={
-                 <>
-                   Deleting this item will result in the removal of its {record?.dependency} associated <br /> dependent risk indices. After deletion, you will <br /> need to manually assign the appropriate   risk matrix to each <br /> corresponding risk index.
-               
-                   <br />
-                 <strong>Are you sure you want to delete?</strong>  
-                 </>
-               }
+                title={`Dependency ${record?.dependency}`}
+                description={
+                  <>
+                    Deleting this item will result in the removal of its{" "}
+                    {record?.dependency} associated <br /> dependent risk
+                    indices. After deletion, you will <br /> need to manually
+                    assign the appropriate risk matrix to each <br />{" "}
+                    corresponding risk index.
+                    <br />
+                    <strong>Are you sure you want to delete?</strong>
+                  </>
+                }
                 open={open === record?.id}
                 onConfirm={() => confirm(record?.id)}
                 onCancel={cancel}
@@ -162,11 +163,8 @@ const Category = () => {
           )}
         </Space>
       ),
-
-    })
-
+    });
   }
-
 
   useEffect(() => {
     if (dataSourceQuery) {
@@ -191,7 +189,6 @@ const Category = () => {
     if (!editId) {
       try {
         const data = { userId: userId, verifyEmail: email, ...formData };
-      
 
         const apiUrl = "/api/risk-category";
 
@@ -235,7 +232,6 @@ const Category = () => {
           ...formData,
           id: editId,
         };
-     
 
         const apiUrl = `/api/update-risk-category`;
 
@@ -320,13 +316,28 @@ const Category = () => {
         </Modal>
       </div>
       <div>
-      {isLoading ? (
-      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop:"100px" }}>
-        <Dots />
-    </div>
-      ) : (
-        <Table dataSource={dataSource} columns={columns} rowKey={() => Math.random().toString(12).substr(2, 9)} />
-      )}
+        {isLoading ? (
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              marginTop: "100px",
+            }}
+          >
+            <Dots />
+          </div>
+        ) : (
+          <Table
+            dataSource={dataSource}
+            columns={columns}
+            rowKey={() => Math.random().toString(12).substr(2, 9)}
+            style={{
+              boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2)",
+              borderRadius: "10px",
+            }}
+          />
+        )}
       </div>
     </>
   );

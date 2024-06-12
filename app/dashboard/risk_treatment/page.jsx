@@ -50,7 +50,6 @@ const Treatment = () => {
   const [customActionOwner, setCustomActionOwner] = useState("");
   const [filterInput, setFilterInput] = useState("");
 
-
   const handleSettingsClick = () => {
     router.push("/dashboard/settings"); // Navigate to settings page
   };
@@ -101,6 +100,7 @@ const Treatment = () => {
       key: "refId",
       width: 150,
       fixed: "left",
+      align: "center",
       // onFilter: (value, record) => record.name.indexOf(value) === 0,
     },
     {
@@ -109,6 +109,7 @@ const Treatment = () => {
       key: "treatment_decision",
       width: 150,
       fixed: "left",
+      align: "center",
       render: (text) => {
         let color = "";
 
@@ -153,6 +154,7 @@ const Treatment = () => {
           title: t("risk_treatment.action_summary.action_name"),
           dataIndex: "treatments",
           key: "name",
+          align: "center",
           render: (treatments, record) => {
             return (
               <>
@@ -170,6 +172,7 @@ const Treatment = () => {
           title: t("risk_treatment.action_summary.status"),
           dataIndex: "treatments",
           key: "status",
+          align: "center",
           render: (treatments) => (
             <>
               {treatments.map((treatment, index) => (
@@ -185,6 +188,7 @@ const Treatment = () => {
           title: t("risk_treatment.Transfer"),
           dataIndex: "treatments",
           key: "owner",
+          align: "center",
           render: (treatments) => (
             <>
               {treatments.map((treatment, index) => (
@@ -200,6 +204,7 @@ const Treatment = () => {
           title: t("risk_treatment.action_summary.end_date"),
           dataIndex: "treatments",
           key: "end_date",
+          align: "center",
           render: (treatments) => (
             <>
               {treatments.map((treatment, index) => (
@@ -215,6 +220,7 @@ const Treatment = () => {
           title: t("risk_treatment.action_summary.owner"),
           dataIndex: "treatments",
           key: "owner",
+          align: "center",
           render: (treatments) => {
             console.log("treatments", treatments); // Correct placement of console.log
             return (
@@ -235,6 +241,7 @@ const Treatment = () => {
       title: t("risk_treatment.action"),
       width: 150,
       key: "action",
+      align: "center",
       render: (text, record) => (
         <Space size="small">
           <Button
@@ -429,8 +436,6 @@ const Treatment = () => {
     setModalVisible(true);
   };
 
-
-
   const handleImport = () => {
     // Make an API call to download the file
     axios({
@@ -580,7 +585,14 @@ const Treatment = () => {
         </div>
       ) : (
         <>
-          <div>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              marginBottom:"30px"
+            }}
+          >
             <Search
               placeholder={t("risk_treatment.search_here")}
               onSearch={handleSearch}
@@ -590,7 +602,7 @@ const Treatment = () => {
                 width: 400,
               }}
             />
-            <div style={{ textAlign: "right", gap: "10px" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: "10px",  }}>
               <Button
                 onClick={handleImportModal}
                 style={{ marginRight: "10px" }}
@@ -630,7 +642,6 @@ const Treatment = () => {
                     showIcon
                   />
                 </div>
-
                 <p></p>
               </Modal>
 
@@ -642,7 +653,7 @@ const Treatment = () => {
                 <Button
                   type="primary"
                   // onClick={handleExportButtonClick}
-                  style={{ marginRight: "10px", marginBottom: "10px" }}
+                  // style={{ marginRight: "10px" }}
                 >
                   {t("risk_treatment.import")}
                 </Button>
@@ -656,6 +667,10 @@ const Treatment = () => {
             bordered
             size="middle"
             rowKey={() => Math.random().toString(12).substr(2, 9)}
+            style={{
+              boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2)",
+              borderRadius: "10px",
+            }}
           />
           <Modal
             title={t("risk_treatment.modal_title")}
