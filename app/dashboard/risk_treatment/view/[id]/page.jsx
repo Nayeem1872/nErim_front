@@ -53,7 +53,7 @@ const View = ({ params }) => {
   const [customActionOwner, setCustomActionOwner] = useState("");
   const [recordEmail, setRecordEmail] = useState("");
   const [recordActionOwner, setRecordActionOwner] = useState("");
-
+ 
   const fetchData = async () => {
     // setIsLoading(true);
     try {
@@ -697,7 +697,7 @@ const View = ({ params }) => {
                 <Input
                   placeholder={t("risk_treatment.owner_email")}
                   value={ownerEmail1}
-                  readOnly={!isOtherSelected}
+                  disabled={!isOtherSelected}
                   style={{ width: "100%" }}
                 />
               )}

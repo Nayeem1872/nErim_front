@@ -53,7 +53,7 @@ const View = ({ params }) => {
   const [customActionOwner, setCustomActionOwner] = useState("");
   const [recordEmail, setRecordEmail] = useState("");
   const [recordActionOwner, setRecordActionOwner] = useState("");
-  console.log("recordEmail", recordEmail);
+  // console.log("recordEmail", recordEmail);
 
   const { data: Userdata } = useQuery({
     queryKey: ["usersbbbs"],
