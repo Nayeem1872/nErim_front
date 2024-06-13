@@ -204,9 +204,9 @@ const View = ({ params }) => {
           setData1(newData2);
 
           message.success(t("treatment_view.Updated successfully."));
-          setTimeout(() => {
-            window.location.reload(true);
-          }, 1000);
+          // setTimeout(() => {
+          //   window.location.reload(true);
+          // }, 1000);
         } else {
           message.error(t("treatment_view.Treatment not found."));
         }
@@ -688,7 +688,7 @@ const View = ({ params }) => {
                 <Input
                   placeholder={t("risk_treatment.owner_email")}
                   value={ownerEmail1}
-                  readOnly={!isOtherSelected}
+                 
                   style={{ width: "100%" }}
                 />
               )}

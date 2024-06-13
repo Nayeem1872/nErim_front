@@ -138,12 +138,18 @@ const Stats = () => {
       dataIndex: "risk_matrix",
       key: "risk_value",
       render: (text, record) => {
+        if (!record?.risk_matrix) {
+          // If risk_matrix is null or undefined, render normally
+          return <div style={{ textAlign: "center" }}>{text}</div>;
+        }
+    
         const color = record.risk_matrix.color.startsWith("#")
           ? record.risk_matrix.color
           : `#${record.risk_matrix.color}`;
         const isCriticalStepDefined =
           record.risk_matrix.critical_step !== undefined &&
           record.risk_matrix.critical_step !== "";
+    
         return (
           <div
             style={{
@@ -159,6 +165,7 @@ const Stats = () => {
         );
       },
     },
+    
     {
       title: t("stats.Consequence"),
       dataIndex: "potential_impact",

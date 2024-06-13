@@ -20,7 +20,7 @@ const SignIn = () => {
   const [api, contextHolder] = notification.useNotification();
   const onFinish = async (values) => {
     const { email, password } = values;
-   
+
     try {
       const apiUrl = "/api/login";
       const requestBody = {
@@ -43,10 +43,13 @@ const SignIn = () => {
       localStorage.setItem("twofactorStatus", response.data.twofactorStatus);
 
       if (response.status === 200) {
-        if (localStorage.getItem("twofactorStatus") === "disable") {
+        const twofactorStatus = localStorage
+          .getItem("twofactorStatus")
+          .toLowerCase();
+        if (twofactorStatus === "disable") {
           message.success("Login Successful!");
           router.push("/dashboard");
-          window.location.reload();
+          // window.location.reload();
           return; // Exit the function
         } else {
           message.success("Login Successful!");
@@ -57,14 +60,11 @@ const SignIn = () => {
       }
     } catch (error) {
       console.error("Error logging in:", error);
-      message.error("These credentials do not match our records.")
+      message.error("These credentials do not match our records.");
     }
   };
 
-  const onFinishFailed = (errorInfo) => {
-  
-  };
-  
+  const onFinishFailed = (errorInfo) => {};
 
   return (
     <>

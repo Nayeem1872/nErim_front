@@ -50,7 +50,7 @@ const Edit = ({ params }) => {
   const [selectedResidualLikelihood, setSelectedResidualLikelihood] =
     useState(null);
   const [selectedRiskImpact, setSelectedRiskImpact] = useState(null);
-  const [riskStatusID, setRiskStatusID] = useState('');
+  const [riskStatusID, setRiskStatusID] = useState("");
   const [selectedRiskLikelihood, setSelectedRiskLikelihood] = useState(null);
   const [selectedRiskCriticality, setSelectedRiskCriticality] = useState(null);
   const [selectedItemColor, setSelectedItemColor] = useState(null);
@@ -103,14 +103,12 @@ const Edit = ({ params }) => {
     rs_score: selectedRiskImpact,
   });
 
-
   form.setFieldsValue({
     rl_score: selectedRiskLikelihood,
   });
   // form.setFieldsValue({
   //   risk_criticality: selectedRiskCriticality
   // });
-
 
   // date
   const formItemLayout = {
@@ -167,7 +165,7 @@ const Edit = ({ params }) => {
 
   const handleImpactChange = (value) => {
     setSelectedRiskImpact(value);
-    form.setFieldsValue({ risk_impact_id: value });
+    form.setFieldsValue({ risk_consequence_id: value });
   };
 
   const handleResidualImpactChange = (value) => {
@@ -188,7 +186,7 @@ const Edit = ({ params }) => {
       return score;
     }
   };
-const [criticalityScore,setCriticalityScore] = useState('')
+  const [criticalityScore, setCriticalityScore] = useState("");
   const calculateRiskScore = () => {
     if (selectedRiskLikelihood && selectedRiskImpact) {
       const riskScore = selectedRiskLikelihood * selectedRiskImpact;
@@ -196,7 +194,7 @@ const [criticalityScore,setCriticalityScore] = useState('')
         criticality_score: riskScore,
       });
       return riskScore;
-      setCriticalityScore(riskScore)
+      setCriticalityScore(riskScore);
     }
     return null;
   };
@@ -212,7 +210,6 @@ const [criticalityScore,setCriticalityScore] = useState('')
       return riskScore >= min && riskScore <= max;
     });
     if (rangeInfo) {
-
       // form.setFieldsValue({
       //   risk_criticality: rangeInfo.critical_step,
       // });
@@ -270,16 +267,14 @@ const [criticalityScore,setCriticalityScore] = useState('')
 
           form.setFieldsValue(selectedItem);
 
-          console.log("selectedItem",selectedItem);
+          console.log("selectedItem", selectedItem);
 
-          setSelectedRiskImpact(selectedItem.risk_impact_id);
-          setSelectedRiskLikelihood(selectedItem.risk_likelihood_id);
-          setSelectedRiskCriticality(selectedItem.risk_matrix.critical_step);
-          setSelectedItemColor(selectedItem.risk_matrix.color);
-
-          setRiskStatusID(selectedItem.risk_matrix_id);
+          setSelectedRiskCriticality(selectedItem?.risk_matrix?.critical_step);
+          setSelectedItemColor(selectedItem?.risk_matrix?.color ?? null);
+          setSelectedRiskImpact(selectedItem?.risk_consequence_id ?? null); // or any default value
+          setSelectedRiskLikelihood(selectedItem?.risk_likelihood_id ?? null); // or any default value
+          setRiskStatusID(selectedItem?.risk_matrix_id ?? null);
           setData(selectedItem);
-  
         } catch (error) {
           console.error("Error fetching data:", error);
         }
@@ -301,15 +296,13 @@ const [criticalityScore,setCriticalityScore] = useState('')
         ...formData,
         id: params.id,
         risk_matrix_id: riskStatusID,
-        rl_score:selectedRiskLikelihood,
-        rs_score:selectedRiskImpact,
-        criticality_score:criticalityScore
+        rl_score: selectedRiskLikelihood,
+        rs_score: selectedRiskImpact,
+        criticality_score: criticalityScore,
         // color: riskInfo.color,
         // risk_criticality: riskInfo.critical_step,
         // residualScore: calculateResidualRiskScore(),
       };
-
-
 
       const apiUrl = "/api/update-risk-register";
 
@@ -325,7 +318,6 @@ const [criticalityScore,setCriticalityScore] = useState('')
       } else {
         message.error("Failed to update register.");
       }
-
     } catch (error) {
       console.error("Error sending data:", error);
       message.error("Failed to update register.");
@@ -448,7 +440,7 @@ const [criticalityScore,setCriticalityScore] = useState('')
                       ]}
                     >
                       <Input
-                        defaultValue={data?.risk_owner}
+                        initialvalues={data?.risk_owner}
                         placeholder={t("add_register.input_owner")}
                         prefix={<ArrowDownRight size={16} strokeWidth={1} />}
                         style={{ alignItems: "center" }}
@@ -579,7 +571,7 @@ const [criticalityScore,setCriticalityScore] = useState('')
                       <Divider>{t("add_register.risk_rating")}</Divider>
                       <div>
                         <Form.Item
-                          name="risk_impact_id"
+                          name="risk_consequence_id"
                           label={t("add_register.impact")}
                           rules={[
                             {
@@ -654,13 +646,13 @@ const [criticalityScore,setCriticalityScore] = useState('')
                             )}
                             style={{ width: 300 }}
                           >
-                            <Option value="Accept">Accept</Option>
-                            <Option value="Manage">Manage</Option>
-                            <Option value="Transfer">Transfer</Option>
-                            <Option value="Mitigate">Mitigate</Option>
-                            <Option value="Reduce">Reduce</Option>
-                            <Option value="Avoid">Avoid</Option>
-                            <Option value="Control">Control</Option>
+                            <Select.Option value="Accept">Accept</Select.Option>
+                            <Select.Option value="Manage">Manage</Select.Option>
+                            <Select.Option value="Transfer">Transfer</Select.Option>
+                            <Select.Option value="Mitigate">Mitigate</Select.Option>
+                            <Select.Option value="Reduce">Reduce</Select.Option>
+                            <Select.Option value="Avoid">Avoid</Select.Option>
+                            <Select.Option value="Control">Control</Select.Option>
                           </Select>
                         </Form.Item>
 
