@@ -23,11 +23,16 @@ export default function Home() {
     const fetchData = async () => {
       try {
         // Make an HTTP GET request to your API endpoint
+        const twofactorStatus = localStorage.getItem("twofactorStatus").toLowerCase();
         const response = await axios.get("/api/basic-status");
         if (response.status === 200) {
-          // Redirect to the "/" page
-          router.push("/dashboard");
-          // window.location.reload();
+          if (twofactorStatus === "enable" && response.data.otp_verify === "no") {
+            // Redirect to the "/" page
+            router.push("/");
+          } else {
+            // Redirect to the "/dashboard" page
+            router.push("/dashboard");
+          }
         }
       } catch (error) {
       

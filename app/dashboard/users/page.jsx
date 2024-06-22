@@ -353,8 +353,8 @@ const Users = () => {
             ]}
           >
             <Select placeholder={t("users.select a Twofactor Status!")}>
-              <Option value="disable">{t("users.disable")}</Option>
-              <Option value="enable">{t("users.enable")}</Option>
+              <Option value="Disable">{t("users.disable")}</Option>
+              <Option value="Enable">{t("users.enable")}</Option>
             </Select>
           </Form.Item>
 

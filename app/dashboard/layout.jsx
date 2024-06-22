@@ -21,8 +21,7 @@ import {
 } from "@ant-design/icons";
 import { Layout, Menu, Button, theme, Space } from "antd";
 import Dashboard_Settings from "./components/Dashboard_Settings";
-import Notification from "./components/Notification";
-import Search from "./components/Search";
+
 import { useTranslation } from "react-i18next";
 import Logo from "./components/logo";
 import Cookies from "js-cookie";
@@ -44,9 +43,19 @@ export default function DashboardLayout({ children }) {
         const response = await axios.get("/api/basic-status");
         setApiData(response.data);
         setOtpVerify(response.data.otp_verify);
+        const twofactorStatus = localStorage.getItem("twofactorStatus").toLowerCase();
+      if (twofactorStatus === "enable" && response.data.otp_verify === "no") {
+        localStorage.clear();
+        Cookies.remove("XSRF-TOKEN");
+        Cookies.remove("nerim_session");
+        router.push("/");
+        return; // Exit the function early
+      }
       } catch (error) {
         if (error?.response?.data?.message === "Unauthenticated.") {
-          // Redirect to the "/" page
+          localStorage.clear();
+          Cookies.remove("XSRF-TOKEN");
+        Cookies.remove("nerim_session");
           router.push("/");
         }
         console.error("Error fetching data:", error);
