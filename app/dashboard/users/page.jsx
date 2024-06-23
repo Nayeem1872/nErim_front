@@ -342,8 +342,8 @@ const Users = () => {
             ]}
           >
             <Select placeholder={t("users.Role Select_Role")}>
-              <Option value="admin">{t("users.admin")}</Option>
-              <Option value="user">{t("users.user")}</Option>
+              <Option value="Admin">{t("users.admin")}</Option>
+              <Option value="User">{t("users.user")}</Option>
             </Select>
           </Form.Item>
 

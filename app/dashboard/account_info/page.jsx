@@ -5,7 +5,6 @@ import { useTranslation } from "react-i18next";
 import axios from "axios";
 import { useEffect, useState } from "react";
 
-
 function Account() {
   const { t } = useTranslation();
 
@@ -157,80 +156,77 @@ function Account() {
 
       <Row className={styles.middle} gutter={[24, 0]}>
         <Col span={12} offset={6} className="mb-24">
-        <Card
+          <Card
             bordered={true}
             title={
               <h3 className={`${styles.cardTitle} font-semibold m-0`}>
                 {t("account_info.ProfileInformation")}
               </h3>
-              
             }
             className={`${styles.cardCustom} header-solid h-full card-profile-information`}
             style={{ paddingTop: 0, paddingBottom: 16 }}
           >
-            {/* <hr className="my-25" /> */}
             <Row gutter={16}>
-              <Col span={12}>
-            <Descriptions title="" style={{marginTop:"20px"}}>
-              <Descriptions.Item
-                label={t("account_info.OrgName")}
-                span={3}
-                className={styles.descriptionItem}
-              >
-                {dataSourceQuery.orgName}
-              </Descriptions.Item>
-              <Descriptions.Item
-                label={t("account_info.Subscription")}
-                span={3}
-                className={styles.descriptionItem}
-              >
-                {dataSourceQuery.subscription}
-              </Descriptions.Item>
-              <Descriptions.Item
-                label={t("account_info.UserCount")}
-                span={3}
-                className={styles.descriptionItem}
-              >
-                {dataSourceQuery.userCount}
-              </Descriptions.Item>
-              <Descriptions.Item
-                label={t("account_info.StartDate")}
-                span={3}
-                className={styles.descriptionItem}
-              >
-                {dataSourceQuery.startDate}
-              </Descriptions.Item>
-              <Descriptions.Item
-                label={t("account_info.EndDate")}
-                span={3}
-                className={styles.descriptionItem}
-              >
-                {dataSourceQuery.endDate}
-              </Descriptions.Item>
-              <Descriptions.Item
-                label={t("account_info.ModelName")}
-                span={3}
-                className={styles.descriptionItem}
-              >
-                {dataSourceQuery.modelName}
-              </Descriptions.Item>
-              <Descriptions.Item
-                label={t("account_info.Status")}
-                span={3}
-                className={styles.descriptionItem}
-              >
-                {dataSourceQuery.status}
-              </Descriptions.Item>
-            </Descriptions>
-            </Col>
-            <Col span={12}>
+              <Col xs={24} sm={12}>
+                <Descriptions title="" style={{ marginTop: "20px" }}>
+                  <Descriptions.Item
+                    label={t("account_info.OrgName")}
+                    span={3}
+                    className={styles.descriptionItem}
+                  >
+                    {dataSourceQuery.orgName}
+                  </Descriptions.Item>
+                  <Descriptions.Item
+                    label={t("account_info.Subscription")}
+                    span={3}
+                    className={styles.descriptionItem}
+                  >
+                    {dataSourceQuery.subscription}
+                  </Descriptions.Item>
+                  <Descriptions.Item
+                    label={t("account_info.UserCount")}
+                    span={3}
+                    className={styles.descriptionItem}
+                  >
+                    {dataSourceQuery.userCount}
+                  </Descriptions.Item>
+                  <Descriptions.Item
+                    label={t("account_info.StartDate")}
+                    span={3}
+                    className={styles.descriptionItem}
+                  >
+                    {dataSourceQuery.startDate}
+                  </Descriptions.Item>
+                  <Descriptions.Item
+                    label={t("account_info.EndDate")}
+                    span={3}
+                    className={styles.descriptionItem}
+                  >
+                    {dataSourceQuery.endDate}
+                  </Descriptions.Item>
+                  <Descriptions.Item
+                    label={t("account_info.ModelName")}
+                    span={3}
+                    className={styles.descriptionItem}
+                  >
+                    {dataSourceQuery.modelName}
+                  </Descriptions.Item>
+                  <Descriptions.Item
+                    label={t("account_info.Status")}
+                    span={3}
+                    className={styles.descriptionItem}
+                  >
+                    {dataSourceQuery.status}
+                  </Descriptions.Item>
+                </Descriptions>
+              </Col>
+              <Col xs={24} sm={12}>
                 <img
                   src="/image/account.svg"
                   alt="Description of image"
                   style={{
                     width: "100%",
                     height: "300px",
-                    // marginLeft: "50px",
                   }}
                 />
               </Col>

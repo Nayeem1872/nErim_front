@@ -298,6 +298,7 @@ const Edit = ({ params }) => {
         risk_matrix_id: riskStatusID,
         rl_score: selectedRiskLikelihood,
         rs_score: selectedRiskImpact,
+        risk_impact_id:selectedRiskImpact,
         criticality_score: criticalityScore,
         // color: riskInfo.color,
         // risk_criticality: riskInfo.critical_step,

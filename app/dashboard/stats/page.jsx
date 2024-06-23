@@ -698,7 +698,7 @@ const Stats = () => {
       {/* Table */}
 
       <div style={{ marginTop: "10px" }}>
-        <Divider>
+        <Divider style={{marginBottom:"0px"}}>
           <h2> {t("stats.Top Five Risk")}</h2>
         </Divider>
         <div
@@ -725,7 +725,7 @@ const Stats = () => {
       </div>
 
       <div style={{ marginTop: "30px" }}>
-        <Divider>
+        <Divider style={{marginBottom:"0px"}}>
           <h2>
             {" "}
             {t("stats.Risk Threshold")}
@@ -807,7 +807,7 @@ const Stats = () => {
       <div>
         {/* <Row gutter={16}>
           <Col span={12}> */}
-        <Divider>
+        <Divider style={{marginBottom:"0px"}}>
           <h2> {t("stats.SLA Violation")}</h2>
         </Divider>
         <div
@@ -842,7 +842,7 @@ const Stats = () => {
         {/* <Col span={12}> */}
         {responseData && (
           <>
-            <Divider>
+            <Divider style={{marginBottom:"0px"}}>
               <h2>{t("stats.Violation")}</h2>
             </Divider>
             <Table
