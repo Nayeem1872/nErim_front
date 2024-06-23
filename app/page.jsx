@@ -28,7 +28,7 @@ export default function Home() {
         if (response.status === 200) {
           if (twofactorStatus === "enable" && response.data.otp_verify === "no") {
             // Redirect to the "/" page
-            router.push("/");
+            router.push("/verify");
           } else {
             // Redirect to the "/dashboard" page
             router.push("/dashboard");

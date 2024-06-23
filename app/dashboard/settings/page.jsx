@@ -65,12 +65,14 @@ const Settings = () => {
 
       localStorage.setItem("modelId", response.data.modelId);
 
-      // Do something with the response if needed
+      window.location.reload();
     } catch (error) {
       console.error("Error sending data:", error);
     }
   };
-  const matrixId = localStorage.getItem("modelId");
+  const matrixId = localStorage.getItem("modelId").toString().toLowerCase();
+
+  console.log("matrixId",matrixId);
 
   const handleCancel = () => {
     setIsModalOpen(false);
@@ -190,7 +192,7 @@ const Settings = () => {
       <Divider />
       {/* Modal Funtioncality */}
       <>
-        {matrixId ? (
+        {matrixId !== "undefined" ? (
           // Render content based on formValues
           <div>
             <Text code mark style={{ fontWeight: "bold", fontSize: "16px" }}>
@@ -210,7 +212,7 @@ const Settings = () => {
                   display: "flex",
                   flexDirection: "column",
                   alignItems: "center",
-                  marginBottom: "20px",
+                  marginBottom: "10px",
                 }}
               >
                 <img
@@ -218,7 +220,7 @@ const Settings = () => {
                   alt="Team"
                   style={{
                     width: "90%",
-                    maxWidth: "400px",
+                    maxWidth: "350px",
                   }}
                 />
                 <p style={{ fontSize: "24px", marginBottom: "20px" }}>

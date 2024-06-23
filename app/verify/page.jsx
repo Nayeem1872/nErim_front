@@ -141,18 +141,19 @@ const Verify = () => {
           Authorization: `Bearer ${token}`,
         },
       });
+  
 
-      if (response.data.otp_verify === "yes") {
+      if (response.data.otp_verify.toLowerCase() === "yes") {
         // localStorage.setItem("twofactorSecrete", "yes");
         message.success("Welcome to nErim dashboard!");
         router.push("/dashboard");
-        window.location.reload();
       } else {
         message.error("Otp doesn't match!!");
       }
 
     } catch (error) {
       console.error("Error sending data:", error);
+      message.error("Otp doesn't match!!");
     }
   };
   const handleContinue = async () => {

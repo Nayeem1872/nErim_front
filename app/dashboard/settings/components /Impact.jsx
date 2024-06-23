@@ -69,7 +69,7 @@ const Impact = ({ setApiData }) => {
         const response = await axios.get("/api/basic-status");
 
         // Update the state with the fetched data
-        setApiData1(response.data.is_admin);
+        setApiData1(response.data.is_admin.toLowerCase());
       } catch (error) {
         console.error("Error fetching data:", error);
         // You might want to handle errors here

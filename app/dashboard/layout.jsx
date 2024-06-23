@@ -43,19 +43,22 @@ export default function DashboardLayout({ children }) {
         const response = await axios.get("/api/basic-status");
         setApiData(response.data);
         setOtpVerify(response.data.otp_verify);
-        const twofactorStatus = localStorage.getItem("twofactorStatus").toLowerCase();
+        const twofactorStatus = localStorage.getItem("twofactorStatus").toString().toLowerCase();
       if (twofactorStatus === "enable" && response.data.otp_verify === "no") {
-        localStorage.clear();
-        Cookies.remove("XSRF-TOKEN");
-        Cookies.remove("nerim_session");
-        router.push("/");
-        return; // Exit the function early
+
+        // console.log("twofactorStatus",twofactorStatus);
+        // console.log("otp_verify",response.data.otp_verify);
+        // localStorage.clear();
+        // Cookies.remove("XSRF-TOKEN");
+        // Cookies.remove("nerim_session");
+        router.push("/verify");
+   
       }
       } catch (error) {
         if (error?.response?.data?.message === "Unauthenticated.") {
-          localStorage.clear();
-          Cookies.remove("XSRF-TOKEN");
-        Cookies.remove("nerim_session");
+        //   localStorage.clear();
+        //   Cookies.remove("XSRF-TOKEN");
+        // Cookies.remove("nerim_session");
           router.push("/");
         }
         console.error("Error fetching data:", error);
