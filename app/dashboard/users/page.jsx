@@ -24,6 +24,7 @@ const Users = () => {
   const token = localStorage.getItem("authorization");
   const [apiData, setApiData] = useState(null);
   const [serviceOwner, setServiceOwner] = useState("");
+  
   // get data
   const {
     data: data,
@@ -43,20 +44,21 @@ const Users = () => {
     },
     staleTime: 1000 * 60 * 60 * 1,
   });
+
   const showModal = (record) => {
     if (record) {
       form.setFieldsValue(record);
       setEditId(record.id);
     } else {
       form.resetFields(); // Clear form fields if no record is provided
+      setEditId(null);
     }
     setIsModalOpen(true);
   };
+
   const handleCancel = () => {
     setIsModalOpen(false);
   };
-
-  // modal form
 
   // handle delete
   const handleDelete = async (record) => {
@@ -83,6 +85,7 @@ const Users = () => {
       message.error(error.response.data);
     }
   };
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -101,6 +104,7 @@ const Users = () => {
     // Call the fetch function when the component mounts
     fetchData();
   }, []);
+
   const showDeleteConfirm = (record) => {
     Modal.confirm({
       title: t("users.Confirm_Delete_Title"),
@@ -237,11 +241,12 @@ const Users = () => {
       }
     }
   };
+
   return (
     <>
       {/* <Title level={2}>{t("users.users")}</Title> */}
      
-         <Breadcrumb style={{ padding: "10px" }}>
+      <Breadcrumb style={{ padding: "10px" }}>
         <Breadcrumb.Item>
           <a
             onClick={() => {
@@ -323,7 +328,7 @@ const Users = () => {
               },
             ]}
           >
-            <Input />
+            <Input disabled={!!editId} />
           </Form.Item>
 
           <Form.Item
@@ -358,42 +363,46 @@ const Users = () => {
             </Select>
           </Form.Item>
 
-          <Form.Item
-            name="password"
-            label={t("users.password")}
-            rules={[
-              {
-                required: true,
-                message: t("users.Password_input"),
-              },
-            ]}
-            hasFeedback
-          >
-            <Input.Password />
-          </Form.Item>
+          {!editId && (
+            <>
+              <Form.Item
+                name="password"
+                label={t("users.password")}
+                rules={[
+                  {
+                    required: true,
+                    message: t("users.Password_input"),
+                  },
+                ]}
+                hasFeedback
+              >
+                <Input.Password />
+              </Form.Item>
 
-          <Form.Item
-            name="password_confirmation"
-            label={t("users.Confirm_Password")}
-            dependencies={["password"]}
-            hasFeedback
-            rules={[
-              {
-                required: true,
-                message: t("users.Placeholder"),
-              },
-              ({ getFieldValue }) => ({
-                validator(_, value) {
-                  if (!value || getFieldValue("password") === value) {
-                    return Promise.resolve();
-                  }
-                  return Promise.reject(new Error(t("users.No_Match")));
-                },
-              }),
-            ]}
-          >
-            <Input.Password />
-          </Form.Item>
+              <Form.Item
+                name="password_confirmation"
+                label={t("users.Confirm_Password")}
+                dependencies={["password"]}
+                hasFeedback
+                rules={[
+                  {
+                    required: true,
+                    message: t("users.Placeholder"),
+                  },
+                  ({ getFieldValue }) => ({
+                    validator(_, value) {
+                      if (!value || getFieldValue("password") === value) {
+                        return Promise.resolve();
+                      }
+                      return Promise.reject(new Error(t("users.No_Match")));
+                    },
+                  }),
+                ]}
+              >
+                <Input.Password />
+              </Form.Item>
+            </>
+          )}
 
           <Form.Item>
             <button

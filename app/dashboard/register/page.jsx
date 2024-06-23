@@ -85,7 +85,7 @@ const Register = () => {
 
         // Update the state with the fetched data
         setApiData(response.data);
-        setIsAdmin(response.data.is_admin);
+        setIsAdmin(response.data.is_admin.toLowerCase());
       } catch (error) {
         console.error("Error fetching data:", error);
         // You might want to handle errors here
