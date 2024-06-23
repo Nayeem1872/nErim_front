@@ -89,7 +89,7 @@ const Risk_Apatite = () => {
         const response = await axios.get('/api/basic-status');
 
         // Update the state with the fetched data
-        setApiData1(response.data.is_admin);
+        setApiData1(response.data.is_admin.toLowerCase());
       } catch (error) {
         console.error('Error fetching data:', error);
         // You might want to handle errors here
@@ -127,8 +127,12 @@ const handleDecrement = () => {
       // className={styles.customInputNumber}
       style={{ width: "200px", marginRight: "5px" }}
     />
-    <Button onClick={() => handleIncrement()} icon={<PlusOutlined />} style={{marginRight:"5px"}} />
-    <Button onClick={() => handleDecrement()} icon={<MinusOutlined />} />
+    {apiData !== "user" && (
+        <>
+          <Button onClick={handleIncrement} icon={<PlusOutlined />} style={{ marginRight: '5px' }} />
+          <Button onClick={handleDecrement} icon={<MinusOutlined />} />
+        </>
+      )}
   </div>
 </div>
 

@@ -21,7 +21,7 @@ import Dots from "../../components/DotLoader";
 const Likelihood = ({ setApiData }) => {
   const { t } = useTranslation();
   const [matrixId, setMatrixId] = useState(0);
-  // const [dataSource, setDataSource] = useState([]);
+  const [apiData, setApiData1] = useState(null);
   const [open, setOpen] = useState(false);
   const [id, setId] = useState();
   const [confirmLoading, setConfirmLoading] = useState(false);
@@ -117,7 +117,7 @@ const Likelihood = ({ setApiData }) => {
       setMatrixId(parseInt(storedMatrixId));
     }
   }, []);
-  const [apiData, setApiData1] = useState(null);
+  
 
   useEffect(() => {
     const fetchData = async () => {
@@ -126,7 +126,7 @@ const Likelihood = ({ setApiData }) => {
         const response = await axios.get("/api/basic-status");
 
         // Update the state with the fetched data
-        setApiData1(response.data.is_admin);
+        setApiData1(response.data.is_admin.toLowerCase());
       } catch (error) {
         console.error("Error fetching data:", error);
         // You might want to handle errors here

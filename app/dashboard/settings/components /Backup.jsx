@@ -34,7 +34,10 @@ const Backup = () => {
   const [restore, setRestore] = useState("");
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [apiData, setApiData] = useState(null);
   const [checkboxValues, setCheckboxValues] = useState({});
+  const [open, setOpen] = useState(false);
+  const [confirmLoading, setConfirmLoading] = useState(false);
   const {
     data: dataSourceQuery,
     isLoading,
@@ -92,8 +95,7 @@ const Backup = () => {
   };
 
   // download popconfirm
-  const [open, setOpen] = useState(false);
-  const [confirmLoading, setConfirmLoading] = useState(false);
+
   const showPopconfirm = (record) => {
     setOpen(record?.id);
   };
@@ -164,7 +166,6 @@ const Backup = () => {
         }
       );
 
-      // Check if the deletion was successful
       if (response.status === 200) {
         refetch();
         const indexToDelete = dataSource.findIndex(
@@ -199,7 +200,7 @@ const Backup = () => {
         },
       });
 
-      // Check if the deletion was successful
+      
       if (response.status === 200) {
         message.success(t("BackUp.Backup_Restored_successfully"));
       }
@@ -218,23 +219,22 @@ const Backup = () => {
   const handleRestoreCancel = () => {
     setIsModalRestoreOpen(false);
   };
-  const [apiData, setApiData] = useState(null);
+  
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Make an HTTP GET request to your API endpoint
+  
         const response = await axios.get("/api/basic-status");
 
-        // Update the state with the fetched data
-        setApiData(response.data.is_admin);
+
+        setApiData(response.data.is_admin.toLowerCase());
       } catch (error) {
         console.error("Error fetching data:", error);
-        // You might want to handle errors here
+     
       }
     };
 
-    // Call the fetch function when the component mounts
     fetchData();
   }, []);
 
@@ -343,7 +343,7 @@ const Backup = () => {
 
   const start = () => {
     setLoading(true);
-    // ajax request after empty completing
+
     setTimeout(() => {
       setSelectedRowKeys([]);
       setLoading(false);
@@ -405,7 +405,7 @@ const Backup = () => {
           {checkboxes.map((checkbox) => (
             <Checkbox
               key={checkbox.name}
-              onChange={(e) => onChange(checkbox.name, e)} // Pass the event object 'e'
+              onChange={(e) => onChange(checkbox.name, e)} 
             >
               {checkbox.label}
             </Checkbox>
