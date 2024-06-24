@@ -39,7 +39,7 @@ const Dashboard_Table = () => {
   if (loading) {
     return <Dots />; // Render a loading message if data is still loading
   }
-  console.log("length", length);
+
   const calculatePadding = (text) => {
     if (length === 2) {
       return "46px 0";
