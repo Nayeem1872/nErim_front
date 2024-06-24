@@ -9,12 +9,13 @@ const Dashboard_Table = () => {
   const [matrixWithStatus, setMatrixWithStatus] = useState([]);
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [length, setLength] = useState("");
   const router = useRouter();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        setLoading(true); // Set loading state to true when fetching starts
+        setLoading(true);
 
         const token = localStorage.getItem("authorization");
         const response = await axios.get(`/api/dashboard/`, {
@@ -25,7 +26,7 @@ const Dashboard_Table = () => {
         });
         setMatrixWithStatus(response.data.matrixWithStatus);
         setData(response.data.tblRegisterWithStatus);
-
+        setLength(response.data.tblRegisterWithStatus.length);
         setLoading(false); // Set loading state to false when fetching finishes
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -36,24 +37,48 @@ const Dashboard_Table = () => {
     fetchData();
   }, []);
   if (loading) {
-    return <Dots/>  // Render a loading message if data is still loading
+    return <Dots />; // Render a loading message if data is still loading
   }
+  console.log("length", length);
+  const calculatePadding = (text) => {
+    if (length === 2) {
+      return "46px 0";
+    } else if (length === 3) {
+      return "22px 0";
+    } else if (length === 4) {
+      return "9.5px 0";
+    } else if (length === 5) {
+      return "3px 0";
+    } else if (length === 1) {
+      return "60px 0";
+    } else {
+      return "1px 0"; 
+    }
+  };
 
   const columns = [
     {
       title: "Name",
       dataIndex: "status_name",
-      key: `status_name`,
+      key: "status_name",
+      render: (text) => (
+        <div style={{ padding: calculatePadding(text) }}>{text}</div>
+      ),
     },
+    // {
+    //   title: "Name",
+    //   dataIndex: "status_name",
+    //   key: `status_name`,
+    // },
     ...matrixWithStatus.map((matrix) => ({
       title: matrix.critical_step,
       dataIndex: `count_${matrix.id}`,
-      key: `count_${matrix.id}`, 
+      key: `count_${matrix.id}`,
       render: (text, record) => {
         const dataItem = record.data.find(
           (item) => item.matrix_id === matrix.id
         );
-       
+
         return (
           <span
             style={{ cursor: "pointer" }}
@@ -75,7 +100,7 @@ const Dashboard_Table = () => {
   return (
     <div
       style={{
-        marginTop: "17px",
+        marginTop: "14px",
         borderRadius: "10px",
         overflow: "hidden",
         boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)",
@@ -86,7 +111,7 @@ const Dashboard_Table = () => {
           <Table
             dataSource={data}
             columns={columns}
-            pagination={false}
+            pagination={{ pageSize: 5 }}
             rowKey={() => Math.random().toString(12).substr(2, 9)}
           />
         </Col>

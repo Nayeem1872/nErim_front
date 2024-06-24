@@ -17,20 +17,24 @@ const gridStyle = {
 
 const Stacked = () => {
   const { t } = useTranslation();
-
+  const [tableData, setTableData] = useState(null);
   const [criticals, setCriticals] = useState([]);
 
-  const { data: tableData } = useQuery({
-    queryKey: ["stacked2"],
-    queryFn: async () => {
-      const response = await axios.get(`/api/dashboard`, {
-        withCredentials: true,
-      });
-      setCriticals(response.data.criticals);
-      return response.data.tblChartJson;
-    },
-    staleTime: 1000 * 60 * 60 * 1,
-  });
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('/api/dashboard', {
+          withCredentials: true,
+        });
+        setCriticals(response.data.criticals);
+        setTableData(response.data.tblChartJson);
+      } catch (error) {
+        console.error("Error fetching data", error);
+      }
+    };
+
+    fetchData(); 
+  }, []);
 
   useEffect(() => {
     let root = am5.Root.new("chartdiv1");
@@ -175,7 +179,7 @@ const Stacked = () => {
       <Card>
         <Card.Grid style={gridStyle}>
           {t("dashboard.Stacked")} <u>{new Date().toLocaleDateString()}</u>
-          <div id="chartdiv1" style={{ width: "100%", height: "350px" }} />
+          <div id="chartdiv1" style={{ width: "100%", height: "357px", paddingLeft:"10px", marginRight:"10px" }} />
          
         </Card.Grid>
       </Card>

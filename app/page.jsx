@@ -26,13 +26,13 @@ export default function Home() {
         const twofactorStatus = localStorage.getItem("twofactorStatus").toLowerCase();
         const response = await axios.get("/api/basic-status");
         if (response.status === 200) {
-          if (twofactorStatus === "enable" && response.data.otp_verify === "no") {
-            // Redirect to the "/" page
-            router.push("/verify");
-          } else {
-            // Redirect to the "/dashboard" page
-            router.push("/dashboard");
-          }
+          // if (twofactorStatus === "enable" && response.data.otp_verify === "no") {
+          //   // Redirect to the "/" page
+          //   router.push("/verify");
+          // } else {
+          //   // Redirect to the "/dashboard" page
+          // }
+          router.push("/dashboard");
         }
       } catch (error) {
       
