@@ -48,8 +48,6 @@ export default function Home() {
     fetchData();
   }, []);
 
-  console.log("maintainenceMode", maintainenceMode);
-
   return (
     <>
     {maintainenceMode == false ?(

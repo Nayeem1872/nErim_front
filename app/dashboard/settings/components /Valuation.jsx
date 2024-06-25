@@ -16,6 +16,8 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useTranslation } from "react-i18next";
 import Dots from "../../components/DotLoader";
+import CustomButtons from "../../components/CustomButtons";
+import { Edit3, Trash } from "lucide-react";
 
 const Valuation = ({ setApiData }) => {
   const { t } = useTranslation();
@@ -122,10 +124,12 @@ const Valuation = ({ setApiData }) => {
       title: t("settingsValuation.Range"),
       dataIndex: "range",
       key: "range",
+      align: "center",
     },
     {
       title: t("settingsValuation.Critical"),
       dataIndex: "critical_step",
+      align: "center",
       key: "critical_step",
       render: (text, record, index) => {
         const colors = ["#81C3D7", "#F3DE8A", "#EB9486", "#3A7CA5", "#97A7B3"];
@@ -152,15 +156,18 @@ const Valuation = ({ setApiData }) => {
       title: t("settingsValuation.Rating"),
       dataIndex: "rating_step",
       key: "rating_step",
+      align: "center",
     },
     {
       title: t("settingsValuation.action_priority"),
       dataIndex: "action_priority",
       key: "action_priority",
+      align: "center",
     },
     {
       title: t("settingsValuation.color"),
       dataIndex: "color",
+      align: "center",
       key: "color",
       render: (text, record) => (
         <ColorPicker value={record?.color} showText disabled />
@@ -173,13 +180,20 @@ const Valuation = ({ setApiData }) => {
       title: t("settingsValuation.Action"),
       width: 150,
       key: "action",
+      align: "center",
       render: (text, record) => (
         <Space size="small">
           {apiData === "user" ? null : (
             <>
-              <Button type="primary" onClick={() => showModal(record)}>
+              {/* <Button type="primary" onClick={() => showModal(record)}>
                 {t("settingsValuation.Edit")}
-              </Button>
+              </Button> */}
+              <CustomButtons
+              type="primary"
+              onClick={() => showModal(record)}
+              icon={<Edit3 size={20} />}
+              tooltipTitle="Edit"
+            />
               <Popconfirm
                 title={`Dependency ${record?.dependency}`}
                 description={
@@ -202,13 +216,20 @@ const Valuation = ({ setApiData }) => {
                 //   loading: confirmLoading,
                 // }}
               >
-                <Button
+                {/* <Button
                   danger
                   type="default"
                   onClick={() => showPopconfirm(record)}
                 >
                   {t("settingsValuation.Delete")}
-                </Button>
+                </Button> */}
+                <CustomButtons
+                danger
+                type="default"
+                onClick={() => showPopconfirm(record)}
+                icon={<Trash size={20} />}
+                tooltipTitle="Delete"
+              />
               </Popconfirm>
             </>
           )}

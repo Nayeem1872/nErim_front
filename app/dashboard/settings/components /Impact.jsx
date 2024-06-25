@@ -17,6 +17,8 @@ import { useTranslation } from "react-i18next";
 
 import axios from "axios";
 import Dots from "../../components/DotLoader";
+import CustomButtons from "../../components/CustomButtons";
+import { Edit3, Trash } from "lucide-react";
 
 const Impact = ({ setApiData }) => {
   const { t } = useTranslation();
@@ -85,6 +87,7 @@ const Impact = ({ setApiData }) => {
       title: t("settingsImpact.Impact"),
       dataIndex: "relative",
       key: "relative",
+      align: "center",
       render: (text, record, index) => {
         const colors = ["#81C3D7", "#F3DE8A", "#EB9486", "#3A7CA5", "#97A7B3"];
         const colorFromRecord = record?.color || colors[index % colors.length];
@@ -106,15 +109,17 @@ const Impact = ({ setApiData }) => {
         );
       },
     },
-    { title: t("settingsImpact.Criteria"), dataIndex: "criteria" },
+    { title: t("settingsImpact.Criteria"),  align: "center", dataIndex: "criteria" },
     {
       title: t("settingsImpact.Weight"),
       dataIndex: "weight",
+      align: "center",
     },
     {
       title: t("settingsImpact.Color"),
       dataIndex: "color",
       key: "color",
+      align: "center",
       render: (text, record) => (
         <ColorPicker value={record?.color} showText disabled />
       ),
@@ -126,12 +131,18 @@ const Impact = ({ setApiData }) => {
       title: t("settingsImpact.Action"),
       width: 150,
       key: "action",
+      align: "center",
       render: (text, record) =>
         apiData === "user" ? null : (
           <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
-            <Button type="primary" onClick={() => showModal(record)}>
-              {t("settingsImpact.Edit")}
-            </Button>
+          
+
+            <CustomButtons
+              type="primary"
+              onClick={() => showModal(record)}
+              icon={<Edit3 size={20} />}
+              tooltipTitle="Edit"
+            />
             <Popconfirm
               // title={t("settingsImpact.Delete_the_task")}
               title={`Dependency ${record?.dependency}`}
@@ -146,7 +157,7 @@ const Impact = ({ setApiData }) => {
                   <strong>Are you sure you want to delete?</strong>
                 </>
               }
-              open={open === record?.id} 
+              open={open === record?.id}
               onConfirm={() => confirm(record?.id)}
               onCancel={cancel}
               okText="Yes"
@@ -155,13 +166,14 @@ const Impact = ({ setApiData }) => {
                 loading: confirmLoading,
               }}
             >
-              <Button
+           
+              <CustomButtons
                 danger
                 type="default"
                 onClick={() => showPopconfirm(record)}
-              >
-                {t("settingsImpact.Delete")}
-              </Button>
+                icon={<Trash size={20} />}
+                tooltipTitle="Delete"
+              />
             </Popconfirm>
           </div>
         ),

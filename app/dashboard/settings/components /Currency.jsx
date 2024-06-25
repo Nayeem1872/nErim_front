@@ -6,6 +6,8 @@ const { Option } = Select;
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import Dots from "../../components/DotLoader";
+import CustomButtons from "../../components/CustomButtons";
+import { Edit3 } from "lucide-react";
 
 const Currency = () => {
   const [selectedValue, setSelectedValue] = useState(null);
@@ -14,7 +16,11 @@ const Currency = () => {
   const { t } = useTranslation();
   // get request
 
-  const { data: dataSourceQuery,isLoading, refetch } = useQuery({
+  const {
+    data: dataSourceQuery,
+    isLoading,
+    refetch,
+  } = useQuery({
     queryKey: ["currency"],
     queryFn: async () => {
       const response = await axios.get(`/api/get-risk-currency`, {
@@ -28,7 +34,6 @@ const Currency = () => {
     staleTime: 1000 * 60 * 60 * 1,
   });
 
-
   function decodeHTMLEntities(text) {
     const tempElement = document.createElement("div");
     tempElement.innerHTML = text;
@@ -36,24 +41,23 @@ const Currency = () => {
   }
   const [apiData, setApiData1] = useState(null);
 
-  useEffect(()=>{
+  useEffect(() => {
     const fetchData = async () => {
       try {
         // Make an HTTP GET request to your API endpoint
-        const response = await axios.get('/api/basic-status');
+        const response = await axios.get("/api/basic-status");
 
         // Update the state with the fetched data
         setApiData1(response.data.is_admin.toLowerCase());
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error("Error fetching data:", error);
         // You might want to handle errors here
       }
     };
 
     // Call the fetch function when the component mounts
     fetchData();
-
-  },[])
+  }, []);
 
   // Show currency
 
@@ -62,30 +66,37 @@ const Currency = () => {
       title: t("settingsCurrency.Country_Name"),
       dataIndex: "key_value3",
       key: "key_value3",
+      align: "center",
     },
     {
       title: t("settingsCurrency.Currency"),
       dataIndex: "key_value",
       key: "key_value",
+      align: "center",
     },
     {
       title: t("settingsCurrency.Symbol"),
       dataIndex: "key_value2",
       key: "key_value2",
+      align: "center",
       render: (text, record) => decodeHTMLEntities(`&#${record.key_value2}`),
     },
   ];
-  
+
   // Conditionally include the Edit column based on apiData
   if (apiData !== "user") {
     columns.push({
       title: t("treatment_view.action"),
       key: "action",
+      align: "center",
       render: (text, record) => (
         <Space size="small">
-          <Button type="primary" onClick={() => showModal(record)}>
-            {t("settingsCurrency.Edit")}
-          </Button>
+          <CustomButtons
+            type="primary"
+            onClick={() => showModal(record)}
+            icon={<Edit3 size={20} />}
+            tooltipTitle="Edit"
+          />
         </Space>
       ),
     });
@@ -105,7 +116,6 @@ const Currency = () => {
       const data = {
         currency: selectedValue,
       };
-
 
       const apiUrl = `/api/update-risk-currency`;
 
@@ -133,7 +143,6 @@ const Currency = () => {
 
   const handleChange = (value) => {
     setSelectedValue(value);
-    
   };
 
   return (
@@ -206,11 +215,27 @@ const Currency = () => {
         </Modal>
       </div>
       {isLoading ? (
-      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop:"100px" }}>
-        <Dots />
-    </div>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            marginTop: "100px",
+          }}
+        >
+          <Dots />
+        </div>
       ) : (
-      <Table dataSource={dataSourceQuery} columns={columns} pagination={false} rowKey={() => Math.random().toString(12).substr(2, 9)} />
+        <Table
+          dataSource={dataSourceQuery}
+          style={{
+            boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2)",
+            borderRadius: "10px",
+          }}
+          columns={columns}
+          pagination={false}
+          rowKey={() => Math.random().toString(12).substr(2, 9)}
+        />
       )}
     </div>
   );

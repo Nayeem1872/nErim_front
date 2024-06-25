@@ -14,6 +14,8 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useTranslation } from "react-i18next";
 import Dots from "../../components/DotLoader";
+import CustomButtons from "../../components/CustomButtons";
+import { Edit3, Trash } from "lucide-react";
 
 const Status = () => {
   const [form] = Form.useForm();
@@ -122,6 +124,7 @@ const Status = () => {
       title: t("settingsStatus.Status_Name"),
       dataIndex: "status_name",
       key: "status_name",
+      // align: "center",
     },
 
   ];
@@ -131,13 +134,20 @@ const Status = () => {
       title: t("settingsStatus.Action"),
       width: 150,
       key: "action",
+      align: "center",
       render: (text, record) => (
         <Space size="small">
           {apiData === "user" ? null : (
             <>
-            <Button type="primary" onClick={() => showModal(record)}>
+            {/* <Button type="primary" onClick={() => showModal(record)}>
             {t("settingsStatus.Edit")}
-          </Button>
+          </Button> */}
+           <CustomButtons
+              type="primary"
+              onClick={() => showModal(record)}
+              icon={<Edit3 size={20} />}
+              tooltipTitle="Edit"
+            />
           <Popconfirm
            title={`Dependency ${record?.dependency}`}
            description={
@@ -157,13 +167,13 @@ const Status = () => {
               loading: confirmLoading,
             }}
           >
-            <Button
-              danger
-              type="default"
-              onClick={() => showPopconfirm(record)}
-            >
-              {t("settingsStatus.Delete")}
-            </Button>
+          <CustomButtons
+                danger
+                type="default"
+                onClick={() => showPopconfirm(record)}
+                icon={<Trash size={20} />}
+                tooltipTitle="Delete"
+              />
           </Popconfirm>
             
             </>

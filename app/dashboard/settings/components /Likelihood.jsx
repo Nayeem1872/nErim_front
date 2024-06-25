@@ -17,6 +17,8 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useTranslation } from "react-i18next";
 import Dots from "../../components/DotLoader";
+import CustomButtons from "../../components/CustomButtons";
+import { Edit3, Trash } from "lucide-react";
 
 const Likelihood = ({ setApiData }) => {
   const { t } = useTranslation();
@@ -141,6 +143,7 @@ const Likelihood = ({ setApiData }) => {
     {
       title: t("settingsLikelihood.Likelihood"),
       dataIndex: "relative",
+      align: "center",
       key: "relative",
       render: (text, record, index) => {
         const colors = ["#81C3D7", "#F3DE8A", "#EB9486", "#3A7CA5", "#97A7B3"];
@@ -167,15 +170,18 @@ const Likelihood = ({ setApiData }) => {
       title: t("settingsLikelihood.Description"),
       dataIndex: "description",
       key: "description",
+      align: "center",
     },
     {
       title: t("settingsLikelihood.Weight"),
       dataIndex: "weight",
       key: "weight",
+      align: "center",
     },
     {
       title: t("settingsLikelihood.Color"),
       dataIndex: "color",
+      align: "center",
       key: "color",
       render: (text, record) => (
         <ColorPicker value={record?.color} showText disabled />
@@ -194,9 +200,13 @@ const Likelihood = ({ setApiData }) => {
         <Space size="small">
           {apiData === "user" ? null : (
             <>
-              <Button type="primary" onClick={() => showModal(record)}>
-                {t("settingsLikelihood.Edit")}
-              </Button>
+              
+              <CustomButtons
+              type="primary"
+              onClick={() => showModal(record)}
+              icon={<Edit3 size={20} />}
+              tooltipTitle="Edit"
+            />
               <Popconfirm
                 title={`Dependency ${record?.dependency}`}
                 description={
@@ -216,13 +226,13 @@ const Likelihood = ({ setApiData }) => {
                   loading: confirmLoading,
                 }}
               >
-                <Button
-                  danger
-                  type="default"
-                  onClick={() => showPopconfirm(record)}
-                >
-                  {t("settingsLikelihood.Delete")}
-                </Button>
+                <CustomButtons
+                danger
+                type="default"
+                onClick={() => showPopconfirm(record)}
+                icon={<Trash size={20} />}
+                tooltipTitle="Delete"
+              />
               </Popconfirm>
             </>
           )}

@@ -244,17 +244,20 @@ const Backup = () => {
       title: t("BackUp.Date"),
       dataIndex: "date",
       key: "date",
+      align: "center",
       render: (text) => <a>{text}</a>,
     },
     {
       title: t("BackUp.File_Name"),
       dataIndex: "storeFolder",
       key: "storeFolder",
+      align: "center",
     },
     {
       title: t("BackUp.Content"),
       key: "content",
       dataIndex: "content",
+      align: "center",
       render: (content) => {
         let color = "";
         if (content === "Settings") {
@@ -278,6 +281,7 @@ const Backup = () => {
     columns.push({
       title: t("BackUp.Action"),
       key: "action",
+      align: "center",
       render: (_, record) => (
         <Space size="middle">
           <Popconfirm

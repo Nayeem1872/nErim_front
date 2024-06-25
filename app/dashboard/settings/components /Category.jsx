@@ -14,6 +14,8 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useTranslation } from "react-i18next";
 import Dots from "../../components/DotLoader";
+import CustomButtons from "../../components/CustomButtons";
+import { Edit3, Trash } from "lucide-react";
 
 const Category = () => {
   const [form] = Form.useForm();
@@ -114,6 +116,7 @@ const Category = () => {
     {
       title: t("settingsCategory.Category_Name"),
       dataIndex: "category_name",
+      align: "center",
       key: "category_name",
     },
   ];
@@ -122,13 +125,17 @@ const Category = () => {
     columns.push({
       title: t("settingsCategory.Action"),
       key: "action",
+      align: "center",
       render: (text, record) => (
         <Space size="small">
           {apiData === "user" ? null : (
             <>
-              <Button type="primary" onClick={() => showModal(record)}>
-                {t("settingsCategory.Edit")}
-              </Button>
+              <CustomButtons
+              type="primary"
+              onClick={() => showModal(record)}
+              icon={<Edit3 size={20} />}
+              tooltipTitle="Edit"
+            />
               <Popconfirm
                 title={`Dependency ${record?.dependency}`}
                 description={
@@ -151,13 +158,20 @@ const Category = () => {
                   loading: confirmLoading,
                 }}
               >
-                <Button
+                {/* <Button
                   danger
                   type="default"
                   onClick={() => showPopconfirm(record)}
                 >
                   {t("settingsCategory.Delete")}
-                </Button>
+                </Button> */}
+                <CustomButtons
+                danger
+                type="default"
+                onClick={() => showPopconfirm(record)}
+                icon={<Trash size={20} />}
+                tooltipTitle="Delete"
+              />
               </Popconfirm>
             </>
           )}

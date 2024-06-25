@@ -707,7 +707,7 @@ const Register = () => {
                   }}
                 >
                   <CustomSearch
-                    placeholder="Search risk name"
+                    placeholder={t("search_here")}
                     onSearch={handleSearch}
                   />
                   <div style={{ textAlign: "right" }}>

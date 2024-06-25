@@ -645,7 +645,7 @@ const Treatment = () => {
               }}
             /> */}
 
-            <CustomSearch placeholder="Search here" onSearch={handleSearch} />
+            <CustomSearch   placeholder={t("search_here")} onSearch={handleSearch} />
             <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
               <Button
                 onClick={handleImportModal}
