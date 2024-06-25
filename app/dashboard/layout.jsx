@@ -37,6 +37,7 @@ export default function DashboardLayout({ children }) {
   const [optVerify, setOtpVerify] = useState("");
   const [domLoaded, setDomLoaded] = useState(false);
   const [collapsed, setCollapsed] = useState(false);
+  const [maintainence,setMaintainence] = useState("")
   const router = useRouter();
 
   useEffect(() => {
@@ -45,7 +46,7 @@ export default function DashboardLayout({ children }) {
         // Make an HTTP GET request to your API endpoint
         const response = await axios.get("/api/basic-status");
         setApiData(response.data);
-
+        setMaintainence(response.data.maintainenceMode)
         setOtpVerify(response.data.otp_verify);
         const twofactorStatus = localStorage
           .getItem("twofactorStatus")
@@ -58,6 +59,10 @@ export default function DashboardLayout({ children }) {
           // Cookies.remove("XSRF-TOKEN");
           // Cookies.remove("nerim_session");
           router.push("/verify");
+        }
+        if (response.data.maintainenceMode == true) {
+        
+          handleLogout();
         }
       } catch (error) {
         if (error?.response?.data?.message === "Unauthenticated.") {
@@ -75,7 +80,7 @@ export default function DashboardLayout({ children }) {
     fetchData();
     setDomLoaded(true);
   }, []);
-
+console.log("maintainence",maintainence);
   const {
     token: { colorBgContainer },
   } = theme.useToken();
