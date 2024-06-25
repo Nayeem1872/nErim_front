@@ -23,6 +23,7 @@ import { DatePicker } from "antd";
 import { useTranslation } from "react-i18next";
 import { LayoutDashboard } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
+import CustomSearch from "../components/CustomSearch";
 
 const { TextArea, Search } = Input;
 
@@ -590,10 +591,10 @@ const Treatment = () => {
               display: "flex",
               justifyContent: "space-between",
               alignItems: "center",
-              marginBottom:"30px"
+              marginBottom: "30px",
             }}
           >
-            <Search
+            {/* <Search
               placeholder={t("risk_treatment.search_here")}
               onSearch={handleSearch}
               allowClear
@@ -601,8 +602,10 @@ const Treatment = () => {
               style={{
                 width: 400,
               }}
-            />
-            <div style={{ display: "flex", alignItems: "center", gap: "10px",  }}>
+            /> */}
+
+            <CustomSearch placeholder="Search here" onSearch={handleSearch} />
+            <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
               <Button
                 onClick={handleImportModal}
                 style={{ marginRight: "10px" }}
