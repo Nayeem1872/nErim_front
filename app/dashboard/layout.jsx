@@ -19,7 +19,7 @@ import {
   MenuUnfoldOutlined,
   PlusCircleOutlined,
 } from "@ant-design/icons";
-import { Layout, Menu, Button, theme, Space } from "antd";
+import { Layout, Menu, Button, theme, Space, ConfigProvider } from "antd";
 import Dashboard_Settings from "./components/Dashboard_Settings";
 
 import { useTranslation } from "react-i18next";
@@ -35,28 +35,33 @@ export default function DashboardLayout({ children }) {
   const [optVerify, setOtpVerify] = useState("");
   const [domLoaded, setDomLoaded] = useState(false);
   const [collapsed, setCollapsed] = useState(false);
-  const [maintainenceMode, setMaintainenceMode] = useState("");
   const router = useRouter();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
+        // Make an HTTP GET request to your API endpoint
         const response = await axios.get("/api/basic-status");
         setApiData(response.data);
-        setMaintainenceMode(
-          response.data.maintainenceMode.toString().toLowerCase()
-        );
+        
         setOtpVerify(response.data.otp_verify);
         const twofactorStatus = localStorage
           .getItem("twofactorStatus")
           .toString()
           .toLowerCase();
         if (twofactorStatus === "enable" && response.data.otp_verify === "no") {
+          // console.log("twofactorStatus",twofactorStatus);
+          // console.log("otp_verify",response.data.otp_verify);
+          // localStorage.clear();
+          // Cookies.remove("XSRF-TOKEN");
+          // Cookies.remove("nerim_session");
           router.push("/verify");
         }
-        
       } catch (error) {
         if (error?.response?.data?.message === "Unauthenticated.") {
+          //   localStorage.clear();
+          //   Cookies.remove("XSRF-TOKEN");
+          // Cookies.remove("nerim_session");
           router.push("/");
         }
         console.error("Error fetching data:", error);
@@ -68,6 +73,7 @@ export default function DashboardLayout({ children }) {
     fetchData();
     setDomLoaded(true);
   }, []);
+
 
   const {
     token: { colorBgContainer },
@@ -150,8 +156,34 @@ export default function DashboardLayout({ children }) {
 
   return (
     <>
+    
+
+
+    
       {domLoaded ? (
         <>
+        <ConfigProvider
+    
+    theme={{
+
+
+      components: {
+        Table: {
+          headerBg: "rgb(245, 245, 245)",
+         
+          fontSize: 15,
+          
+        },
+        // Modal: {
+        //   contentBg: "rgba(206, 212, 218, 0.48)",
+        //   headerBg: "rgba(206, 212, 218, 0)"
+        // }
+
+      }
+    }}
+    
+    
+    >
           <Layout style={{ minHeight: "100vh", backgroundColor: "#4096FF" }}>
             <Sider
               trigger={null}
@@ -559,10 +591,14 @@ export default function DashboardLayout({ children }) {
             </Layout>
             {/* <DashboardFooter /> */}
           </Layout>
+          </ConfigProvider>
         </>
       ) : (
-        <></> // Render nothing until the DOM is loaded
+        <>
+        
+        </> 
       )}
+     
     </>
   );
 }

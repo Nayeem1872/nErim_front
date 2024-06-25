@@ -1,12 +1,12 @@
 "use client";
 import { useEffect, useState } from "react";
-import { Breadcrumb, message, Space, Table } from "antd";
+import { Breadcrumb, message, Space, Table, Tooltip } from "antd";
 import { Divider, Typography } from "antd";
 import { Button, Modal } from "antd";
 import { Form, Input, Select } from "antd";
 const { Option } = Select;
 import axios from "axios";
-import { LayoutDashboard } from "lucide-react";
+import { Delete, Edit3, LayoutDashboard, Trash } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import { useRouter } from "next/navigation";
@@ -24,7 +24,7 @@ const Users = () => {
   const token = localStorage.getItem("authorization");
   const [apiData, setApiData] = useState(null);
   const [serviceOwner, setServiceOwner] = useState("");
-  
+
   // get data
   const {
     data: data,
@@ -110,14 +110,14 @@ const Users = () => {
       title: t("users.Confirm_Delete_Title"),
       content: t("users.Confirm_Delete_Content"),
       okText: t("users.Confirm"),
-      okType: 'danger',
+      okType: "danger",
       cancelText: t("users.Cancel"),
       centered: true,
       onOk() {
         handleDelete(record);
       },
       onCancel() {
-        console.log('Cancel');
+        console.log("Cancel");
       },
     });
   };
@@ -161,6 +161,7 @@ const Users = () => {
       title: t("users.is_admin"),
       dataIndex: "is_admin",
       key: "is_admin",
+      render: (text) => <span style={{ fontWeight: "600" }}>{text}</span>,
     },
   ];
 
@@ -172,12 +173,56 @@ const Users = () => {
         <Space size="middle">
           {apiData === "user" ? null : (
             <>
-              <Button type="default" onClick={() => showModal(record)}>
-                {t("users.Edit")}
-              </Button>
-              <a onClick={() => showDeleteConfirm(record?.id)}>
-                {t("users.Delete")}
-              </a>
+              <Tooltip title="Edit">
+                <Button
+                  type="default"
+                  onClick={() => showModal(record)}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    transition: "transform 0.3s ease, box-shadow 0.3s ease",
+                    boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)",
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = "translateY(-2px)";
+                    e.currentTarget.style.boxShadow =
+                      "0px 8px 16px rgba(0, 0, 255, 0.3)";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = "translateY(0)";
+                    e.currentTarget.style.boxShadow =
+                      "0px 4px 8px rgba(0, 0, 0, 0.1)";
+                  }}
+                >
+                  <Edit3 size={20} color="#4096FF" />
+                </Button>
+              </Tooltip>
+              <Tooltip title="Delete">
+                <Button
+                  danger
+                  onClick={() => showDeleteConfirm(record?.id)}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    transition: "transform 0.3s ease, box-shadow 0.3s ease",
+                    boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)",
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = "translateY(-2px)";
+                    e.currentTarget.style.boxShadow =
+                      "0px 8px 16px rgba(255, 0, 0, 0.3)";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = "translateY(0)";
+                    e.currentTarget.style.boxShadow =
+                      "0px 4px 8px rgba(0, 0, 0, 0.1)";
+                  }}
+                >
+                  <Trash size={20} />
+                </Button>
+              </Tooltip>
             </>
           )}
         </Space>
@@ -245,7 +290,7 @@ const Users = () => {
   return (
     <>
       {/* <Title level={2}>{t("users.users")}</Title> */}
-     
+
       <Breadcrumb style={{ padding: "10px" }}>
         <Breadcrumb.Item>
           <a
@@ -261,8 +306,10 @@ const Users = () => {
           </a>
         </Breadcrumb.Item>
         <Breadcrumb.Item style={{ marginBottom: "20px" }}>
-          <div >
-            <span style={{ fontSize: '15px' ,color: "gray" }}>{t("users.users")}</span>
+          <div>
+            <span style={{ fontSize: "15px", color: "gray" }}>
+              {t("users.users")}
+            </span>
           </div>
         </Breadcrumb.Item>
       </Breadcrumb>

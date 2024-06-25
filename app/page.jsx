@@ -5,13 +5,14 @@ import { Layout, Card } from "antd";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
 import axios from "axios";
+import Maintenance from "./maintainence/page";
 const ForgotPassword = dynamic(() => import("./auth/forgotPassword/page"));
 
 const { Footer, Content } = Layout;
 export default function Home() {
   const router = useRouter();
   const [signInUp, setSignInUp] = useState("signin");
-
+  const [maintainenceMode, setMaintainenceMode] = useState("");
   const changeSigninUp = () => {
     if (signInUp === "signin") {
       setSignInUp("forgotPassword");
@@ -22,8 +23,11 @@ export default function Home() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Make an HTTP GET request to your API endpoint
-        const twofactorStatus = localStorage.getItem("twofactorStatus").toLowerCase();
+        const response2 = await axios.get("/api/maintaining-status");
+        setMaintainenceMode(response2.data);
+        const twofactorStatus = localStorage
+          .getItem("twofactorStatus")
+          .toLowerCase();
         const response = await axios.get("/api/basic-status");
         if (response.status === 200) {
           // if (twofactorStatus === "enable" && response.data.otp_verify === "no") {
@@ -32,21 +36,23 @@ export default function Home() {
           // } else {
           //   // Redirect to the "/dashboard" page
           // }
+
           router.push("/dashboard");
         }
       } catch (error) {
-      
         // You might want to handle errors here
       }
     };
 
     // Call the fetch function when the component mounts
     fetchData();
-  
   }, []);
+
+  console.log("maintainenceMode", maintainenceMode);
 
   return (
     <>
+    {maintainenceMode == false ?(
       <div className="layout-default ant-layout layout-sign-up">
         <Content className="p-0">
           <div className="sign-up-header">
@@ -93,11 +99,23 @@ export default function Home() {
           </Card>
         </Content>
 
-        <Footer style={{ textAlign: "center" }}>nErim v0.0.01 ©{new Date().getFullYear()} Developed by{" "}
-                        <span style={{ color: "#4096FF", fontWeight: "bold", cursor:'pointer' }}>
-                          Alo It Consultants
-                        </span> </Footer>
+        <Footer style={{ textAlign: "center" }}>
+          nErim v0.0.01 ©{new Date().getFullYear()} Developed by{" "}
+          <span
+            style={{ color: "#4096FF", fontWeight: "bold", cursor: "pointer" }}
+          >
+            Alo It Consultants
+          </span>{" "}
+        </Footer>
       </div>
+
+    ):(
+      <Maintenance/>
+
+    )
+
+    }
+      
     </>
   );
 }

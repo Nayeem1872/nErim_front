@@ -13,6 +13,7 @@ import {
   Result,
   Alert,
   Tag,
+  Tooltip,
 } from "antd";
 import { Divider, Typography } from "antd";
 const { Text } = Typography;
@@ -21,11 +22,12 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import { DatePicker } from "antd";
 import { useTranslation } from "react-i18next";
-import { LayoutDashboard } from "lucide-react";
+import { Eye, LayoutDashboard, Plus } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import CustomSearch from "../components/CustomSearch";
 
-const { TextArea, Search } = Input;
+
+const { TextArea } = Input;
 
 const Treatment = () => {
   const { t } = useTranslation();
@@ -87,6 +89,15 @@ const Treatment = () => {
     staleTime: 1000 * 60 * 60 * 1,
   });
 
+  const handleMouseEnter = (e, color) => {
+    e.currentTarget.style.transform = "translateY(-2px)";
+    e.currentTarget.style.boxShadow = `0px 8px 16px ${color}`;
+  };
+
+  const handleMouseLeave = (e) => {
+    e.currentTarget.style.transform = "translateY(0)";
+    e.currentTarget.style.boxShadow = "0px 4px 8px rgba(0, 0, 0, 0.1)";
+  };
   // Check if apiData exists and if any of the status values is false
   const isError =
     apiData &&
@@ -243,28 +254,58 @@ const Treatment = () => {
       width: 150,
       key: "action",
       align: "center",
-      render: (text, record) => (
-        <Space size="small">
-          <Button
-            type="primary"
-            onClick={() => showModal(record)}
+      render: (text, record) => {
+        const isAddButtonVisible = record.treatment_decision !== "Accept";
+
+        return (
+          <div
             style={{
-              display:
-                record.treatment_decision === "Accept" ? "none" : "block",
+              display: "flex",
+              justifyContent: isAddButtonVisible ? "space-between" : "flex-end",
             }}
           >
-            {t("risk_treatment.add_button")}
-          </Button>
-          <Button
-            type="default"
-            onClick={() => {
-              router.push(`/dashboard/risk_treatment/view/${record?.id}`);
-            }}
-          >
-            {t("risk_treatment.view_button")}
-          </Button>
-        </Space>
-      ),
+            {isAddButtonVisible && (
+              <Tooltip title="Add Action">
+                <Button
+                  type="primary"
+                  onClick={() => showModal(record)}
+                  style={{
+                    marginBottom: "8px",
+                    boxShadow: "0px 4px 8px rgba(0, 0, 255, 0.3)", // Blue tinted shadow
+                    transition: "transform 0.3s ease, box-shadow 0.3s ease",
+                  }}
+                  onMouseEnter={(e) =>
+                    handleMouseEnter(e, "rgba(0, 0, 255, 0.3)")
+                  }
+                  onMouseLeave={handleMouseLeave}
+                >
+                  <Plus size={20} />
+                </Button>
+              </Tooltip>
+            )}
+            <Tooltip title="View">
+              <Button
+                type="default"
+                onClick={() => {
+                  router.push(`/dashboard/risk_treatment/view/${record?.id}`);
+                }}
+                style={{
+                  marginBottom: "8px",
+                  marginRight: "14px",
+                  boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)",
+                  transition: "transform 0.3s ease, box-shadow 0.3s ease",
+                }}
+                onMouseEnter={(e) =>
+                  handleMouseEnter(e, "rgba(0, 0, 255, 0.3)")
+                }
+                onMouseLeave={handleMouseLeave}
+              >
+                <Eye size={20} color="#4096FF" />
+              </Button>
+            </Tooltip>
+          </div>
+        );
+      },
     },
   ];
   const token = localStorage.getItem("authorization");
