@@ -569,7 +569,7 @@ const Register = () => {
       // Create a link element to trigger the download
       const link = document.createElement("a");
       link.href = blobUrl;
-      link.setAttribute("download", "Register.zip");
+      link.setAttribute("download", "Register.xlsx");
 
       // Append the link to the document body and trigger the click event
       document.body.appendChild(link);
@@ -934,9 +934,9 @@ const Register = () => {
                   </Space>
                   {status === "Finished" && (
                     <>
-                      <Typography.Title level={5}>Attachment</Typography.Title>
+                      <Typography.Title level={5}>{t("Attachment")}</Typography.Title>
                       <Upload {...uploadProps}>
-                        <Button>Click to Upload</Button>
+                        <Button>{t("Click to Upload")}</Button>
                       </Upload>
                     </>
                   )}

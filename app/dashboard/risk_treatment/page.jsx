@@ -26,7 +26,6 @@ import { Eye, LayoutDashboard, Plus } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import CustomSearch from "../components/CustomSearch";
 
-
 const { TextArea } = Input;
 
 const Treatment = () => {
@@ -645,7 +644,10 @@ const Treatment = () => {
               }}
             /> */}
 
-            <CustomSearch   placeholder={t("search_here")} onSearch={handleSearch} />
+            <CustomSearch
+              placeholder={t("search_here")}
+              onSearch={handleSearch}
+            />
             <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
               <Button
                 onClick={handleImportModal}
@@ -670,16 +672,18 @@ const Treatment = () => {
               >
                 <div style={{ marginTop: "20px" }}>
                   <Alert
-                    message="Download Example"
+                    message={t("Download Example")}
                     description={
                       <div>
-                        In the Excel sheet, the predefined and unchangeable
-                        headings include <strong>SL</strong>,{" "}
-                        <strong>Risk Name</strong>, <strong>Date</strong>,{" "}
-                        <strong>Risk Owner</strong>,{" "}
-                        <strong>Owner Email</strong>, and other all headings.
-                        These headings will serve as the key fields for
-                        importing data into the database.
+                        {t(
+                          "In the Excel sheet, the predefined and unchangeable headings include"
+                        )}{" "}
+                        <strong>SL</strong>, <strong>Risk Name</strong>,{" "}
+                        <strong>Date</strong>, <strong>Risk Owner</strong>,{" "}
+                        <strong>Owner Email</strong>,{" "}
+                        {t(
+                          "and other all headings.These headings will serve as the key fields for importing data into the database."
+                        )}
                       </div>
                     }
                     type="info"
@@ -870,9 +874,11 @@ const Treatment = () => {
                   </Space>
                   {status === "Finished" && (
                     <>
-                      <Typography.Title level={5}>Attachment</Typography.Title>
+                      <Typography.Title level={5}>
+                        {t("Attachment")}
+                      </Typography.Title>
                       <Upload {...props}>
-                        <Button>Click to Upload</Button>
+                        <Button>{t("Click to Upload")}</Button>
                       </Upload>
                     </>
                   )}

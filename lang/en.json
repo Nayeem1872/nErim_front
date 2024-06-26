@@ -9,6 +9,13 @@
   "Example File": "Example File",
   "Refresh": "Refresh",
 
+"Attachment":"Attachment",
+"Click to Upload":"Click to Upload",
+"Download Example":"Download Example",
+"In the Excel sheet, the predefined and unchangeable headings include":"In the Excel sheet, the predefined and unchangeable headings include",
+"and other all headings.These headings will serve as the key fields for importing data into the database" :"and other all headings. These headings will serve as the key fields for importing data into the database",
+
+
   "side_navbar": {
     "dashboard": "Dashboard",
     "register": "Register",

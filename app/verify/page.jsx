@@ -189,6 +189,13 @@ const Verify = () => {
     router.push("/");
   };
 
+
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      handleSubmit(e);
+    }
+  };
+
   return (
     <>
       {token && domLoaded ? (
@@ -331,16 +338,18 @@ const Verify = () => {
                     onChange={(value) => handleOtpChange(value)}
                     style={{ width: 300, marginBottom: 20 }}
                     placeholder="Enter one time OTP"
+                    onKeyPress={handleKeyPress}
                   />
 
                   <Button
                     style={{
                       width: 300,
                       marginBottom: 20,
-                      boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)", // Add box shadow for floating effect
+                      boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)", 
                     }}
                     block
                     type="primary"
+                    htmlType="submit" 
                     onClick={handleSubmit}
                   >
                     Submit
