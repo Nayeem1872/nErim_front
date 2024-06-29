@@ -12,14 +12,18 @@ const SignIn = () => {
   const [apiData, setApiData] = useState(null);
   const router = useRouter();
   const [domLoaded, setDomLoaded] = useState(false);
+  const [loading, setLoading] = useState(false);
+
   useEffect(() => {
     setDomLoaded(true);
   }, []);
 
   const [messageApi] = message.useMessage();
   const [api, contextHolder] = notification.useNotification();
+
   const onFinish = async (values) => {
     const { email, password } = values;
+    setLoading(true); // Set loading to true when the form is submitted
 
     try {
       const apiUrl = "/api/login";
@@ -46,6 +50,7 @@ const SignIn = () => {
         const twofactorStatus = localStorage
           .getItem("twofactorStatus")
           .toLowerCase();
+        setLoading(false); // Set loading to false when the response is received
         if (twofactorStatus === "disable") {
           message.success("Login Successful!");
           router.push("/dashboard");
@@ -56,10 +61,12 @@ const SignIn = () => {
           router.push("/verify");
         }
       } else {
-        message.error("Something went wrong!Please try again.");
+        setLoading(false); // Set loading to false if the response status is not 200
+        message.error("Something went wrong! Please try again.");
       }
     } catch (error) {
       console.error("Error logging in:", error);
+      setLoading(false); // Set loading to false if there's an error
       message.error("These credentials do not match our records.");
     }
   };
@@ -102,6 +109,7 @@ const SignIn = () => {
                 type="primary"
                 htmlType="submit"
                 className={styles.btn}
+                loading={loading} 
               >
                 SIGN IN
               </Button>
