@@ -5,7 +5,6 @@ import {
   Table,
   Space,
   Breadcrumb,
-  ConfigProvider,
   Result,
   Tooltip,
   Modal,
@@ -408,10 +407,19 @@ const Register = () => {
       render: (text, record) => {
         const isTreatmentActionVisible = record.treatment_decision !== "Accept";
     
-        const iconStyle = {
-          transition: 'transform 0.3s ease, box-shadow 0.3s ease',
-          boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)',
-        };
+       
+    const iconStyle = {
+      transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+      boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)',
+      // padding: '2px 4px', // Smaller padding for smaller buttons
+      fontSize: '12px', 
+      minWidth: '30px', 
+      height: '30px', 
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      borderRadius: '4px', 
+    };
     
         const handleMouseEnter = (e, color) => {
           e.currentTarget.style.transform = 'translateY(-2px)';
@@ -452,7 +460,7 @@ const Register = () => {
                       onClick={() =>
                         router.push(`/dashboard/register/edit/${record?.id}`)
                       }
-                      style={{ ...iconStyle, borderColor: 'green', borderWidth: '1px', borderStyle: 'solid' }}
+                      style={{ ...iconStyle, borderColor: 'green',  borderWidth: '1px', borderStyle: 'solid' }}
                       onMouseEnter={(e) => handleMouseEnter(e, 'rgba(0, 255, 0, 0.3)')}
                       onMouseLeave={handleMouseLeave}
                     >

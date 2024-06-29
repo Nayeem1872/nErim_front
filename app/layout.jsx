@@ -3,7 +3,7 @@
 import TanstackProvider from "@/provider/TanstackProvider";
 import { Inter } from "next/font/google";
 import { Suspense, useEffect } from "react"; // Import useEffect
-import { metadata } from "./global/page";
+import { metaData } from "./global/global";
 import "./globals.css";
 import i18next from "../i18n";
 import Loading from "./dashboard/loading";
@@ -23,9 +23,9 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <head>
-        <title>{metadata.title}</title>
-        <meta name="description" content={metadata.description} />
-        <link rel="icon" href={metadata.icons.icon[0].href} />
+        <title>{metaData.title}</title>
+        <meta name="description" content={metaData.description} />
+        <link rel="icon" href={metaData.icons.icon[0].href} />
       </head>
       <body className={inter.className}>
         <TanstackProvider>
