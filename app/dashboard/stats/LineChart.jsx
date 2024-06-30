@@ -5,7 +5,7 @@ import { Card } from "antd";
 
 const LineChart = ({ riskSummaryData }) => {
   useEffect(() => {}, [riskSummaryData]);
-  console.log("riskSummaryData", riskSummaryData);
+
 
   //   const transformedData = Object.keys(riskSummaryData.slaViolations).map(
   //     (key) => ({
@@ -25,7 +25,7 @@ const LineChart = ({ riskSummaryData }) => {
     { year: "1999", value: 13 },
   ];
 
-  console.log("transformedData", transformedData);
+
   const config = {
     data: transformedData,
     xField: "year",

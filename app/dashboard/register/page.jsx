@@ -406,123 +406,138 @@ const Register = () => {
       key: "action",
       render: (text, record) => {
         const isTreatmentActionVisible = record.treatment_decision !== "Accept";
-    
-       
-    const iconStyle = {
-      transition: 'transform 0.3s ease, box-shadow 0.3s ease',
-      boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)',
-      // padding: '2px 4px', // Smaller padding for smaller buttons
-      fontSize: '12px', 
-      minWidth: '30px', 
-      height: '30px', 
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      borderRadius: '4px', 
-    };
-    
+
+        const iconStyle = {
+          transition: "transform 0.3s ease, box-shadow 0.3s ease",
+          boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)",
+          fontSize: "12px",
+          minWidth: "30px",
+          height: "30px",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          borderRadius: "4px",
+        };
+
         const handleMouseEnter = (e, color) => {
-          e.currentTarget.style.transform = 'translateY(-2px)';
+          e.currentTarget.style.transform = "translateY(-2px)";
           e.currentTarget.style.boxShadow = `0px 8px 16px ${color}`;
         };
-    
+
         const handleMouseLeave = (e) => {
-          e.currentTarget.style.transform = 'translateY(0)';
-          e.currentTarget.style.boxShadow = '0px 4px 8px rgba(0, 0, 0, 0.1)';
+          e.currentTarget.style.transform = "translateY(0)";
+          e.currentTarget.style.boxShadow = "0px 4px 8px rgba(0, 0, 0, 0.1)";
         };
-    
+
         return (
           <div
             style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
+              display: "grid",
+              gridTemplateColumns:
+                isAdmin !== "user" ? "repeat(4, auto)" : "repeat(1, auto)",
+              gap: "8px",
+              alignItems: "center",
             }}
           >
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <Tooltip title="View">
-                <Button 
-                  onClick={() => {
-                    setId(record?.id);
-                    router.push(`/dashboard/register/view/${record?.id}`);
-                  }}
-                  style={{ ...iconStyle, borderColor: '#4096FF', borderWidth: '1px', borderStyle: 'solid' }}
-                  onMouseEnter={(e) => handleMouseEnter(e, 'rgba(0, 0, 255, 0.3)')}
-                  onMouseLeave={handleMouseLeave}
-                >
-                  <Eye size={20} color="#4096FF" />
-                </Button>
-              </Tooltip>
-              {isAdmin !== 'user' && (
-                <>
-                  <Tooltip title="Edit">
+            <Tooltip title="View">
+              <Button
+                onClick={() => {
+                  setId(record?.id);
+                  router.push(`/dashboard/register/view/${record?.id}`);
+                }}
+                style={{
+                  ...iconStyle,
+                  borderColor: "#4096FF",
+                  borderWidth: "1px",
+                  borderStyle: "solid",
+                }}
+                onMouseEnter={(e) =>
+                  handleMouseEnter(e, "rgba(0, 0, 255, 0.3)")
+                }
+                onMouseLeave={handleMouseLeave}
+              >
+                <Eye size={20} color="#4096FF" />
+              </Button>
+            </Tooltip>
+            {isAdmin !== "user" && (
+              <>
+                <Tooltip title="Edit">
+                  <Button
+                    onClick={() =>
+                      router.push(`/dashboard/register/edit/${record?.id}`)
+                    }
+                    style={{
+                      ...iconStyle,
+                      borderColor: "green",
+                      borderWidth: "1px",
+                      borderStyle: "solid",
+                    }}
+                    onMouseEnter={(e) =>
+                      handleMouseEnter(e, "rgba(0, 255, 0, 0.3)")
+                    }
+                    onMouseLeave={handleMouseLeave}
+                  >
+                    <Edit3 size={20} style={{ color: "green" }} />
+                  </Button>
+                </Tooltip>
+                {isTreatmentActionVisible && (
+                  <Tooltip title="Treatment Action">
                     <Button
-                      onClick={() =>
-                        router.push(`/dashboard/register/edit/${record?.id}`)
-                      }
-                      style={{ ...iconStyle, borderColor: 'green',  borderWidth: '1px', borderStyle: 'solid' }}
-                      onMouseEnter={(e) => handleMouseEnter(e, 'rgba(0, 255, 0, 0.3)')}
-                      onMouseLeave={handleMouseLeave}
-                    >
-                      <Edit3 size={20} style={{ color: 'green' }} />
-                    </Button>
-                  </Tooltip>
-                  {isTreatmentActionVisible && (
-                    <Tooltip title="Treatment Action">
-                      <Button
-                        onClick={() => showModal(record)}
-                        style={{ ...iconStyle, borderColor: 'purple', borderWidth: '1px', borderStyle: 'solid' }}
-                        onMouseEnter={(e) => handleMouseEnter(e, 'rgba(128, 0, 128, 0.3)')}
-                        onMouseLeave={handleMouseLeave}
-                      >
-                        <ShieldPlus size={20} style={{ color: 'purple' }} />
-                      </Button>
-                    </Tooltip>
-                  )}
-                </>
-              )}
-            </div>
-    
-            <div>
-              {isAdmin !== 'user' && (
-                <Popconfirm
-                  title="Delete the task"
-                  description="Are you sure to delete this task?"
-                  open={open === record?.id}
-                  onConfirm={() => confirm(record?.id)}
-                  onCancel={cancel}
-                  okText="Yes"
-                  cancelText="No"
-                  okButtonProps={{ loading: confirmLoading }}
-                >
-                  <Tooltip title="Delete">
-                    <Button
-                      onClick={() => showPopconfirm(record)}
+                      onClick={() => showModal(record)}
                       style={{
                         ...iconStyle,
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: isTreatmentActionVisible ? 'flex-end' : 'center',
-                        cursor: 'pointer',
-                        marginRight: '10px',
-                        marginLeft: isTreatmentActionVisible ? '-50px' : '0',
-                        borderColor: 'red',
-                        borderWidth: '1px',
-                        borderStyle: 'solid',
+                        borderColor: "purple",
+                        borderWidth: "1px",
+                        borderStyle: "solid",
                       }}
-                      onMouseEnter={(e) => handleMouseEnter(e, 'rgba(255, 0, 0, 0.3)')}
+                      onMouseEnter={(e) =>
+                        handleMouseEnter(e, "rgba(128, 0, 128, 0.3)")
+                      }
                       onMouseLeave={handleMouseLeave}
                     >
-                      <Trash size={20} style={{ color: 'red' }} />
+                      <ShieldPlus size={20} style={{ color: "purple" }} />
                     </Button>
                   </Tooltip>
-                </Popconfirm>
-              )}
-            </div>
+                )}
+              </>
+            )}
+
+            {!isTreatmentActionVisible && <div style={{ marginLeft: '28px', marginRight: '28px' }}></div>}
+            {isAdmin !== "user" && (
+              <Popconfirm
+                title="Delete the task"
+                description="Are you sure to delete this task?"
+                open={open === record?.id}
+                onConfirm={() => confirm(record?.id)}
+                onCancel={cancel}
+                okText="Yes"
+                cancelText="No"
+                okButtonProps={{ loading: confirmLoading }}
+              >
+                <Tooltip title="Delete">
+                  <Button
+                    onClick={() => showPopconfirm(record)}
+                    style={{
+                      ...iconStyle,
+                      cursor: "pointer",
+                      borderColor: "red",
+                      borderWidth: "1px",
+                      borderStyle: "solid",
+                    }}
+                    onMouseEnter={(e) =>
+                      handleMouseEnter(e, "rgba(255, 0, 0, 0.3)")
+                    }
+                    onMouseLeave={handleMouseLeave}
+                  >
+                    <Trash size={20} style={{ color: "red" }} />
+                  </Button>
+                </Tooltip>
+              </Popconfirm>
+            )}
           </div>
         );
       },
-    }
+    },
   ];
 
   const onChange = (pagination, filters, sorter, extra) => {
@@ -742,20 +757,18 @@ const Register = () => {
                 </div>
 
                 <div>
-                 
-                    <Table
-                      columns={columns}
-                      dataSource={filterData()}
-                      onChange={onChange}
-                      bordered
-                      loading={isLoading}
-                      rowKey={() => Math.random().toString(12).substr(2, 9)}
-                      style={{
-                        boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2)",
-                        borderRadius: "10px",
-                      }}
-                    />
-                
+                  <Table
+                    columns={columns}
+                    dataSource={filterData()}
+                    onChange={onChange}
+                    bordered
+                    loading={isLoading}
+                    rowKey={() => Math.random().toString(12).substr(2, 9)}
+                    style={{
+                      boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2)",
+                      borderRadius: "10px",
+                    }}
+                  />
                 </div>
               </>
             )}
@@ -942,7 +955,9 @@ const Register = () => {
                   </Space>
                   {status === "Finished" && (
                     <>
-                      <Typography.Title level={5}>{t("Attachment")}</Typography.Title>
+                      <Typography.Title level={5}>
+                        {t("Attachment")}
+                      </Typography.Title>
                       <Upload {...uploadProps}>
                         <Button>{t("Click to Upload")}</Button>
                       </Upload>

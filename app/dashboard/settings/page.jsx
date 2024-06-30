@@ -72,7 +72,7 @@ const Settings = () => {
   };
   const matrixId = localStorage.getItem("modelId").toString().toLowerCase();
 
-  console.log("matrixId",matrixId);
+
 
   const handleCancel = () => {
     setIsModalOpen(false);

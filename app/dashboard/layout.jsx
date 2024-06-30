@@ -71,6 +71,10 @@ export default function DashboardLayout({ children }) {
           // Cookies.remove("nerim_session");
           router.push("/");
         }
+        if (error?.response?.status === 500) {
+          // Handle HTTP 500 error
+          router.push("/");
+        }
         console.error("Error fetching data:", error);
         // You might want to handle errors here
       }
@@ -80,7 +84,7 @@ export default function DashboardLayout({ children }) {
     fetchData();
     setDomLoaded(true);
   }, []);
-console.log("maintainence",maintainence);
+
   const {
     token: { colorBgContainer },
   } = theme.useToken();
@@ -666,7 +670,7 @@ console.log("maintainence",maintainence);
                       // Adjust padding as needed
                     }}
                   >
-                    nErim v0.0.01 ©{new Date().getFullYear()} Developed by{" "}
+                    nErim v2.0.0 ©{new Date().getFullYear()} Developed by{" "}
                     <span style={{ color: "#4096FF", fontWeight: "bold" }}>
                       Alo It Consultants
                     </span>

@@ -117,7 +117,7 @@ const Users = () => {
         handleDelete(record);
       },
       onCancel() {
-        console.log("Cancel");
+       
       },
     });
   };

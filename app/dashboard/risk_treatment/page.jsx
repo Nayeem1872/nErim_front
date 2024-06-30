@@ -233,7 +233,7 @@ const Treatment = () => {
           key: "owner",
           align: "center",
           render: (treatments) => {
-            console.log("treatments", treatments); // Correct placement of console.log
+           
             return (
               <>
                 {treatments.map((treatment, index) => (

@@ -141,8 +141,6 @@ const Add = () => {
         residualScore: calculateResidualRiskScore(),
       };
 
-      console.log("data:", data);
-
       const apiUrl = "/api/add-risk-register";
 
       const response = await axios.post(apiUrl, data, {
@@ -374,522 +372,522 @@ const Add = () => {
 
   return (
     <>
-      <Breadcrumb
-        items={[
-          {
-            title: (
-              <a
-                onClick={() => {
-                  router.push(`/dashboard`);
-                }}
-              >
-                <LayoutDashboard color="#0D85D8" size={20} />
-              </a>
-            ),
-          },
-          {
-            title: (
-              <a
-                onClick={() => {
-                  router.push(`/dashboard/register`);
-                }}
-                style={{ color: "#0D85D8" }}
-              >
-                {t("register.register_page")}
-              </a>
-            ),
-          },
-          {
-            title: (
-              <span style={{ color: "gray" }}>
-                {t("add_register.add_new_register")}
-                {/* :{data1.register.risk_name} */}
-              </span>
-            ),
-          },
-        ]}
-      />
-      {/* <Divider /> */}
-      <div style={{ display: "flex", justifyContent: "center" }}>
-        <Title level={2}>{t("add_register.add_new_register")}</Title>
-      </div>
+    <Breadcrumb
+      items={[
+        {
+          title: (
+            <a
+              onClick={() => {
+                router.push(`/dashboard`);
+              }}
+            >
+              <LayoutDashboard color="#0D85D8" size={20} />
+            </a>
+          ),
+        },
+        {
+          title: (
+            <a
+              onClick={() => {
+                router.push(`/dashboard/register`);
+              }}
+              style={{ color: "#0D85D8" }}
+            >
+              {t("register.register_page")}
+            </a>
+          ),
+        },
+        {
+          title: (
+            <span style={{ color: "gray" }}>
+              {t("add_register.add_new_register")}
+              {/* :{data1.register.risk_name} */}
+            </span>
+          ),
+        },
+      ]}
+    />
+    {/* <Divider /> */}
+    <div style={{ display: "flex", justifyContent: "center" }}>
+      <Title level={2}>{t("add_register.add_new_register")}</Title>
+    </div>
 
-      <Form
-        {...layout}
-        name="nest-messages"
-        onFinish={onFinish}
+    <Form
+      {...layout}
+      name="nest-messages"
+      onFinish={onFinish}
+      style={{
+        maxWidth: "1300px",
+        textAlign: "left",
+      }}
+      validateMessages={validateMessages}
+    >
+      <div
         style={{
-          maxWidth: "1300px",
-          textAlign: "left",
+          display: "flex",
+          justifyContent: "space-between",
+          marginLeft: "250px",
         }}
-        validateMessages={validateMessages}
       >
+        <Card
+          style={{
+            width: 500,
+            boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.1)",
+          }}
+        >
+          <div>
+            <Divider>{t("add_register.risk_information")}</Divider>
+            <Form.Item
+              name="risk_name"
+              label={t("add_register.risk_name")}
+              rules={[
+                {
+                  required: true,
+                },
+              ]}
+            >
+              <Input placeholder={t("add_register.input_name")} />
+            </Form.Item>
+            <Form.Item
+              name="owner_email"
+              label={t("add_register.owner_email")}
+              rules={[
+                {
+                  required: true,
+                  type: "email",
+                },
+              ]}
+            >
+              <Input placeholder={t("add_register.input_email")} />
+            </Form.Item>
+
+            <Form.Item
+              name="risk_owner"
+              label={t("add_register.risk_owner")}
+              rules={[
+                {
+                  required: true,
+                  type: "name",
+                },
+              ]}
+            >
+              <Input
+                placeholder={t("add_register.input_owner")}
+                style={{ alignItems: "center" }}
+              />
+            </Form.Item>
+            <Form.Item
+              name="risk_date"
+              label={t("add_register.date")}
+              {...config}
+            >
+              <DatePicker style={{ width: "300px" }} />
+            </Form.Item>
+
+            <Form.Item
+              name="financial_impact"
+              label={t("add_register.financial_impact")}
+            >
+              <Input
+              type="number"
+                placeholder={t("add_register.input_financial_impact")}
+                suffix={
+                  <span
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    backgroundColor: '#4096FF',
+                    color: 'white',
+                    padding: '5px 10px',
+                    borderRadius: '4px',
+                    fontSize: '16px',
+                    marginLeft: '8px',
+                  }}
+                >
+                  {decodeHTMLEntities(`&#${data?.currency?.symbol}`)}
+                </span>
+                }
+                style={{ alignItems: "center" }}
+              />
+            </Form.Item>
+
+            <Form.Item
+              name="category_id"
+              label={t("add_register.risk_category")}
+              rules={[
+                {
+                  required: true,
+                  message: "Please select risk category",
+                },
+              ]}
+            >
+              <Select
+                placeholder={t("add_register.select_your_risk_category")}
+              >
+                {category.map((categoryItem) => (
+                  <Select.Option
+                    key={categoryItem.id}
+                    value={categoryItem.name}
+                  >
+                    {categoryItem.category_name}
+                  </Select.Option>
+                ))}
+              </Select>
+            </Form.Item>
+
+            <Form.Item
+              name="risk_status_id"
+              label={t("add_register.risk_status")}
+              rules={[
+                {
+                  required: true,
+                  message: "Please select Status!",
+                },
+              ]}
+            >
+              <Select placeholder={t("add_register.select_your_risk_status")}>
+                {status.map((statusItem) => (
+                  <Select.Option key={statusItem.id} value={statusItem.name}>
+                    {statusItem.status_name}
+                  </Select.Option>
+                ))}
+              </Select>
+            </Form.Item>
+
+            <Form.Item
+              name="potential_impact"
+              label={t("add_register.potential_impact")}
+            >
+              <Input
+                placeholder={t("add_register.input_impact_area")}
+                style={{ alignItems: "center" }}
+              />
+            </Form.Item>
+            <Form.Item
+              name="risk_identified"
+              label={t("add_register.risk_details")}
+            >
+              <Input.TextArea
+                placeholder={t("add_register.input_risk_details")}
+              />
+            </Form.Item>
+            <Form.Item
+              name="risk_casuse"
+              label={t("add_register.risk_cause")}
+            >
+              <Input.TextArea
+                placeholder={t("add_register.input_risk_cause")}
+                suffix={
+                  <Tooltip title="prompt text" color="blue">
+                    <QuestionCircleOutlined
+                      size={16}
+                      style={{ alignItems: "center" }}
+                    />
+                  </Tooltip>
+                }
+              />
+            </Form.Item>
+          </div>
+        </Card>
+
+        <Card
+          style={{
+            width: 500,
+            boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.1)",
+          }}
+        >
+          <div>
+            <div>
+              <Divider>{t("add_register.risk_rating")}</Divider>
+              <div>
+                <Form.Item
+                  name="risk_impact_id"
+                  label={t("add_register.impact")}
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please select risk Impact",
+                    },
+                  ]}
+                >
+                  <Select
+                    placeholder={t("add_register.select_your_risk_impact")}
+                    style={{ width: 300 }}
+                    onChange={(value) => handleImpactChange(value)}
+                  >
+                    {impact.map((impactItem) => (
+                      <Select.Option
+                        key={impactItem.id}
+                        value={impactItem.weight}
+                      >
+                        {impactItem.relative}
+                      </Select.Option>
+                    ))}
+                  </Select>
+                </Form.Item>
+
+                <Form.Item
+                  name="risk_likelihood_id"
+                  label={t("add_register.likelihood")}
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please select risk Likelihood",
+                    },
+                  ]}
+                  style={{
+                    gap: "20px",
+                  }}
+                >
+                  <Select
+                    placeholder={t(
+                      "add_register.select_your_risk_likelihood"
+                    )}
+                    style={{ width: 300 }}
+                    onChange={(value) => handleLikelihoodChange(value)}
+                  >
+                    {likelihood.map((likelihoodItem) => (
+                      <Select.Option
+                        key={likelihoodItem.id}
+                        value={likelihoodItem.weight}
+                      >
+                        {likelihoodItem.relative}
+                      </Select.Option>
+                    ))}
+                  </Select>
+                </Form.Item>
+
+                <Form.Item
+                  name="treatment_decision"
+                  label={t("add_register.decision")}
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please select Treatment Decision",
+                    },
+                  ]}
+                >
+                  <Select
+                    placeholder={t(
+                      "add_register.select_your_treatment_decision"
+                    )}
+                    style={{ width: 300 }}
+                  >
+                    <Option value="Accept">Accept</Option>
+                    <Option value="Manage">Manage</Option>
+                    <Option value="Transfer">Transfer</Option>
+                    <Option value="Mitigate">Mitigate</Option>
+                    <Option value="Reduce">Reduce</Option>
+                    <Option value="Avoid">Avoid</Option>
+                    <Option value="Control">Control</Option>
+                  </Select>
+                </Form.Item>
+
+                <Form.Item
+                  name="residual_impact"
+                  label={t("add_register.residual_impact")}
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please select Residual Impact",
+                    },
+                  ]}
+                >
+                  <Select
+                    placeholder={t(
+                      "add_register.select_your_residual_impact"
+                    )}
+                    style={{ width: 300 }}
+                    onChange={(value) => handleResidualImpactChange(value)}
+                  >
+                    {impact.map((impactItem) => (
+                      <Select.Option
+                        key={impactItem.id}
+                        value={impactItem.weight}
+                      >
+                        {impactItem.relative}
+                      </Select.Option>
+                    ))}
+                  </Select>
+                </Form.Item>
+              </div>
+
+              <div>
+                <Form.Item
+                  name="residual_likelihood"
+                  label={t("add_register.residual_likelihood")}
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please select Residudal Likelihood",
+                    },
+                  ]}
+                >
+                  <Select
+                    // placeholder={t(
+                    //   "add_register.select_your_Residudal_likelihood"
+                    // )}
+                    onChange={(value) =>
+                      handleResidualLikelihoodChange(value)
+                    }
+                  >
+                    {likelihood.map((likelihoodItem) => (
+                      <Select.Option
+                        key={likelihoodItem.id}
+                        value={likelihoodItem.weight}
+                      >
+                        {likelihoodItem.relative}
+                      </Select.Option>
+                    ))}
+                  </Select>
+                </Form.Item>
+              </div>
+              <div>
+                <Form.Item
+                  // name="rs_score"
+                  label={t("add_register.rs_score")}
+                >
+                  <InputNumber
+                    style={{ width: 300 }}
+                    placeholder={t("add_register.rs_score")}
+                    value={selectedImpact ? selectedImpact : ""}
+                    disabled
+                  />
+                </Form.Item>
+
+                <Form.Item
+                  // name="rl_score"
+                  label={t("add_register.rl_score")}
+                >
+                  <InputNumber
+                    style={{ width: 300 }}
+                    placeholder={t("add_register.rl_score")}
+                    value={selectedLikelihood ? selectedLikelihood : ""}
+                    disabled
+                  />
+                </Form.Item>
+                <Form.Item label={t("add_register.criticality_score")}>
+                  <InputNumber
+                    style={{ width: 300 }}
+                    placeholder={t("add_register.criticality_score")}
+                    value={calculateRiskScore()}
+                    disabled
+                  />
+                </Form.Item>
+              </div>
+              <Form.Item label="Risk Criticality">
+                <div style={{ display: "flex", alignItems: "center" }}>
+                  <InputNumber
+                    style={{
+                      width: 300,
+                      backgroundColor: riskInfo
+                        ? riskInfo.color.startsWith("#")
+                          ? riskInfo.color
+                          : `#${riskInfo.color}`
+                        : "white",
+                    }}
+                    placeholder="Criticality level"
+                    value={riskInfo ? riskInfo.critical_step : ""}
+                    disabled
+                  />
+                </div>
+              </Form.Item>
+
+              <div style={{ textAlign: "center" }}>
+                <Title level={4}>
+                  <Text keyboard>{compareRiskWithAppetite()}</Text>
+                </Title>
+              </div>
+            </div>
+          </div>
+        </Card>
+      </div>
+      <Form.Item
+        wrapperCol={{
+          ...layout.wrapperCol,
+          offset: 8,
+        }}
+      >
+        <Divider style={{ marginLeft: "-90px", width: "400px" }} />
         <div
           style={{
             display: "flex",
-            justifyContent: "space-between",
-            marginLeft: "250px",
+            justifyContent: "center",
+            gap: "5px",
+            marginRight: "200px",
           }}
         >
-          <Card
-            style={{
-              width: 500,
-              boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.1)",
-            }}
+          <Button
+            type="primary"
+            htmlType="submit"
+            loading={loadings[0]}
+            onClick={() => enterLoading(0)}
           >
-            <div>
-              <Divider>{t("add_register.risk_information")}</Divider>
-              <Form.Item
-                name="risk_name"
-                label={t("add_register.risk_name")}
-                rules={[
-                  {
-                    required: true,
-                  },
-                ]}
-              >
-                <Input placeholder={t("add_register.input_name")} />
-              </Form.Item>
-              <Form.Item
-                name="owner_email"
-                label={t("add_register.owner_email")}
-                rules={[
-                  {
-                    required: true,
-                    type: "email",
-                  },
-                ]}
-              >
-                <Input placeholder={t("add_register.input_email")} />
-              </Form.Item>
-
-              <Form.Item
-                name="risk_owner"
-                label={t("add_register.risk_owner")}
-                rules={[
-                  {
-                    required: true,
-                    type: "name",
-                  },
-                ]}
-              >
-                <Input
-                  placeholder={t("add_register.input_owner")}
-                  style={{ alignItems: "center" }}
-                />
-              </Form.Item>
-              <Form.Item
-                name="risk_date"
-                label={t("add_register.date")}
-                {...config}
-              >
-                <DatePicker style={{ width: "300px" }} />
-              </Form.Item>
-
-              <Form.Item
-                name="financial_impact"
-                label={t("add_register.financial_impact")}
-              >
-                <Input
-                type="number"
-                  placeholder={t("add_register.input_financial_impact")}
-                  suffix={
-                    <span
-                    style={{
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      backgroundColor: '#4096FF',
-                      color: 'white',
-                      padding: '5px 10px',
-                      borderRadius: '4px',
-                      fontSize: '16px',
-                      marginLeft: '8px',
-                    }}
-                  >
-                    {decodeHTMLEntities(`&#${data?.currency?.symbol}`)}
-                  </span>
-                  }
-                  style={{ alignItems: "center" }}
-                />
-              </Form.Item>
-
-              <Form.Item
-                name="category_id"
-                label={t("add_register.risk_category")}
-                rules={[
-                  {
-                    required: true,
-                    message: "Please select risk category",
-                  },
-                ]}
-              >
-                <Select
-                  placeholder={t("add_register.select_your_risk_category")}
-                >
-                  {category.map((categoryItem) => (
-                    <Select.Option
-                      key={categoryItem.id}
-                      value={categoryItem.name}
-                    >
-                      {categoryItem.category_name}
-                    </Select.Option>
-                  ))}
-                </Select>
-              </Form.Item>
-
-              <Form.Item
-                name="risk_status_id"
-                label={t("add_register.risk_status")}
-                rules={[
-                  {
-                    required: true,
-                    message: "Please select Status!",
-                  },
-                ]}
-              >
-                <Select placeholder={t("add_register.select_your_risk_status")}>
-                  {status.map((statusItem) => (
-                    <Select.Option key={statusItem.id} value={statusItem.name}>
-                      {statusItem.status_name}
-                    </Select.Option>
-                  ))}
-                </Select>
-              </Form.Item>
-
-              <Form.Item
-                name="potential_impact"
-                label={t("add_register.potential_impact")}
-              >
-                <Input
-                  placeholder={t("add_register.input_impact_area")}
-                  style={{ alignItems: "center" }}
-                />
-              </Form.Item>
-              <Form.Item
-                name="risk_identified"
-                label={t("add_register.risk_details")}
-              >
-                <Input.TextArea
-                  placeholder={t("add_register.input_risk_details")}
-                />
-              </Form.Item>
-              <Form.Item
-                name="risk_casuse"
-                label={t("add_register.risk_cause")}
-              >
-                <Input.TextArea
-                  placeholder={t("add_register.input_risk_cause")}
-                  suffix={
-                    <Tooltip title="prompt text" color="blue">
-                      <QuestionCircleOutlined
-                        size={16}
-                        style={{ alignItems: "center" }}
-                      />
-                    </Tooltip>
-                  }
-                />
-              </Form.Item>
-            </div>
-          </Card>
-
-          <Card
-            style={{
-              width: 500,
-              boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.1)",
-            }}
-          >
-            <div>
-              <div>
-                <Divider>{t("add_register.risk_rating")}</Divider>
-                <div>
-                  <Form.Item
-                    name="risk_impact_id"
-                    label={t("add_register.impact")}
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please select risk Impact",
-                      },
-                    ]}
-                  >
-                    <Select
-                      placeholder={t("add_register.select_your_risk_impact")}
-                      style={{ width: 300 }}
-                      onChange={(value) => handleImpactChange(value)}
-                    >
-                      {impact.map((impactItem) => (
-                        <Select.Option
-                          key={impactItem.id}
-                          value={impactItem.weight}
-                        >
-                          {impactItem.relative}
-                        </Select.Option>
-                      ))}
-                    </Select>
-                  </Form.Item>
-
-                  <Form.Item
-                    name="risk_likelihood_id"
-                    label={t("add_register.likelihood")}
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please select risk Likelihood",
-                      },
-                    ]}
-                    style={{
-                      gap: "20px",
-                    }}
-                  >
-                    <Select
-                      placeholder={t(
-                        "add_register.select_your_risk_likelihood"
-                      )}
-                      style={{ width: 300 }}
-                      onChange={(value) => handleLikelihoodChange(value)}
-                    >
-                      {likelihood.map((likelihoodItem) => (
-                        <Select.Option
-                          key={likelihoodItem.id}
-                          value={likelihoodItem.weight}
-                        >
-                          {likelihoodItem.relative}
-                        </Select.Option>
-                      ))}
-                    </Select>
-                  </Form.Item>
-
-                  <Form.Item
-                    name="treatment_decision"
-                    label={t("add_register.decision")}
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please select Treatment Decision",
-                      },
-                    ]}
-                  >
-                    <Select
-                      placeholder={t(
-                        "add_register.select_your_treatment_decision"
-                      )}
-                      style={{ width: 300 }}
-                    >
-                      <Option value="Accept">Accept</Option>
-                      <Option value="Manage">Manage</Option>
-                      <Option value="Transfer">Transfer</Option>
-                      <Option value="Mitigate">Mitigate</Option>
-                      <Option value="Reduce">Reduce</Option>
-                      <Option value="Avoid">Avoid</Option>
-                      <Option value="Control">Control</Option>
-                    </Select>
-                  </Form.Item>
-
-                  <Form.Item
-                    name="residual_impact"
-                    label={t("add_register.residual_impact")}
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please select Residual Impact",
-                      },
-                    ]}
-                  >
-                    <Select
-                      placeholder={t(
-                        "add_register.select_your_residual_impact"
-                      )}
-                      style={{ width: 300 }}
-                      onChange={(value) => handleResidualImpactChange(value)}
-                    >
-                      {impact.map((impactItem) => (
-                        <Select.Option
-                          key={impactItem.id}
-                          value={impactItem.weight}
-                        >
-                          {impactItem.relative}
-                        </Select.Option>
-                      ))}
-                    </Select>
-                  </Form.Item>
-                </div>
-
-                <div>
-                  <Form.Item
-                    name="residual_likelihood"
-                    label={t("add_register.residual_likelihood")}
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please select Residudal Likelihood",
-                      },
-                    ]}
-                  >
-                    <Select
-                      // placeholder={t(
-                      //   "add_register.select_your_Residudal_likelihood"
-                      // )}
-                      onChange={(value) =>
-                        handleResidualLikelihoodChange(value)
-                      }
-                    >
-                      {likelihood.map((likelihoodItem) => (
-                        <Select.Option
-                          key={likelihoodItem.id}
-                          value={likelihoodItem.weight}
-                        >
-                          {likelihoodItem.relative}
-                        </Select.Option>
-                      ))}
-                    </Select>
-                  </Form.Item>
-                </div>
-                <div>
-                  <Form.Item
-                    // name="rs_score"
-                    label={t("add_register.rs_score")}
-                  >
-                    <InputNumber
-                      style={{ width: 300 }}
-                      placeholder={t("add_register.rs_score")}
-                      value={selectedImpact ? selectedImpact : ""}
-                      disabled
-                    />
-                  </Form.Item>
-
-                  <Form.Item
-                    // name="rl_score"
-                    label={t("add_register.rl_score")}
-                  >
-                    <InputNumber
-                      style={{ width: 300 }}
-                      placeholder={t("add_register.rl_score")}
-                      value={selectedLikelihood ? selectedLikelihood : ""}
-                      disabled
-                    />
-                  </Form.Item>
-                  <Form.Item label={t("add_register.criticality_score")}>
-                    <InputNumber
-                      style={{ width: 300 }}
-                      placeholder={t("add_register.criticality_score")}
-                      value={calculateRiskScore()}
-                      disabled
-                    />
-                  </Form.Item>
-                </div>
-                <Form.Item label="Risk Criticality">
-                  <div style={{ display: "flex", alignItems: "center" }}>
-                    <InputNumber
-                      style={{
-                        width: 300,
-                        backgroundColor: riskInfo
-                          ? riskInfo.color.startsWith("#")
-                            ? riskInfo.color
-                            : `#${riskInfo.color}`
-                          : "white",
-                      }}
-                      placeholder="Criticality level"
-                      value={riskInfo ? riskInfo.critical_step : ""}
-                      disabled
-                    />
-                  </div>
-                </Form.Item>
-
-                <div style={{ textAlign: "center" }}>
-                  <Title level={4}>
-                    <Text keyboard>{compareRiskWithAppetite()}</Text>
-                  </Title>
-                </div>
-              </div>
-            </div>
-          </Card>
+            {t("submit")}
+          </Button>
+          <Button onClick={handleGoBackButton}>{t("back")}</Button>
         </div>
-        <Form.Item
-          wrapperCol={{
-            ...layout.wrapperCol,
-            offset: 8,
-          }}
-        >
-          <Divider style={{ marginLeft: "-90px", width: "400px" }} />
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              gap: "5px",
-              marginRight: "200px",
-            }}
-          >
-            <Button
-              type="primary"
-              htmlType="submit"
-              loading={loadings[0]}
-              onClick={() => enterLoading(0)}
-            >
-              {t("submit")}
-            </Button>
-            <Button onClick={handleGoBackButton}>{t("back")}</Button>
-          </div>
-        </Form.Item>
-      </Form>
-      <FloatButton.Group
-        trigger="click"
-        style={{
-          right: 24,
-        }}
-        type="primary"
-        icon={<ImportOutlined />}
-        tooltip="Import File"
+      </Form.Item>
+    </Form>
+    <FloatButton.Group
+      trigger="click"
+      style={{
+        right: 24,
+      }}
+      type="primary"
+      icon={<ImportOutlined />}
+      tooltip="Import File"
+    >
+      <FloatButton
+        icon={<QuestionCircleOutlined />}
+        tooltip="How to Import(Example)"
+        onClick={handleImportModal}
+      />
+      <Modal
+        width={800}
+        centered
+        title=" "
+        open={modalVisible}
+        onCancel={() => setModalVisible(false)}
+        footer={[
+          <Button key="cancel" onClick={() => setModalVisible(false)}>
+            Cancel
+          </Button>,
+          <Button key="download" type="primary" onClick={handleImport}>
+            Download
+          </Button>,
+        ]}
       >
-        <FloatButton
-          icon={<QuestionCircleOutlined />}
-          tooltip="How to Import(Example)"
-          onClick={handleImportModal}
-        />
-        <Modal
-          width={800}
-          centered
-          title=" "
-          open={modalVisible}
-          onCancel={() => setModalVisible(false)}
-          footer={[
-            <Button key="cancel" onClick={() => setModalVisible(false)}>
-              Cancel
-            </Button>,
-            <Button key="download" type="primary" onClick={handleImport}>
-              Download
-            </Button>,
-          ]}
-        >
-          <div style={{ marginTop: "20px" }}>
-            <Alert
-              message="Download Example"
-              description={
-                <div>
-                  In the Excel sheet, the predefined and unchangeable headings
-                  include <strong>SL</strong>, <strong>Risk Name</strong>,{" "}
-                  <strong>Date</strong>, <strong>Risk Owner</strong>,{" "}
-                  <strong>Owner Email</strong>, and other all headings. These
-                  headings will serve as the key fields for importing data into
-                  the database.
-                </div>
-              }
-              type="info"
-              showIcon
-            />
-          </div>
+        <div style={{ marginTop: "20px" }}>
+          <Alert
+            message="Download Example"
+            description={
+              <div>
+                In the Excel sheet, the predefined and unchangeable headings
+                include <strong>SL</strong>, <strong>Risk Name</strong>,{" "}
+                <strong>Date</strong>, <strong>Risk Owner</strong>,{" "}
+                <strong>Owner Email</strong>, and other all headings. These
+                headings will serve as the key fields for importing data into
+                the database.
+              </div>
+            }
+            type="info"
+            showIcon
+          />
+        </div>
 
-          <p></p>
-        </Modal>
-        <Upload
-          customRequest={handleUpload}
-          accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
-          showUploadList={false}
-        >
-          <FloatButton icon={<CloudUploadOutlined />} tooltip="Browse File" />
-        </Upload>
-      </FloatButton.Group>
-    </>
+        <p></p>
+      </Modal>
+      <Upload
+        customRequest={handleUpload}
+        accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+        showUploadList={false}
+      >
+        <FloatButton icon={<CloudUploadOutlined />} tooltip="Browse File" />
+      </Upload>
+    </FloatButton.Group>
+  </>
   );
 };
 

@@ -4,6 +4,7 @@
   align-items: center;
   height: 100vh; /* Full viewport height */
 }
+
 .cardContent {
   text-align: center;
   margin: 5px;
@@ -16,7 +17,7 @@
 
 .cardHeader h2 {
   margin: 10px;
-  font-size: 30px;
+  font-size: 24px; /* Reduced font size */
 }
 
 .underline {
@@ -29,6 +30,7 @@
 .cardStats {
   display: flex;
   justify-content: space-around;
+  flex-wrap: wrap;
 }
 
 .statItem {
@@ -40,10 +42,11 @@
 
 .statItem span:first-child {
   font-weight: bold;
+  font-size: 16px; /* Reduced font size */
 }
 
 .statItem span:last-child {
-  font-size: 30px;
+  font-size: 24px; /* Reduced font size */
 }
 
 .tableWrapper {
@@ -84,6 +87,7 @@
 .customTable td {
   padding: 10px 20px;
   text-align: left;
+  font-size: 14px; /* Reduced font size */
 }
 
 .customTable th {
@@ -121,4 +125,46 @@
 
 .customTable .ant-table-container table > tbody > tr:last-child td:last-child {
   border-bottom-right-radius: 8px;
+}
+
+@media (max-width: 767px) {
+  .cardStats {
+    flex-direction: column;
+  }
+
+  .cardHeader h2 {
+    font-size: 20px; /* Adjusted font size for smaller screens */
+  }
+
+  .statItem span:first-child {
+    font-size: 14px; /* Adjusted font size for smaller screens */
+  }
+
+  .statItem span:last-child {
+    font-size: 18px; /* Adjusted font size for smaller screens */
+  }
+
+  .customTable th,
+  .customTable td {
+    font-size: 12px; /* Adjusted font size for smaller screens */
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1199px) {
+  .cardHeader h2 {
+    font-size: 22px; /* Adjusted font size for medium screens */
+  }
+
+  .statItem span:first-child {
+    font-size: 15px; /* Adjusted font size for medium screens */
+  }
+
+  .statItem span:last-child {
+    font-size: 20px; /* Adjusted font size for medium screens */
+  }
+
+  .customTable th,
+  .customTable td {
+    font-size: 13px; /* Adjusted font size for medium screens */
+  }
 }

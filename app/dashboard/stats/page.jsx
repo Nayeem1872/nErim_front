@@ -308,12 +308,12 @@ const Stats = () => {
   // const [error, setError] = useState(null);
 
   const handleViolationClick = async (riskOwner) => {
-    console.log("Clicked on violation for risk owner:", riskOwner);
+ 
     try {
-      // Perform a GET request using Axios
+  
       const response = await axios.get(`/api/violations/data/${riskOwner}`);
-      // Handle successful response
-      console.log("GET request successful:", response.data);
+     
+  
       setResponseData(response.data);
       setError(null);
     } catch (error) {
@@ -388,7 +388,7 @@ const Stats = () => {
       setConfirmLoading(false);
 
       message.success("Downloaded!");
-      console.log("File exported successfully:", response.data);
+      
     } catch (error) {
       console.error("Error exporting file:", error);
     }
@@ -431,7 +431,7 @@ const Stats = () => {
       setConfirmLoading(false);
 
       message.success("Downloaded!");
-      console.log("File exported successfully:", response.data);
+    
     } catch (error) {
       console.error("Error exporting file:", error);
     }
@@ -466,7 +466,7 @@ const Stats = () => {
       setConfirmLoading(false);
 
       message.success("Downloaded!");
-      console.log("File exported successfully:", response.data);
+   
     } catch (error) {
       console.error("Error exporting file:", error);
     }
@@ -503,7 +503,7 @@ const Stats = () => {
       setConfirmLoading(false);
 
       message.success("Downloaded!");
-      console.log("Data exported successfully:", response.data);
+
     } catch (error) {
       console.error("Error exporting data:", error);
     }
@@ -540,329 +540,283 @@ const Stats = () => {
 
   return (
     <>
-      {/* top */}
-      <Breadcrumb style={{ padding: "10px" }} items={breadcrumbItems} />
-      <Divider />
-      <Row gutter={24} justify="center">
-        <Col xs={24} sm={12} md={12} lg={8} xl={6}>
-          <Card
-            bordered={false}
-            style={{
-              margin: "5px",
-              height: "220px",
-              backgroundColor: "#2f6690",
-              boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)", // Improved shadow for better aesthetics
-              borderRadius: "10px", // Rounded corners for a smoother look
-              color: "#fff", // White text color for better contrast
-            }}
-          >
-            <div className={styles.cardContent}>
-              <div className={styles.cardHeader}>
-                <h2>
-                  <ThunderboltOutlined
-                    style={{ marginRight: "10px", color: "#fff" }}
-                  />
-                  {t("stats.Action")}
-                </h2>
-                <Divider style={{ backgroundColor: "#fff" }} />
+    {/* top */}
+    <Breadcrumb style={{ padding: "10px" }} items={breadcrumbItems} />
+    <Divider />
+    <Row gutter={[16, 16]} justify="center">
+    <Col xs={24} sm={12} md={12} lg={8} xl={6}>
+  <Card
+    bordered={false}
+    style={{
+      margin: "5px",
+      height: "220px",
+      backgroundColor: "#2f6690",
+      boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+      borderRadius: "10px",
+      color: "#fff",
+    }}
+  >
+    <div className={styles.cardContent}>
+      <div className={styles.cardHeader}>
+        <h2>
+          <ThunderboltOutlined style={{ marginRight: "10px", color: "#fff" }} />
+          {t("stats.Action")}
+        </h2>
+        <Divider style={{ backgroundColor: "#fff" }} />
+      </div>
+      <div className={styles.cardStats}>
+        <div className={styles.statItem}>
+          <div style={{ display: "flex", gap: "27px", flexWrap: "wrap", justifyContent: "center" }}>
+            {Object.keys(riskSummaryData.registerWithStatus).map((status, index) => (
+              <div key={index} className={styles.statItem} style={{ textAlign: "center", fontSize: "18px" }}>
+                <span style={{ fontWeight: "bold" }}>{status}</span>
+                <br />
+                <span>{riskSummaryData.registerWithStatus[status].total_count}</span>
               </div>
-              <div className={styles.cardStats}>
-                <div className={styles.statItem}>
-                  <div style={{ display: "flex", gap: "27px" }}>
-                    {Object.keys(riskSummaryData.registerWithStatus).map(
-                      (status, index) => (
-                        <div key={index} className={styles.statItem}>
-                          <span
-                            style={{ fontSize: "18px", fontWeight: "bold" }}
-                          >
-                            {status}
-                          </span>
-                          <span>
-                            {
-                              riskSummaryData.registerWithStatus[status]
-                                .total_count
-                            }
-                          </span>
-                        </div>
-                      )
-                    )}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </Card>
-        </Col>
-
-        <Col xs={24} sm={12} md={12} lg={8} xl={6}>
-          <Card
-            bordered={false}
-            style={{
-              margin: "5px",
-              backgroundColor: "#3a7ca5",
-              boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)", // Improved shadow for better aesthetics
-              borderRadius: "10px", // Rounded corners for a smoother look
-              height: "220px",
-              color: "#fff", // White text color for better contrast
-            }}
-          >
-            <div className={styles.cardContent}>
-              <div className={styles.cardHeader}>
-                <h2>
-                  <SafetyOutlined
-                    style={{ marginRight: "10px", color: "#fff" }}
-                  />
-                  {t("stats.Mitigated")}
-                </h2>
-                <Divider style={{ backgroundColor: "#fff" }} />
-              </div>
-              <div className={styles.cardStats}>
-                <div className={styles.statItem} style={{ marginTop: "18px" }}>
-                  <span>{riskSummaryData.totalMitigate}</span>
-                </div>
-              </div>
-            </div>
-          </Card>
-        </Col>
-
-        <Col xs={24} sm={12} md={12} lg={8} xl={6}>
-          <Card
-            bordered={false}
-            style={{
-              margin: "5px",
-              backgroundColor: "#00607a",
-              boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)", // Improved shadow for better aesthetics
-              borderRadius: "10px", // Rounded corners for a smoother look
-              height: "220px",
-              color: "#fff", // White text color for better contrast
-            }}
-          >
-            <div className={styles.cardContent}>
-              <div className={styles.cardHeader}>
-                <h2>
-                  <CheckCircleOutlined
-                    style={{ marginRight: "10px", color: "#fff" }}
-                  />
-                  {t("stats.Accepted")}
-                </h2>
-                <Divider style={{ backgroundColor: "#fff" }} />
-              </div>
-              <div className={styles.cardStats}>
-                <div className={styles.statItem} style={{ marginTop: "18px" }}>
-                  <span>{riskSummaryData.totalAccepted}</span>
-                </div>
-              </div>
-            </div>
-          </Card>
-        </Col>
-        <Col xs={24} sm={12} md={12} lg={8} xl={6}>
-          <Card
-            bordered={false}
-            style={{
-              margin: "5px",
-              backgroundColor: "#003d5c",
-              boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)", // Improved shadow for better aesthetics
-              borderRadius: "10px", // Rounded corners for a smoother look
-              height: "220px",
-              color: "#fff", // White text color for better contrast
-            }}
-          >
-            <div className={styles.cardContent}>
-              <div className={styles.cardHeader}>
-                <h2>
-                  <ExclamationCircleOutlined
-                    style={{ marginRight: "10px", color: "#fff" }}
-                  />
-                  {t("stats.Total Risk")}
-                </h2>
-                <Divider style={{ backgroundColor: "#fff" }} />
-              </div>
-              <div className={styles.cardStats}>
-                <div className={styles.statItem} style={{ marginTop: "18px" }}>
-                  <span>{riskSummaryData.totalRisk}</span>
-                </div>
-              </div>
-            </div>
-          </Card>
-        </Col>
-      </Row>
-
-      <Modal
-        title="Export Confirmation"
-        open={isModalVisible}
-        onOk={handleOk}
-        onCancel={handleCancel}
-        centered
-      >
-        <p> {t("stats.Are you sure you want to export Top Five Risk?")}</p>
-      </Modal>
-      {/* Table */}
-
-      <div style={{ marginTop: "10px" }}>
-        <Divider style={{marginBottom:"0px"}}>
-          <h2> {t("stats.Top Five Risk")}</h2>
-        </Divider>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "flex-end",
-            marginBottom: "10px",
-          }}
-        >
-          <Button type="primary" onClick={showModal}>
-            {" "}
-            {t("register.export")} <Download size={16} />
-          </Button>
+            ))}
+          </div>
         </div>
-
-        <Table
-          bordered
-          dataSource={topFiveRisk}
-          columns={columns}
-          pagination={false}
-          style={{ boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)" }}
-          rowKey={() => Math.random().toString(12).substr(2, 9)}
-        />
       </div>
+    </div>
+  </Card>
+</Col>
 
-      <div style={{ marginTop: "30px" }}>
-        <Divider style={{marginBottom:"0px"}}>
-          <h2>
-            {" "}
-            {t("stats.Risk Threshold")}
-            {/* ({apatiteValue}){" "} */}
-          </h2>
-        </Divider>
-      </div>
-      <Row gutter={16}>
-        <Col xs={24} sm={24} md={12} lg={12} xl={12}>
-          <h3>{t("stats.Risk Below Appatite")}</h3>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "flex-end",
-              marginBottom: "10px",
-            }}
-          >
-            <Button type="primary" onClick={showBelowModal}>
-              {" "}
-              {t("register.export")} <Download size={16} />
-            </Button>
-          </div>
-          <Modal
-            title="Export Data Confirmation"
-            open={isModalBelowVisible}
-            onOk={handleBelowOk}
-            onCancel={handleCancel}
-            centered
-          >
-            <p>
-              {t("stats.Are you sure you want to export below apatite data?")}
-            </p>
-          </Modal>
-          <Table
-            bordered
-            dataSource={riskWithInLimit}
-            columns={riskWithInLimitColumns}
-            pagination={{ pageSize: 5 }}
-            style={{ boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)" }}
-            rowKey={() => Math.random().toString(12).substr(2, 9)}
-          />
-        </Col>
-        <Col xs={24} sm={24} md={12} lg={12} xl={12}>
-          <h3> {t("stats.Risk Upper Appatite")}</h3>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "flex-end",
-              marginBottom: "10px",
-            }}
-          >
-            <Button type="primary" onClick={showUpperModal}>
-              {" "}
-              {t("register.export")} <Download size={16} />
-            </Button>
-          </div>
-          <Modal
-            title="Export Data Confirmation"
-            open={isModalUpperVisible}
-            onOk={handleUpperOk}
-            onCancel={handleCancel}
-            centered
-          >
-            <p>
-              {t("stats.Are you sure you want to export upper appatite data?")}
-            </p>
-          </Modal>
-          <Table
-            bordered
-            dataSource={riskWithOutLimit}
-            columns={riskWithOutLimitColumns}
-            pagination={{ pageSize: 5 }}
-            style={{ boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)" }}
-            rowKey={() => Math.random().toString(12).substr(2, 9)}
-          />
-        </Col>
-      </Row>
 
-      <div>
-        {/* <Row gutter={16}>
-          <Col span={12}> */}
-        <Divider style={{marginBottom:"0px"}}>
-          <h2> {t("stats.SLA Violation")}</h2>
-        </Divider>
-        <div
+
+      <Col xs={24} sm={12} md={12} lg={8} xl={6}>
+        <Card
+          bordered={false}
           style={{
-            display: "flex",
-            justifyContent: "flex-end",
-            marginBottom: "10px",
+            margin: "5px",
+            backgroundColor: "#3a7ca5",
+            boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+            borderRadius: "10px",
+            height: "220px",
+            color: "#fff",
           }}
         >
-          <Button type="primary" onClick={showDataExportModal}>
+          <div className={styles.cardContent}>
+            <div className={styles.cardHeader}>
+              <h2>
+                <SafetyOutlined style={{ marginRight: "10px", color: "#fff" }} />
+                {t("stats.Mitigated")}
+              </h2>
+              <Divider style={{ backgroundColor: "#fff" }} />
+            </div>
+            <div className={styles.cardStats}>
+              <div className={styles.statItem} style={{ marginTop: "18px" }}>
+                <span>{riskSummaryData.totalMitigate}</span>
+              </div>
+            </div>
+          </div>
+        </Card>
+      </Col>
+
+      <Col xs={24} sm={12} md={12} lg={8} xl={6}>
+        <Card
+          bordered={false}
+          style={{
+            margin: "5px",
+            backgroundColor: "#00607a",
+            boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+            borderRadius: "10px",
+            height: "220px",
+            color: "#fff",
+          }}
+        >
+          <div className={styles.cardContent}>
+            <div className={styles.cardHeader}>
+              <h2>
+                <CheckCircleOutlined style={{ marginRight: "10px", color: "#fff" }} />
+                {t("stats.Accepted")}
+              </h2>
+              <Divider style={{ backgroundColor: "#fff" }} />
+            </div>
+            <div className={styles.cardStats}>
+              <div className={styles.statItem} style={{ marginTop: "18px" }}>
+                <span>{riskSummaryData.totalAccepted}</span>
+              </div>
+            </div>
+          </div>
+        </Card>
+      </Col>
+      <Col xs={24} sm={12} md={12} lg={8} xl={6}>
+        <Card
+          bordered={false}
+          style={{
+            margin: "5px",
+            backgroundColor: "#003d5c",
+            boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+            borderRadius: "10px",
+            height: "220px",
+            color: "#fff",
+          }}
+        >
+          <div className={styles.cardContent}>
+            <div className={styles.cardHeader}>
+              <h2>
+                <ExclamationCircleOutlined style={{ marginRight: "10px", color: "#fff" }} />
+                {t("stats.Total Risk")}
+              </h2>
+              <Divider style={{ backgroundColor: "#fff" }} />
+            </div>
+            <div className={styles.cardStats}>
+              <div className={styles.statItem} style={{ marginTop: "18px" }}>
+                <span>{riskSummaryData.totalRisk}</span>
+              </div>
+            </div>
+          </div>
+        </Card>
+      </Col>
+    </Row>
+
+    <Modal
+      title="Export Confirmation"
+      open={isModalVisible}
+      onOk={handleOk}
+      onCancel={handleCancel}
+      centered
+    >
+      <p> {t("stats.Are you sure you want to export Top Five Risk?")}</p>
+    </Modal>
+    {/* Table */}
+
+    <div style={{ marginTop: "10px" }}>
+      <Divider style={{ marginBottom: "0px" }}>
+        <h2> {t("stats.Top Five Risk")}</h2>
+      </Divider>
+      <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: "10px" }}>
+        <Button type="primary" onClick={showModal}>
+          {" "}
+          {t("register.export")} <DownloadOutlined size={16} />
+        </Button>
+      </div>
+
+      <Table
+        bordered
+        dataSource={topFiveRisk}
+        columns={columns}
+        pagination={false}
+        style={{ boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)" }}
+        rowKey={() => Math.random().toString(12).substr(2, 9)}
+        scroll={{ x: true }} // Add horizontal scroll for small screens
+      />
+    </div>
+
+    <div style={{ marginTop: "30px" }}>
+      <Divider style={{ marginBottom: "0px" }}>
+        <h2>
+          {" "}
+          {t("stats.Risk Threshold")}
+        </h2>
+      </Divider>
+    </div>
+    <Row gutter={16}>
+      <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+        <h3>{t("stats.Risk Below Appatite")}</h3>
+        <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: "10px" }}>
+          <Button type="primary" onClick={showBelowModal}>
             {" "}
-            {t("register.export")} <Download size={16} />
+            {t("register.export")} <DownloadOutlined size={16} />
           </Button>
         </div>
         <Modal
           title="Export Data Confirmation"
-          open={isModalDataExporVisible}
-          onOk={handleDataExport}
+          open={isModalBelowVisible}
+          onOk={handleBelowOk}
           onCancel={handleCancel}
           centered
         >
-          <p>{t("stats.Are you sure you want to export SLA data?")}</p>
+          <p>{t("stats.Are you sure you want to export below apatite data?")}</p>
         </Modal>
         <Table
-          dataSource={slaViolations}
-          columns={slaViolationsColumns}
+          bordered
+          dataSource={riskWithInLimit}
+          columns={riskWithInLimitColumns}
           pagination={{ pageSize: 5 }}
           style={{ boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)" }}
           rowKey={() => Math.random().toString(12).substr(2, 9)}
+          scroll={{ x: true }} // Add horizontal scroll for small screens
         />
-        {/* </Col> */}
-        {/* <Col span={12}> */}
-        {responseData && (
-          <>
-            <Divider style={{marginBottom:"0px"}}>
-              <h2>{t("stats.Violation")}</h2>
-            </Divider>
-            <Table
-              dataSource={responseData}
-              columns={ViolationColumns}
-              rowKey={() => Math.random().toString(12).substr(2, 9)}
-              style={{
-                boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-                marginTop: "55px",
-              }}
-            />
-          </>
-        )}
-        {/* </Col>
-        </Row> */}
-      </div>
-      <StatusRange riskSummaryData={riskSummaryData} />
+      </Col>
+      <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+        <h3> {t("stats.Risk Upper Appatite")}</h3>
+        <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: "10px" }}>
+          <Button type="primary" onClick={showUpperModal}>
+            {" "}
+            {t("register.export")} <DownloadOutlined size={16} />
+          </Button>
+        </div>
+        <Modal
+          title="Export Data Confirmation"
+          open={isModalUpperVisible}
+          onOk={handleUpperOk}
+          onCancel={handleCancel}
+          centered
+        >
+          <p>{t("stats.Are you sure you want to export upper appatite data?")}</p>
+        </Modal>
+        <Table
+          bordered
+          dataSource={riskWithOutLimit}
+          columns={riskWithOutLimitColumns}
+          pagination={{ pageSize: 5 }}
+          style={{ boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)" }}
+          rowKey={() => Math.random().toString(12).substr(2, 9)}
+          scroll={{ x: true }} // Add horizontal scroll for small screens
+        />
+      </Col>
+    </Row>
 
-      <FloatButton.BackTop />
-    </>
+    <div>
+      <Divider style={{ marginBottom: "0px" }}>
+        <h2> {t("stats.SLA Violation")}</h2>
+      </Divider>
+      <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: "10px" }}>
+        <Button type="primary" onClick={showDataExportModal}>
+          {" "}
+          {t("register.export")} <DownloadOutlined size={16} />
+        </Button>
+      </div>
+      <Modal
+        title="Export Data Confirmation"
+        open={isModalDataExporVisible}
+        onOk={handleDataExport}
+        onCancel={handleCancel}
+        centered
+      >
+        <p>{t("stats.Are you sure you want to export SLA data?")}</p>
+      </Modal>
+      <Table
+        dataSource={slaViolations}
+        columns={slaViolationsColumns}
+        pagination={{ pageSize: 5 }}
+        style={{ boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)" }}
+        rowKey={() => Math.random().toString(12).substr(2, 9)}
+        scroll={{ x: true }} // Add horizontal scroll for small screens
+      />
+      {responseData && (
+        <>
+          <Divider style={{ marginBottom: "0px" }}>
+            <h2>{t("stats.Violation")}</h2>
+          </Divider>
+          <Table
+            dataSource={responseData}
+            columns={ViolationColumns}
+            rowKey={() => Math.random().toString(12).substr(2, 9)}
+            style={{
+              boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+              marginTop: "55px",
+            }}
+            scroll={{ x: true }} // Add horizontal scroll for small screens
+          />
+        </>
+      )}
+    </div>
+    <StatusRange riskSummaryData={riskSummaryData} />
+
+    <FloatButton.BackTop />
+  </>
   );
 };
 

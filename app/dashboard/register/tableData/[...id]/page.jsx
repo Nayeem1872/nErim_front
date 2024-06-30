@@ -86,7 +86,7 @@ const page = () => {
       title: t("heatmap.Criticality_Score"),
       key: "criticality_score",
       render: (text, record) => {
-        const criticalityScore = record.risk_impact_id * record.risk_likelihood_id;
+        const criticalityScore = record.risk_consequence_id * record.risk_likelihood_id;
         return <div>{criticalityScore}</div>;
       },
     },

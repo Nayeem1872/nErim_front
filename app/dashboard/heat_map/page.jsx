@@ -168,7 +168,7 @@ export default function Heatmap() {
 
         const data = response.data.data;
         // setImpactId(data.impact_id)
-  
+        console.log("Data",data);
 
         // Extract categories for yAxis (likelihood_critical) and xAxis (impact_critical)
         const yAxisCategories = [];
@@ -268,7 +268,7 @@ export default function Heatmap() {
       title: t("heatmap.Criticality_Score"),
       key: "criticality_score",
       render: (text, record) => {
-        const criticalityScore = record.risk_impact_id * record.risk_likelihood_id;
+        const criticalityScore = record.risk_consequence_id * record.risk_likelihood_id;
         return <div>{criticalityScore}</div>;
       },
     },

@@ -98,7 +98,7 @@ export default function Home() {
         </Content>
 
         <Footer style={{ textAlign: "center" }}>
-          nErim v0.0.01 ©{new Date().getFullYear()} Developed by{" "}
+          nErim v2.0.0 ©{new Date().getFullYear()} Developed by{" "}
           <span
             style={{ color: "#4096FF", fontWeight: "bold", cursor: "pointer" }}
           >
