@@ -135,31 +135,31 @@ const View = ({ params }) => {
   const handleOk = async () => {
     setIsModalOpen(false);
     const formData = form.getFieldsValue();
-
+  
     try {
       const formData1 = new FormData();
-      formData1.append("userId", userId);
+  
       formData1.append("id", editId);
-      formData1.append("verifyEmail", email);
-
+  
       // Format and append dates
       const formattedClosingDate = formData.closing_date
         ? dayjs(formData.closing_date).format("YYYY-MM-DD")
         : null;
-      formData1.append("closing_date", formattedClosingDate);
-
-      const formattedStartDate = formData.started_date
-        ? dayjs(formData.started_date).format("YYYY-MM-DD")
-        : null;
-
+  
       const formattedfinished_date = formData.finished_date
         ? dayjs(formData.finished_date).format("YYYY-MM-DD")
         : null;
-      formData1.append("started_date", formattedStartDate);
+  
+      formData1.append("closing_date", formattedClosingDate);
       formData1.append("resolve", formData.resolve);
+      const formattedStartDate = formData.started_date
+        ? dayjs(formData.started_date).format("YYYY-MM-DD")
+        : null;
+      formData1.append("started_date", formattedStartDate);
+  
       // Append other form data
       formData1.append("expected_benefit", formData.expected_benefit);
-
+  
       if (isOtherSelected) {
         formData1.append("treat_owner", customActionOwner || recordActionOwner);
         formData1.append("action_owner_email", customEmail || recordEmail);
@@ -170,19 +170,21 @@ const View = ({ params }) => {
         );
         formData1.append("action_owner_email", ownerEmail1 || recordEmail);
       }
+  
       formData1.append("treat_detial", formData.treat_detial);
       formData1.append("treat_name", formData.treat_name);
       formData1.append("treat_status", formData.treat_status);
       formData1.append("finished_date", formattedfinished_date);
       formData1.append("user_id", userID || user_Id);
-
+  
       // Append the selected file if it exists
       if (selectedFile) {
         formData1.append("attachment", selectedFile.originFileObj);
       }
-
-      // Log FormData to check its contents
-
+  
+      // Show loading toast
+      const hide = message.loading({ content: 'Updating...', duration: 0 });
+  
       const apiUrl = "/api/treatments/update";
       const response = await axios.post(apiUrl, formData1, {
         withCredentials: true,
@@ -191,18 +193,21 @@ const View = ({ params }) => {
           "Content-Type": "multipart/form-data",
         },
       });
-
+  
+      // Hide the loading toast
+      hide();
+  
       if (response.status === 200) {
         // Update the treatment data in data1.treatment array
         const updatedTreatmentIndex = data1.treatment.findIndex(
           (item) => item.id === editId
         );
-
+  
         if (updatedTreatmentIndex !== -1) {
           const newData2 = { ...data1 };
-          newData2.treatment[updatedTreatmentIndex] = formData1;
+          newData2.treatment[updatedTreatmentIndex] = formData1; // Update treatment item with formData1
           setData1(newData2);
-
+  
           message.success(t("treatment_view.Updated successfully."));
           setTimeout(() => {
             window.location.reload(true);
@@ -214,7 +219,8 @@ const View = ({ params }) => {
         message.error(t("treatment_view.Failed to update record."));
       }
     } catch (error) {
-      message.error(t("treatment_view.Failed to update record."));
+      console.error("Error sending data:", error); // Log the error for debugging
+      message.error(t("treatment_view.Failed to update record.")); // Show error message to the user
     }
   };
 
@@ -229,23 +235,27 @@ const View = ({ params }) => {
   const alert = async (record) => {
     try {
       const id = record.id;
+      // Show loading toast
+      const hide = message.loading({ content: 'Processing...', duration: 0 });
+  
       // Make the GET request using Axios
       const response = await axios.get(`/api/treatments/alert/${id}`);
-
+  
+      // Hide the loading toast
+      hide();
+  
       // Handle the response, for example:
-
       if (response.status === 200) {
         // Display a success message
         message.success(t("treatment_view.Notification Send successfully!"));
       } else {
         // Handle other status codes if needed
-
         message.error(t("treatment_view.Something went wrong!"));
       }
     } catch (error) {
       console.error("Error fetching data:", error);
-      // Handle errors, for example:
-      // Display an error message to the user
+      // Hide the loading toast on error
+      message.error(t("treatment_view.Error occurred while sending notification."));
     }
   };
   const file = async (record) => {

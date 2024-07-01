@@ -341,6 +341,7 @@ const Treatment = () => {
   };
   const handleOk = async () => {
     setIsModalOpen(false);
+    const hide = message.loading({ content: 'Processing...', duration: 0 });
     try {
       const formData = new FormData();
       formData.append("register_id", editId);
@@ -360,7 +361,6 @@ const Treatment = () => {
       formData.append("treat_status", status);
       formData.append("user_id", singleId);
       if (selectedFile) {
-        // Make sure selectedFiles is not null and append it to FormData
         formData.append("attachment", selectedFile.originFileObj);
       }
 
@@ -383,9 +383,9 @@ const Treatment = () => {
         setExpectedBenefit("");
         setClosingDate(null);
         setStatus("");
-        message.success("Risk Treatment has Added!");
+        message.success("Risk Treatment has been added!");
       } else {
-        message.error("Someething went wrong!");
+        message.error("Something went wrong!");
       }
     } catch (error) {
       if (error.response && error.response.data && error.response.data.errors) {
@@ -405,15 +405,17 @@ const Treatment = () => {
         if (errors.treat_status) {
           message.error(errors.treat_status[0]);
         }
-        // Add more conditions for other fields if needed
         setTimeout(() => {
-          message.destroy(); // Clear all messages after 3 seconds
+          message.destroy(); 
         }, 4000);
       } else {
         message.error("Something went wrong!");
       }
+    } finally {
+      hide(); 
     }
-  };
+};
+
   const handleCancel = () => {
     setIsModalOpen(false);
   };
@@ -510,22 +512,6 @@ const Treatment = () => {
     setModalVisible(false);
   };
 
-  // Event handler for selecting action owner
-  // const handleActionOwnerChange = (value) => {
-  //   setSelectedActionOwner(value);
-
-  //   // Find the selected user by name and update the ownerEmail1 state
-  //   const selectedUser = Userdata.find((user) => user.name === value);
-
-  //   if (selectedUser) {
-  //     setOwnerEmail1(selectedUser.email);
-  //     setSingleId(selectedUser.id)
-  //   } else {
-  //     setOwnerEmail1(""); // Reset the ownerEmail1 if no user is selected
-  //   }
-  // };
-
-  // const [selectedActionOwner, setSelectedActionOwner] = useState(null);
 
   const handleActionOwnerChange = (value) => {
     setSelectedActionOwner(value);
@@ -592,124 +578,113 @@ const Treatment = () => {
 
   return (
     <div>
-      <Breadcrumb style={{ padding: "10px" }} items={breadcrumbItems} />
-      <Divider />
-      {isError ? (
+    <Breadcrumb style={{ padding: "10px" }} items={breadcrumbItems} />
+    <Divider />
+    {isError ? (
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          padding: "10px",
+          flexDirection: "column",
+          textAlign: "center",
+        }}
+      >
+        <Result
+          status="warning"
+          title={
+            apiData?.impactStatus === false
+              ? "There are some problem with your Risk Impact!"
+              : apiData?.likelihoodStatus === false
+              ? "Something wrong in your risk Likelihood"
+              : "Something wrong in your risk valuation"
+          }
+          subTitle={t("Please check your settings.")}
+          extra={
+            <Button type="primary" key="console" onClick={handleSettingsClick}>
+              {t("Go Settings")}
+            </Button>
+          }
+        />
+      </div>
+    ) : (
+      <>
         <div
           style={{
             display: "flex",
-            justifyContent: "center",
+            justifyContent: "space-between",
             alignItems: "center",
+            marginBottom: "30px",
+            flexWrap: "wrap",
+            gap: "10px",
           }}
         >
-          <Result
-            status="warning"
-            title={
-              apiData?.impactStatus === false
-                ? "There are some problem with your Risk Impact!"
-                : apiData?.likelihoodStatus === false
-                ? "Something wrong in your risk Likelihood"
-                : "Something wrong in your risk valuation"
-            }
-            // title={t("There are some problems with your operation.")}
-            subTitle={t("Please check your settings.")}
-            extra={
-              <Button
-                type="primary"
-                key="console"
-                onClick={handleSettingsClick}
-              >
-                {t("Go Settings")}
-              </Button>
-            }
-          />
-        </div>
-      ) : (
-        <>
+          <div style={{ flex: "1 1 auto", minWidth: "200px" }}>
+            <CustomSearch placeholder={t("search_here")} onSearch={handleSearch} />
+          </div>
           <div
             style={{
               display: "flex",
-              justifyContent: "space-between",
               alignItems: "center",
-              marginBottom: "30px",
+              gap: "10px",
+              flexWrap: "wrap",
+              justifyContent: "flex-end",
             }}
           >
-            {/* <Search
-              placeholder={t("risk_treatment.search_here")}
-              onSearch={handleSearch}
-              allowClear
-              enterButton
-              style={{
-                width: 400,
-              }}
-            /> */}
-
-            <CustomSearch
-              placeholder={t("search_here")}
-              onSearch={handleSearch}
-            />
-            <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-              <Button
-                onClick={handleImportModal}
-                style={{ marginRight: "10px" }}
-              >
-                {t("Example File")}
+            <Button onClick={handleImportModal}>{t("Example File")}</Button>
+            <Modal
+              width={800}
+              centered
+              title=" "
+              open={modalVisible}
+              onCancel={() => setModalVisible(false)}
+              footer={[
+                <Button key="cancel" onClick={() => setModalVisible(false)}>
+                  Cancel
+                </Button>,
+                <Button key="download" type="primary" onClick={handleImport}>
+                  Download
+                </Button>,
+              ]}
+            >
+              <div style={{ marginTop: "20px" }}>
+                <Alert
+                  message={t("Download Example")}
+                  description={
+                    <div>
+                      {t(
+                        "In the Excel sheet, the predefined and unchangeable headings include"
+                      )}{" "}
+                      <strong>SL</strong>, <strong>Risk Name</strong>,{" "}
+                      <strong>Date</strong>, <strong>Risk Owner</strong>,{" "}
+                      <strong>Owner Email</strong>,{" "}
+                      {t(
+                        "and other all headings.These headings will serve as the key fields for importing data into the database."
+                      )}
+                    </div>
+                  }
+                  type="info"
+                  showIcon
+                />
+              </div>
+              <p></p>
+            </Modal>
+  
+            <Upload
+              customRequest={handleUpload}
+              accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+              showUploadList={false}
+            >
+              <Button type="primary">
+                {t("risk_treatment.import")}
               </Button>
-              <Modal
-                width={800}
-                centered
-                title=" "
-                open={modalVisible}
-                onCancel={() => setModalVisible(false)}
-                footer={[
-                  <Button key="cancel" onClick={() => setModalVisible(false)}>
-                    Cancel
-                  </Button>,
-                  <Button key="download" type="primary" onClick={handleImport}>
-                    Download
-                  </Button>,
-                ]}
-              >
-                <div style={{ marginTop: "20px" }}>
-                  <Alert
-                    message={t("Download Example")}
-                    description={
-                      <div>
-                        {t(
-                          "In the Excel sheet, the predefined and unchangeable headings include"
-                        )}{" "}
-                        <strong>SL</strong>, <strong>Risk Name</strong>,{" "}
-                        <strong>Date</strong>, <strong>Risk Owner</strong>,{" "}
-                        <strong>Owner Email</strong>,{" "}
-                        {t(
-                          "and other all headings.These headings will serve as the key fields for importing data into the database."
-                        )}
-                      </div>
-                    }
-                    type="info"
-                    showIcon
-                  />
-                </div>
-                <p></p>
-              </Modal>
-
-              <Upload
-                customRequest={handleUpload}
-                accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
-                showUploadList={false}
-              >
-                <Button
-                  type="primary"
-                  // onClick={handleExportButtonClick}
-                  // style={{ marginRight: "10px" }}
-                >
-                  {t("risk_treatment.import")}
-                </Button>
-              </Upload>
-            </div>
+            </Upload>
           </div>
-
-          <Table
+        </div>
+  
+        <div style={{ overflowX: "auto" }}>
+        <Table
             dataSource={filterData()}
             columns={columns}
             bordered
@@ -720,175 +695,176 @@ const Treatment = () => {
               borderRadius: "10px",
             }}
           />
-          <Modal
-            title={t("risk_treatment.modal_title")}
-            open={isModalOpen}
-            onOk={handleOk}
-            onCancel={handleCancel}
-            centered
-            width={600}
-          >
-            <Divider />
-            <p>
-              {t("risk_treatment.modal_id_label")} {selectedRow?.refId}
-            </p>
-            <Typography.Title level={5}>
-              {t("risk_treatment.decision_title")}:{" "}
-              <Text type="secondary">{selectedRow?.treatment_decision}</Text>{" "}
-            </Typography.Title>
-            {selectedRow?.treatment_decision === "Transfer" ? (
-              <Input
-                placeholder={t("risk_treatment.transfer_placeholder")}
-                value={transferInputValue}
-                onChange={(e) => setTransferInputValue(e.target.value)}
-              />
-            ) : (
-              <>
-                <Typography.Title level={5}>
-                  {t("risk_treatment.action_name_title")}
-                </Typography.Title>
+        </div>
+        <Modal
+              title={t("risk_treatment.modal_title")}
+              open={isModalOpen}
+              onOk={handleOk}
+              onCancel={handleCancel}
+              centered
+              width={600}
+            >
+              <Divider />
+              <p>
+                {t("risk_treatment.modal_id_label")} {selectedRow?.refId}
+              </p>
+              <Typography.Title level={5}>
+                {t("risk_treatment.decision_title")}:{" "}
+                <Text type="secondary">{selectedRow?.treatment_decision}</Text>{" "}
+              </Typography.Title>
+              {selectedRow?.treatment_decision === "Transfer" ? (
                 <Input
-                  placeholder={t("risk_treatment.action_name")}
-                  value={actionName}
-                  onChange={(e) => setActionName(e.target.value)}
+                  placeholder={t("risk_treatment.transfer_placeholder")}
+                  value={transferInputValue}
+                  onChange={(e) => setTransferInputValue(e.target.value)}
                 />
-
-                <Typography.Title level={5}>
-                  {t("risk_treatment.action_details_title")}
-                </Typography.Title>
-                <TextArea
-                  style={{
-                    height: 120,
-                    resize: "none",
-                  }}
-                  allowClear
-                  status={error}
-                  placeholder={t("risk_treatment.action_details")}
-                  value={actionDetails}
-                  onChange={(e) => setActionDetails(e.target.value)}
-                />
-
-                <Typography.Title level={5}>
-                  {t("risk_treatment.action_owner_title")}
-                </Typography.Title>
-                <Select
-                  placeholder={t("risk_treatment.action_owner")}
-                  value={selectedActionOwner}
-                  onChange={handleActionOwnerChange}
-                  style={{ width: "100%" }}
-                >
-                  {Userdata?.map((user) => (
-                    <Option key={user.id} value={user.name}>
-                      {user.name}
-                    </Option>
-                  ))}
-                  <Option value="other">{t("Other")}</Option>
-                </Select>
-
-                {isOtherSelected && (
+              ) : (
+                <>
+                  <Typography.Title level={5}>
+                    {t("risk_treatment.action_name_title")}
+                  </Typography.Title>
                   <Input
-                    placeholder={t("risk_treatment.custom_action_owner")}
-                    value={customActionOwner}
-                    onChange={handleCustomActionOwnerChange}
-                    style={{ width: "100%", marginTop: "1rem" }}
+                    placeholder={t("risk_treatment.action_name")}
+                    value={actionName}
+                    onChange={(e) => setActionName(e.target.value)}
                   />
-                )}
-
-                <Typography.Title level={5}>
-                  {t("risk_treatment.owner_email_title")}
-                </Typography.Title>
-                {isOtherSelected ? (
-                  <Input
-                    placeholder={t("risk_treatment.custom_email")}
-                    value={customEmail}
-                    onChange={handleCustomEmailChange}
-                    style={{ width: "100%", marginTop: "1rem" }}
+  
+                  <Typography.Title level={5}>
+                    {t("risk_treatment.action_details_title")}
+                  </Typography.Title>
+                  <TextArea
+                    style={{
+                      height: 120,
+                      resize: "none",
+                    }}
+                    allowClear
+                    status={error}
+                    placeholder={t("risk_treatment.action_details")}
+                    value={actionDetails}
+                    onChange={(e) => setActionDetails(e.target.value)}
                   />
-                ) : (
-                  <Input
-                    placeholder={t("risk_treatment.owner_email")}
-                    value={ownerEmail1}
-                    readOnly={!isOtherSelected}
+  
+                  <Typography.Title level={5}>
+                    {t("risk_treatment.action_owner_title")}
+                  </Typography.Title>
+                  <Select
+                    placeholder={t("risk_treatment.action_owner")}
+                    value={selectedActionOwner}
+                    onChange={handleActionOwnerChange}
                     style={{ width: "100%" }}
-                  />
-                )}
-
-                <Typography.Title level={5}>
-                  {t("risk_treatment.expected_benefit_title")}
-                </Typography.Title>
-                <Input
-                  placeholder={t("risk_treatment.expected_benefit")}
-                  value={expectedBenefit}
-                  onChange={(e) => setExpectedBenefit(e.target.value)}
-                />
-
-                <div style={{ marginBottom: "20px" }}>
-                  <Space align="center" justifyContent="flex-start">
-                    <Typography.Title level={5}>
-                      {t("risk_treatment.closing_date_title")}
-                    </Typography.Title>
-                    <DatePicker
-                      onChange={(date, dateString) =>
-                        setClosingDate(dateString)
-                      }
-                      style={{ marginTop: "20px" }}
+                  >
+                    {Userdata?.map((user) => (
+                      <Option key={user.id} value={user.name}>
+                        {user.name}
+                      </Option>
+                    ))}
+                    <Option value="other">{t("Other")}</Option>
+                  </Select>
+  
+                  {isOtherSelected && (
+                    <Input
+                      placeholder={t("risk_treatment.custom_action_owner")}
+                      value={customActionOwner}
+                      onChange={handleCustomActionOwnerChange}
+                      style={{ width: "100%", marginTop: "1rem" }}
                     />
-                    <Typography.Title level={5} style={{ marginLeft: "10px" }}>
-                      {t("risk_treatment.status_title")}
-                    </Typography.Title>
-                    <Select
-                      style={{ width: "150px", marginTop: "15px" }}
-                      defaultValue={t("risk_treatment.Select_Status")}
-                      allowClear
-                      value={status}
-                      onChange={(value) => setStatus(value)}
-                      options={[
-                        {
-                          value: "Not Started",
-                          label: t("risk_treatment.Not_Started"),
-                        },
-                        {
-                          value: "Started",
-                          label: t("risk_treatment.Started"),
-                        },
-                        {
-                          value: "In Progress - In Control",
-                          label: t("risk_treatment.In_Progrese_In Control"),
-                        },
-                        {
-                          value: "Halted - In Control",
-                          label: t("risk_treatment.Halted_In Control"),
-                        },
-                        {
-                          value: "Halted - Need Managedment Support",
-                          label: t(
-                            "risk_treatment.Halted_Need Managedment Support"
-                          ),
-                        },
-                        {
-                          value: "Finished",
-                          label: t("risk_treatment.Finished"),
-                        },
-                      ]}
-                    />
-                  </Space>
-                  {status === "Finished" && (
-                    <>
-                      <Typography.Title level={5}>
-                        {t("Attachment")}
-                      </Typography.Title>
-                      <Upload {...props}>
-                        <Button>{t("Click to Upload")}</Button>
-                      </Upload>
-                    </>
                   )}
-                </div>
-              </>
-            )}
-          </Modal>
-        </>
-      )}
-    </div>
+  
+                  <Typography.Title level={5}>
+                    {t("risk_treatment.owner_email_title")}
+                  </Typography.Title>
+                  {isOtherSelected ? (
+                    <Input
+                      placeholder={t("risk_treatment.custom_email")}
+                      value={customEmail}
+                      onChange={handleCustomEmailChange}
+                      style={{ width: "100%", marginTop: "1rem" }}
+                    />
+                  ) : (
+                    <Input
+                      placeholder={t("risk_treatment.owner_email")}
+                      value={ownerEmail1}
+                      readOnly={!isOtherSelected}
+                      style={{ width: "100%" }}
+                    />
+                  )}
+  
+                  <Typography.Title level={5}>
+                    {t("risk_treatment.expected_benefit_title")}
+                  </Typography.Title>
+                  <Input
+                    placeholder={t("risk_treatment.expected_benefit")}
+                    value={expectedBenefit}
+                    onChange={(e) => setExpectedBenefit(e.target.value)}
+                  />
+  
+                  <div style={{ marginBottom: "20px" }}>
+                    <Space align="center" justifyContent="flex-start">
+                      <Typography.Title level={5}>
+                        {t("risk_treatment.closing_date_title")}
+                      </Typography.Title>
+                      <DatePicker
+                        onChange={(date, dateString) =>
+                          setClosingDate(dateString)
+                        }
+                        style={{ marginTop: "20px" }}
+                      />
+                      <Typography.Title level={5} style={{ marginLeft: "10px" }}>
+                        {t("risk_treatment.status_title")}
+                      </Typography.Title>
+                      <Select
+                        style={{ width: "150px", marginTop: "15px" }}
+                        defaultValue={t("risk_treatment.Select_Status")}
+                        allowClear
+                        value={status}
+                        onChange={(value) => setStatus(value)}
+                        options={[
+                          {
+                            value: "Not Started",
+                            label: t("risk_treatment.Not_Started"),
+                          },
+                          {
+                            value: "Started",
+                            label: t("risk_treatment.Started"),
+                          },
+                          {
+                            value: "In Progress - In Control",
+                            label: t("risk_treatment.In_Progrese_In Control"),
+                          },
+                          {
+                            value: "Halted - In Control",
+                            label: t("risk_treatment.Halted_In Control"),
+                          },
+                          {
+                            value: "Halted - Need Managedment Support",
+                            label: t(
+                              "risk_treatment.Halted_Need Managedment Support"
+                            ),
+                          },
+                          {
+                            value: "Finished",
+                            label: t("risk_treatment.Finished"),
+                          },
+                        ]}
+                      />
+                    </Space>
+                    {status === "Finished" && (
+                      <>
+                        <Typography.Title level={5}>
+                          {t("Attachment")}
+                        </Typography.Title>
+                        <Upload {...props}>
+                          <Button>{t("Click to Upload")}</Button>
+                        </Upload>
+                      </>
+                    )}
+                  </div>
+                </>
+              )}
+            </Modal>
+      </>
+    )}
+  </div>
   );
 };
 
