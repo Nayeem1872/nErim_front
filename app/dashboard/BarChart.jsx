@@ -155,7 +155,7 @@ const BarChart = () => {
         series.columns.template.events.on("validated", function (event) {
           let label = event.target.label;
           if (label) {
-            label.fill = am5.color("#B3645A");
+            label.fill = am5.color("#0353a4");
           }
         });
 

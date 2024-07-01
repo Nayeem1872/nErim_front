@@ -1,9 +1,11 @@
-"use client"
-import { Skeleton, Row, Col, Card, Descriptions } from "antd";
+"use client";
+import { Skeleton, Row, Col, Card, Descriptions, Tag } from "antd";
 import { useTranslation } from "react-i18next";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import styles from "./style.module.css";
+import { CheckCircleOutlined } from "@ant-design/icons";
+import { CircleDollarSign } from "lucide-react";
 
 function Account() {
   const { t } = useTranslation();
@@ -76,7 +78,17 @@ function Account() {
                       span={3}
                       className={styles.descriptionItem}
                     >
-                      {dataSourceQuery.subscription}
+                      <Tag
+                        color="cyan"
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          fontSize: "12px", 
+                        }}
+                      >
+                        <CircleDollarSign style={{ marginRight: "5px" }} size={15} />
+                        {dataSourceQuery.subscription}
+                      </Tag>
                     </Descriptions.Item>
                     <Descriptions.Item
                       label={t("account_info.UserCount")}
@@ -111,7 +123,10 @@ function Account() {
                       span={3}
                       className={styles.descriptionItem}
                     >
-                      {dataSourceQuery.status}
+                      <span style={{ color: "green" }}>
+                        <CheckCircleOutlined style={{ marginRight: "5px" }} />
+                        {dataSourceQuery.status}
+                      </span>{" "}
                     </Descriptions.Item>
                   </Descriptions>
                 </Col>

@@ -427,7 +427,7 @@ const Impact = ({ setApiData }) => {
                     label: "Green",
                   },
                   {
-                    value: "FFFF00",
+                    value: "fdbe39",
                     label: "Yellow",
                   },
                   {

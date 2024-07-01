@@ -2,10 +2,9 @@
 import React, {  useState } from "react";
 import { Button, Divider, Select, Drawer, Typography, Avatar } from "antd";
 const { Title } = Typography;
-import { DownOutlined, SettingOutlined } from "@ant-design/icons";
-import MyContext from "@/provider/Context";
 import { useTranslation } from "react-i18next";
 import i18next from "../../../i18n";
+import { Settings2 } from "lucide-react";
 
 const Dashboard_Settings = ({ isDarkMode, handleClick, showButton = true }) => {
   const [open, setOpen] = useState(false);
@@ -127,27 +126,14 @@ const Dashboard_Settings = ({ isDarkMode, handleClick, showButton = true }) => {
         </div>
       ),
     },
-    // {
-    //   value: "africa",
-    //   label: (
-    //     <div>
-    //       <Avatar
-    //         size="small"
-    //         src="https://cdn.britannica.com/27/4227-004-32423B42/Flag-South-Africa.jpg" // Replace with the URL of the US flag image
-    //         style={{ marginRight: "8px" }}
-    //       />
-    //       African(Swahili)
-    //     </div>
-    //   ),
-    // },
-    // ...other options
+  
   ];
 
   return (
     <>
       {showButton && (
         <Button type="primary" onClick={showDrawer}>
-          <SettingOutlined size={30} />
+          < Settings2  size={20} />
         </Button>
       )}
 
