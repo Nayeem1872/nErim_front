@@ -37,8 +37,22 @@ export default function DashboardLayout({ children }) {
   const [optVerify, setOtpVerify] = useState("");
   const [domLoaded, setDomLoaded] = useState(false);
   const [collapsed, setCollapsed] = useState(false);
-  const [maintainence,setMaintainence] = useState("")
+  const [maintainence, setMaintainence] = useState("");
   const router = useRouter();
+  const [isScrollable, setIsScrollable] = useState(false);
+
+  useEffect(() => {
+    const updateScrollState = () => {
+      setIsScrollable(window.innerHeight > 600);
+    };
+
+    updateScrollState();
+    window.addEventListener('resize', updateScrollState);
+
+    return () => {
+      window.removeEventListener('resize', updateScrollState);
+    };
+  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -46,7 +60,7 @@ export default function DashboardLayout({ children }) {
         // Make an HTTP GET request to your API endpoint
         const response = await axios.get("/api/basic-status");
         setApiData(response.data);
-        setMaintainence(response.data.maintainenceMode)
+        setMaintainence(response.data.maintainenceMode);
         setOtpVerify(response.data.otp_verify);
         const twofactorStatus = localStorage
           .getItem("twofactorStatus")
@@ -61,7 +75,6 @@ export default function DashboardLayout({ children }) {
           router.push("/verify");
         }
         if (response.data.maintainenceMode == true) {
-        
           handleLogout();
         }
       } catch (error) {
@@ -199,9 +212,11 @@ export default function DashboardLayout({ children }) {
                 style={{
                   position: "fixed",
                   height: "100%",
+                  backgroundColor: "#ffffff",
                   zIndex: 1,
-                  justifyContent: "center" /* horizontally center */,
+                  justifyContent: "center", /* horizontally center */
                   alignItems: "center",
+          
                 }}
               >
                 {/* Top of Sidebar - Image, Name, Subname */}
@@ -234,9 +249,10 @@ export default function DashboardLayout({ children }) {
                   mode="inline"
                   // defaultSelectedKeys={["1"]}
                   style={{
-                    minHeight: "100vh",
+                    height: "60vh",
                     // backgroundColor: isDarkMode ? "#001529" : "#ffffff",
                     backgroundColor: "#ffffff",
+                    overflowY:"auto"
                   }}
                   items={[
                     {
