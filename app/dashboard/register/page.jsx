@@ -204,6 +204,7 @@ const Register = () => {
 
   const handleOk = async () => {
     setIsModalVisible(false);
+    const hide = message.loading({ content: 'Processing...', duration: 0 });
     try {
       const formData = new FormData();
 
@@ -230,11 +231,6 @@ const Register = () => {
       if (selectedFile) {
         formData.append("attachment", selectedFile.originFileObj);
       }
-
-      // Log formData content
-      // for (let pair of formData.entries()) {
-
-      // }
 
       const apiUrl = "/api/treatments/save";
       const response = await axios.post(apiUrl, formData, {
@@ -268,7 +264,7 @@ const Register = () => {
               </a>
             </span>
           ),
-          duration: 2,
+          duration: 3,
         });
       } else {
         message.error("Something went wrong!");
@@ -294,7 +290,6 @@ const Register = () => {
         if (errors.attachment) {
           message.error(errors.attachment[0]);
         }
-        // Add more conditions for other fields if needed
         setTimeout(() => {
           message.destroy(); // Clear all messages after 3 seconds
         }, 4000);
@@ -302,8 +297,11 @@ const Register = () => {
         console.error("Error details:", error.response?.data);
         message.error(error.response.data.message);
       }
+    } finally {
+      hide(); 
     }
-  };
+};
+
 
   const handleCancel = () => {
     setIsModalVisible(false);
@@ -502,7 +500,9 @@ const Register = () => {
               </>
             )}
 
-            {!isTreatmentActionVisible && <div style={{ marginLeft: '28px', marginRight: '28px' }}></div>}
+            {!isTreatmentActionVisible && (
+              <div style={{ marginLeft: "28px", marginRight: "28px" }}></div>
+            )}
             {isAdmin !== "user" && (
               <Popconfirm
                 title="Delete the task"
@@ -695,6 +695,9 @@ const Register = () => {
                   display: "flex",
                   justifyContent: "center",
                   alignItems: "center",
+                  padding: "10px",
+                  flexDirection: "column",
+                  textAlign: "center",
                 }}
               >
                 <Result
@@ -706,7 +709,6 @@ const Register = () => {
                       ? "Something wrong in your risk Likelihood"
                       : "Something wrong in your risk valuation"
                   }
-                  // title={t("There are some problems with your operation.")}
                   subTitle={t("Please check your settings.")}
                   extra={
                     <Button
@@ -727,36 +729,49 @@ const Register = () => {
                     justifyContent: "space-between",
                     alignItems: "center",
                     marginBottom: "15px",
+                    flexWrap: "wrap",
+                    rowGap: "10px",
                   }}
                 >
-                  <CustomSearch
-                    placeholder={t("search_here")}
-                    onSearch={handleSearch}
-                  />
-                  <div style={{ textAlign: "right" }}>
+                  <div style={{ flex: "1 1 auto", minWidth: "200px" }}>
+                    <CustomSearch
+                      placeholder={t("search_here")}
+                      onSearch={handleSearch}
+                    />
+                  </div>
+                  <div
+                    style={{
+                      textAlign: "right",
+                      display: "flex",
+                      flexWrap: "wrap",
+                      rowGap: "10px",
+                      justifyContent: "flex-end",
+                    }}
+                  >
                     <Button
                       onClick={handleRefresh}
-                      style={{ marginRight: "10px" }}
+                      style={{ marginRight: "10px", flex: "1 1 auto" }}
                     >
                       <RedoOutlined />
                       {t("Refresh")}
                     </Button>
                     <Button
                       onClick={handleExportButtonClick}
-                      style={{ marginRight: "10px" }}
+                      style={{ marginRight: "10px", flex: "1 1 auto" }}
                     >
                       {t("register.export")}
                     </Button>
                     <Button
                       onClick={() => router.push("/dashboard/register/add")}
                       type="primary"
+                      style={{ flex: "1 1 auto" }}
                     >
                       {t("register.add_new")}
                     </Button>
                   </div>
                 </div>
 
-                <div>
+                <div style={{ overflowX: "auto" }}>
                   <Table
                     columns={columns}
                     dataSource={filterData()}
@@ -767,6 +782,8 @@ const Register = () => {
                     style={{
                       boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2)",
                       borderRadius: "10px",
+                      width: "100%",
+                      minWidth: "600px",
                     }}
                   />
                 </div>
