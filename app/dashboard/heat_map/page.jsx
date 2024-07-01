@@ -5,9 +5,9 @@ import * as am5 from "@amcharts/amcharts5";
 import * as am5xy from "@amcharts/amcharts5/xy";
 import am5themes_Animated from "@amcharts/amcharts5/themes/Animated";
 import "@amcharts/amcharts5/xy";
-import { Button, Table, Typography, Breadcrumb, Divider, Result } from "antd";
+import { Button, Table, Typography, Breadcrumb, Divider, Result, Row, Col } from "antd";
 import { useRouter } from "next/navigation";
-const { Title } = Typography;
+const { Text } = Typography;
 import { LayoutDashboard } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
@@ -343,70 +343,66 @@ export default function Heatmap() {
       style: { marginBottom: '20px' },
     },
   ];
+  const textStyle = {
+    color: 'gray',
+    padding: '10px',
+    border: '1px solid #ccc',
+    borderRadius: '5px',
+    backgroundColor: '#f9f9f9',
+    fontFamily: 'Arial, sans-serif',
+    lineHeight: '1.5',
+    width: '90%',
+    maxWidth: '600px',
+    margin: '40px auto'
+  };
   return (
     <>
-             <Breadcrumb style={{ padding: '10px' }} items={breadcrumbItems} />
+       <Breadcrumb style={{ padding: '10px' }} items={breadcrumbItems} />
       <Divider />
-      {isError ? (
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
+      
+      <Text style={textStyle}>
+      {t("A heat map is a graphical representation of data where the individual values contained in a matrix are represented as colors.\n\nThe impact is represented as rows, and the likelihood is represented as columns.")}
+    </Text>
+          
+          
+       
+    {isError ? (
+      <Row justify="center" align="middle" style={{ minHeight: '300px' }}>
+        <Col>
           <Result
             status="warning"
             title={
               apiData?.impactStatus === false
-                ? "There are some problem with your Risk Impact!"
+                ? t("There are some problems with your Risk Impact!")
                 : apiData?.likelihoodStatus === false
-                ? "Something wrong in your risk Likelihood"
-                : "Something wrong in your risk valuation"
+                ? t("Something wrong in your risk Likelihood")
+                : t("Something wrong in your risk valuation")
             }
-            // title={t("There are some problems with your operation.")}
             subTitle={t("Please check your settings.")}
             extra={
-              <Button
-                type="primary"
-                key="console"
-                onClick={handleSettingsClick}
-              >
+              <Button type="primary" onClick={handleSettingsClick}>
                 {t("Go Settings")}
               </Button>
             }
           />
-        </div>
-      ) : (
-        <div>
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <h4>Likelihood</h4>
-          </div>
-          <div
-            // style={{
-            //   display: "flex",
-            //   flexDirection: "column",
-            //   justifyContent: "center",
-            //   alignItems: "center",
-            //   height: "100vh",
-            // }}
-          >
-            {/* <h4>Impact</h4> */}
-          </div>
-          <div id="chartdiv15" style={{ width: "100%", height: "500px" }} />
-          {data && data.length > 0 && (
-            <div style={{ marginTop: "20px" }}>
+        </Col>
+      </Row>
+    ) : (
+      <div>
+        <Row justify="center">
+          <Col span={24}>
+            <div id="chartdiv15" style={{ width: '100%', height: '500px', marginTop: '20px'}} />
+          </Col>
+        </Row>
+        {data && data.length > 0 && (
+          <Row justify="center" style={{ marginTop: '20px' }}>
+            <Col xs={24} md={20} lg={16}>
               <Table dataSource={data} columns={columns} rowKey={() => Math.random().toString(12).substr(2, 9)} />
-            </div>
-          )}
-        </div>
-      )}
-    </>
+            </Col>
+          </Row>
+        )}
+      </div>
+    )}
+  </>
   );
 }

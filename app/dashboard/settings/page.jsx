@@ -256,7 +256,7 @@ const Settings = () => {
                     onChange={handleRadioChange}
                     value={selectedValue}
                   >
-                    <Radio value={3}>3X3</Radio>
+                    <Radio value={3}>3x3</Radio>
                     <Radio value={4}>4x4</Radio>
                     <Radio value={5}>5x5</Radio>
                   </Radio.Group>
